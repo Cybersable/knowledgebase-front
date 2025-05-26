@@ -9,6 +9,10 @@ import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
+import { Search } from "@/widgets/blog";
+import IconButton from "@mui/material/IconButton";
+import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
+import Chip from "@mui/material/Chip";
 
 const articleInfo = [
   {
@@ -183,11 +187,101 @@ export default function Latest() {
     setFocusedCardIndex(null);
   };
 
+  const handleClick = () => {
+    console.info('You clicked the filter chip.');
+  };
+
   return (
     <div>
       <Typography variant="h2" gutterBottom>
         Latest
       </Typography>
+      <Box
+        sx={{
+          display: { xs: 'flex', sm: 'none' },
+          flexDirection: 'row',
+          gap: 1,
+          width: { xs: '100%', md: 'fit-content' },
+          overflow: 'auto',
+        }}
+      >
+        <Search />
+        <IconButton size="small" aria-label="RSS feed">
+          <RssFeedRoundedIcon />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column-reverse', md: 'row' },
+          width: '100%',
+          justifyContent: 'space-between',
+          alignItems: { xs: 'start', md: 'center' },
+          gap: 4,
+          overflow: 'auto',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'inline-flex',
+            flexDirection: 'row',
+            gap: 3,
+            overflow: 'auto',
+          }}
+        >
+          <Chip onClick={handleClick} size="medium" label="All categories" />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="Company"
+            sx={{
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+          />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="Product"
+            sx={{
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+          />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="Design"
+            sx={{
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+          />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="Engineering"
+            sx={{
+              backgroundColor: 'transparent',
+              border: 'none',
+            }}
+          />
+        </Box>
+        <Box
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            flexDirection: 'row',
+            gap: 1,
+            width: { xs: '100%', md: 'fit-content' },
+            overflow: 'auto',
+          }}
+        >
+          <Search />
+          <IconButton size="small" aria-label="RSS feed">
+            <RssFeedRoundedIcon />
+          </IconButton>
+        </Box>
+      </Box>
       <Grid container spacing={8} columns={12} sx={{ my: 4 }}>
         {articleInfo.map((article, index) => (
           <Grid key={index} size={{ xs: 12, sm: 6 }}>
@@ -226,7 +320,7 @@ export default function Latest() {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 4, justifyContent: 'end' }}>
         <Pagination hidePrevButton hideNextButton count={10} boundaryCount={10} />
       </Box>
     </div>
