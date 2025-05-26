@@ -27,6 +27,7 @@ const navigationList = [
   },
   {
     title: 'Categories',
+    href: '/categories'
   },
   {
     title: 'Articles',
