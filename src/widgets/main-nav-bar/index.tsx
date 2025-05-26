@@ -12,15 +12,40 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from './ui/ColorModeIconDropdown';
 import { StyledToolbar } from "./styled";
-import { useState } from "react";
+import {useCallback, useState} from "react";
 import SitemarkIcon from "@/shared/ui/icons/SitemarkIcon";
+import {useRouter} from "next/navigation";
+
+const navigationList = [
+  {
+    title: 'Home',
+    href: '/',
+  },
+  {
+    title: 'Workspaces',
+    href: '/workspaces',
+  },
+  {
+    title: 'Categories',
+  },
+  {
+    title: 'Articles',
+  },
+]
 
 export default function MainNavBar() {
   const [open, setOpen] = useState(false);
+  const { push } = useRouter();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
+
+  const onNavClick = useCallback((href?: string) => {
+    if (!href) return;
+
+    push(href);
+  }, [push]);
 
   return (
     <AppBar
@@ -38,24 +63,17 @@ export default function MainNavBar() {
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <SitemarkIcon />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
-                Features
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Testimonials
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Highlights
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Pricing
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                FAQ
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                Blog
-              </Button>
+              {navigationList.map((item, index) => (
+                <Button
+                  key={index}
+                  variant="text"
+                  color="info"
+                  size="small"
+                  onClick={() => onNavClick(item.href)}
+                >
+                  {item.title}
+                </Button>
+              ))}
             </Box>
           </Box>
           <Box
@@ -99,7 +117,7 @@ export default function MainNavBar() {
                     <CloseRoundedIcon />
                   </IconButton>
                 </Box>
-                <MenuItem>Features</MenuItem>
+                <MenuItem>Workspaces</MenuItem>
                 <MenuItem>Testimonials</MenuItem>
                 <MenuItem>Highlights</MenuItem>
                 <MenuItem>Pricing</MenuItem>
