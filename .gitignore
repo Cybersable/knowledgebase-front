@@ -20,6 +20,9 @@
 # production
 /build
 
+# development
+/src/generated-fake-data
+
 # misc
 .DS_Store
 *.pem

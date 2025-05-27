@@ -1,6 +1,3 @@
-export interface IWorkspace {
-  id: number
-  title: string
-  slug: string
-  description?: string
-}
+import { IApiWorkspace } from '@/shared/api/queries/workspaces';
+
+export interface IWorkspace extends IApiWorkspace {}
