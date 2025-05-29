@@ -20,7 +20,7 @@ export const useCategoriesListQuery = ({
     categoriesApi.getAll()
       .then((data) =>
         setList(
-          data.filter((item) => item.workspaceUuid === workspaceUuid && item.categoryUuid === null)))
+          data.filter((item) => item.workspaceUuid === workspaceUuid)))
       .catch((err) => console.error(err.message))
       .finally(() => {
         setLoading(false);

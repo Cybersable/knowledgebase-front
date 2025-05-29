@@ -6,7 +6,6 @@ export interface IApiCategory {
   slug: string
   description?: string
   workspaceUuid: string
-  categoryUuid: null | string
 }
 
 class Categories {

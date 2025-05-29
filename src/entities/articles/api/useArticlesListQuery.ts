@@ -4,30 +4,40 @@ import {IArticle} from "@/entities/articles/model";
 import {articlesApi} from "@/shared/api/queries/articles";
 
 export const useArticlesListQuery = ({
-  categoryUuid
+  categoryUuid,
+  categoriesList,
 }: {
   categoryUuid?: string | null
+  categoriesList?: string[]
 }) => {
   const [list, setList] = useState<Array<IArticle>>([]);
   const [loading, setLoading] = useState(true);
   const [fetching, setFetching] = useState(false);
 
   const fetch = useCallback(() => {
-    if (!categoryUuid) return;
-
     setLoading(true);
     setFetching(true);
 
     articlesApi.getAll()
-      .then((data) =>
-        setList(
-          data.filter((item) => item.categoryUuid === categoryUuid)))
+      .then((data) => {
+        if (categoryUuid) {
+          setList(
+            data.filter((item) => item.categoryUuid === categoryUuid)
+          )
+        } else if (categoriesList) {
+          setList(
+            data.filter((item) => categoriesList.includes(item.categoryUuid))
+          )
+        } else {
+          setList(data)
+        }
+      })
       .catch((err) => console.error(err.message))
       .finally(() => {
         setLoading(false);
         setFetching(false);
       });
-  }, [categoryUuid]);
+  }, [categoryUuid, categoriesList]);
 
   useEffect(fetch, [fetch]);
 

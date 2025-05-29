@@ -22,17 +22,10 @@ const navigationList = [
     href: '/',
   },
   {
-    title: 'Workspaces',
-    href: '/workspaces',
+    title: 'Docs',
+    href: '/docs',
   },
-  {
-    title: 'Categories',
-    href: '/categories'
-  },
-  {
-    title: 'Articles',
-  },
-]
+];
 
 export default function MainNavBar() {
   const [open, setOpen] = useState(false);
@@ -84,12 +77,12 @@ export default function MainNavBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small">
-              Sign in
-            </Button>
-            <Button color="primary" variant="contained" size="small">
-              Sign up
-            </Button>
+            {/*<Button color="primary" variant="text" size="small">*/}
+            {/*  Sign in*/}
+            {/*</Button>*/}
+            {/*<Button color="primary" variant="contained" size="small">*/}
+            {/*  Sign up*/}
+            {/*</Button>*/}
             <ColorModeIconDropdown />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
