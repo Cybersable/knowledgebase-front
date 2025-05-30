@@ -5,7 +5,10 @@ import { categoriesApi } from '@/shared/api/queries/categories';
 export default async function CategoriesPage({
   params,
 }: {
-  params: Promise<{ categorySlug: string }>
+  params: Promise<{
+    workspaceSlug: string
+    categorySlug: string
+  }>
 }) {
   const { categorySlug } = await params;
 

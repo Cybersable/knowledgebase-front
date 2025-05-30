@@ -1,8 +1,11 @@
-import type { Metadata } from 'next';
 import { ReactNode } from 'react';
+import type { Metadata } from 'next';
+
+import QueryClientProvider from "@/services/query-provider";
 import ThemeProvider from '@/services/theme-provider';
-import MainNavBar from "@/widgets/main-nav-bar";
+
 import Container from "@mui/material/Container";
+import MainNavBar from "@/widgets/main-nav-bar";
 import Footer from "@/widgets/footer";
 
 export const metadata: Metadata = {
@@ -18,18 +21,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>
-          <MainNavBar />
+        <QueryClientProvider>
+          <ThemeProvider>
+            <MainNavBar />
 
-          <Container
-            maxWidth="lg"
-            component="main"
-            sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-          >
-            {children}
-          </Container>
-          <Footer />
-        </ThemeProvider>
+            <Container
+              maxWidth="lg"
+              component="main"
+              sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
+            >
+              {children}
+            </Container>
+            <Footer />
+          </ThemeProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

@@ -5,7 +5,11 @@ import { articlesApi } from '@/shared/api/queries/articles';
 export default async function ArticlesPage({
   params,
 }: {
-  params: Promise<{ articleSlug: string }>
+  params: Promise<{
+    workspaceSlug: string
+    categorySlug: string
+    articleSlug: string
+  }>
 }) {
   const { articleSlug } = await params;
 
