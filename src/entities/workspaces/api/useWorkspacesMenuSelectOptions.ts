@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
 import { IWorkspace } from '@/entities/workspaces/model';
 
-export const useWorkplacesMenuSelectOptions = (
+export const useWorkspacesMenuSelectOptions = (
   workspacesList?: Array<IWorkspace>
 ) => {
   return useMemo(() => {
     return workspacesList?.map((item) => {
       return {
-        value: item.uuid,
+        value: item.slug,
         label: item.title,
-        subLabel: item.description,
+        subLabel: item.summary,
       }
     });
   }, [workspacesList]);

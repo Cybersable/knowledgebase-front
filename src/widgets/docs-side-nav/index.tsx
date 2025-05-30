@@ -2,8 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import {SyntheticEvent , useCallback, useEffect, useMemo, useState} from "react";
-import { useWorkspacesListQuery} from "@/entities/workspaces/api/useWorkspacesListQuery";
-import { useWorkplacesMenuSelectOptions} from "@/entities/workspaces/api/useWorkplacesMenuSelectOptions";
+import { useWorkspacesMenuSelectOptions} from '@/entities/workspaces/api/useWorkspacesMenuSelectOptions';
 import MenuSelect from "@/shared/ui/menu-select";
 import Box from '@mui/material/Box';
 import { SimpleTreeView} from "@mui/x-tree-view/SimpleTreeView";
@@ -13,6 +12,7 @@ import { useRouter } from "next/navigation";
 import {useArticlesListQuery} from "@/entities/articles/api/useArticlesListQuery";
 import { ICategory} from "@/entities/categories/model";
 import { IArticle} from "@/entities/articles/model";
+import { useWorkspacesGetManyQuery } from "@/queries/workspaces/useWorkspacesGetManyQuery";
 
 interface INavigationTreeItem extends ICategory {
   childNodes: Array<IArticle>
@@ -24,7 +24,7 @@ export default function DocsSideNav() {
   const segments = pathname.split('/');
   const [, , workspaceUuid] = segments;
 
-  const { workspacesList } = useWorkspacesListQuery();
+  const { workspacesList } = useWorkspacesGetManyQuery();
   const { categoriesList } = useCategoriesListQuery({ workspaceUuid });
 
   const categoriesUuidsList = useMemo(() => {
@@ -36,19 +36,19 @@ export default function DocsSideNav() {
   });
 
   const [selectedWorkspaceUuid, setSelectedWorkspaceUuid] = useState('');
-  const workplacesMenuSelectOptions = useWorkplacesMenuSelectOptions(workspacesList);
+  const workspacesMenuSelectOptions = useWorkspacesMenuSelectOptions(workspacesList);
 
   useEffect(() => {
-    if (workspaceUuid && !!workplacesMenuSelectOptions?.length) {
-      if (!workplacesMenuSelectOptions.find((option) => option.value === workspaceUuid)) {
+    if (workspaceUuid && !!workspacesMenuSelectOptions?.length) {
+      if (!workspacesMenuSelectOptions.find((option) => option.value === workspaceUuid)) {
         setSelectedWorkspaceUuid('')
       } else {
         setSelectedWorkspaceUuid(workspaceUuid)
       }
-    } else if (!workspaceUuid && !!workplacesMenuSelectOptions?.length) {
-      replace(`/docs/${workplacesMenuSelectOptions[0].value}`);
+    } else if (!workspaceUuid && !!workspacesMenuSelectOptions?.length) {
+      replace(`/docs/${workspacesMenuSelectOptions[0].value}`);
     }
-  }, [workspaceUuid, workplacesMenuSelectOptions, replace]);
+  }, [workspaceUuid, workspacesMenuSelectOptions, replace]);
 
   const navigationTree: INavigationTreeItem[] = useMemo(() => {
     if (!categoriesList.length || !articlesList.length) return [];
@@ -84,7 +84,7 @@ export default function DocsSideNav() {
     <Box display="flex" gap={3} flexDirection="column">
       <MenuSelect
         id="workspace"
-        options={workplacesMenuSelectOptions}
+        options={workspacesMenuSelectOptions}
         onChange={handleWorkspaceChange}
         value={selectedWorkspaceUuid}
       />

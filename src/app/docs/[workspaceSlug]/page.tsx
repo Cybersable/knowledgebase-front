@@ -1,6 +1,10 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { workspacesApi } from '@/shared/api/queries/workspaces';
+import {
+  dehydrate,
+  HydrationBoundary,
+} from '@tanstack/react-query';
+import { useWorkspacesGetBySlugPrefetchQuery } from '@/queries/workspaces/useWorkspacesGetBySlugPrefetchQuery';
+import Workspaces from "@/app/docs/[workspaceSlug]/Workspaces";
 
 export default async function WorkspacesPage({
   params,
@@ -9,16 +13,15 @@ export default async function WorkspacesPage({
 }) {
   const { workspaceSlug } = await params;
 
-  const workspace = await workspacesApi.get({ uuid: workspaceSlug });
+  if (!workspaceSlug) return;
+
+  const { queryClient } = await useWorkspacesGetBySlugPrefetchQuery(workspaceSlug);
 
   return (
-    <Box id="workspaces-page">
-      <Typography variant="h2" gutterBottom>
-        {workspace?.title}
-      </Typography>
-      <Typography gutterBottom>
-        {workspace?.description}
-      </Typography>
-    </Box>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Box id="workspaces-page">
+        <Workspaces workspaceSlug={workspaceSlug} />
+      </Box>
+    </HydrationBoundary>
   )
 }
