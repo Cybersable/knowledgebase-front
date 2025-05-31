@@ -14,4 +14,4 @@ class WorkspacesQueryKeys {
   }
 }
 
-export const workspaceQueryKeys = new WorkspacesQueryKeys();
+export const workspacesQueryKeys = new WorkspacesQueryKeys();

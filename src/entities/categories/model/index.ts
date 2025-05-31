@@ -1,3 +1,3 @@
-import { IApiCategory } from '@/shared/api/queries/categories';
+import { CategoriesModel } from '@/shared/rest-api/categories/CategoriesRestApiService';
 
-export interface ICategory extends IApiCategory {}
+export interface ICategory extends CategoriesModel {}

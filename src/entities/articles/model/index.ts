@@ -1,3 +1,3 @@
-import {IApiArticle} from "@/shared/api/queries/articles";
+import { ArticlesModel } from '@/shared/rest-api/articles/ArticlesRestApiService';
 
-export interface IArticle extends IApiArticle {};
+export interface IArticle extends ArticlesModel {}

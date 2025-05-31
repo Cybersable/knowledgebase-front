@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
-import { workspaceQueryKeys } from '@/queries/workspaces/api/WorkspacesQueryKeys';
+import { workspacesQueryKeys } from '@/queries/workspaces/api/WorkspacesQueryKeys';
 
 export const useWorkspacesGetBySlugQuery = (slug?: string) => {
   const queryFn = useCallback(() => {
@@ -13,7 +13,7 @@ export const useWorkspacesGetBySlugQuery = (slug?: string) => {
   const queryKey = useMemo(() => {
     if (!slug) return [];
 
-    return workspaceQueryKeys.getBySlug(slug);
+    return workspacesQueryKeys.getBySlug(slug);
   }, [slug]);
 
   const { data } = useQuery({

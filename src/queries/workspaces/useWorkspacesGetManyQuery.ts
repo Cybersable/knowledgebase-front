@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
-import { workspaceQueryKeys } from '@/queries/workspaces/api/WorkspacesQueryKeys';
+import { workspacesQueryKeys } from '@/queries/workspaces/api/WorkspacesQueryKeys';
 
 export const useWorkspacesGetManyQuery = () => {
   const { data } = useQuery({
-    queryKey: workspaceQueryKeys.getMany(),
+    queryKey: workspacesQueryKeys.getMany(),
     queryFn: () => workspacesRestApiService.getMany(),
   });
 

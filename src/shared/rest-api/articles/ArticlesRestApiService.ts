@@ -2,25 +2,28 @@ import BaseRestApiService, {
   BaseRestApiServiceParams
 } from '@/shared/rest-api/api/base-rest-api-service/BaseRestApiService';
 
-export interface WorkspacesModel {
+export interface ArticlesModel {
   id: string
   title: string
   slug: string
   summary?: string
   content?: string | null
+  categoryId: string
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date | null
 }
 
-export interface WorkspacesModelInput {
+export interface ArticlesModelInput {
   title: string
   slug: string
   summary?: string
   content?: string | null
+  categoryId: string
 }
 
-export class WorkspacesRestApiService extends BaseRestApiService<WorkspacesModel, WorkspacesModelInput> {
+export class ArticlesRestApiService
+  extends BaseRestApiService<ArticlesModel, ArticlesModelInput> {
   constructor(params: BaseRestApiServiceParams) {
     super(params);
   }

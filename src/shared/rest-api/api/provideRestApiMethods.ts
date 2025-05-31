@@ -6,6 +6,7 @@ import {
   CancelToken,
   Method,
 } from 'axios';
+import queryString from 'query-string';
 
 type AxiosOptions = Omit<AxiosRequestConfig, 'url' | 'method'>;
 type GenericParams = Record<string, unknown>;
@@ -55,6 +56,7 @@ export const provideRestApiMethods = (axiosInstance: AxiosInstance) => {
       url,
       {
         params,
+        paramsSerializer: (p) => queryString.stringify(p, { arrayFormat: 'comma' }),
         cancelToken,
         ...options,
       },

@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
-import { provideRestApiMethods } from '@/shared/rest-api/api/provideRestApiMethods';
 
 const options: CreateAxiosDefaults = {
   baseURL: 'http://localhost:4200/api',
@@ -19,4 +18,4 @@ class RestApiClient {
 
 const restApiClient = new RestApiClient();
 
-export const restApiMethods = provideRestApiMethods(restApiClient.client);
+export const restApi = restApiClient.client;

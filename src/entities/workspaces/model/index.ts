@@ -1,3 +1,3 @@
-import { GetWorkspaceResponse } from '@/shared/rest-api/workspaces/api';
+import { WorkspacesModel } from '@/shared/rest-api/workspaces/WorkspacesRestApiService';
 
-export interface IWorkspace extends GetWorkspaceResponse {}
+export interface IWorkspace extends WorkspacesModel {}
