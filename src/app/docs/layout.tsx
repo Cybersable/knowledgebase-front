@@ -9,17 +9,17 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import DocsSideNav from '@/widgets/docs-side-nav';
 
-import { useWorkspacesGetManyPrefetchQuery } from '@/queries/workspaces/useWorkspacesGetManyPrefetchQuery';
+import { workspacesQueryClientService } from '@/queries/workspaces/api';
 
 export default async function DocsLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const { queryClient } = await useWorkspacesGetManyPrefetchQuery();
+  const { workspacesListPrefetchQueryClient } = await workspacesQueryClientService.getManyPrefetch();
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary state={dehydrate(workspacesListPrefetchQueryClient)}>
       <Grid id="docs-layout" container spacing={3} columns={12}>
         <Grid size={{ xs: 12, sm: 3 }}>
           <DocsSideNav />

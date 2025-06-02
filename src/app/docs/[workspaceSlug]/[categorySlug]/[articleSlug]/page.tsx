@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { articlesApi } from '@/shared/api/queries/articles';
+import { articlesRestApiService } from '@/shared/rest-api/articles';
 
 export default async function ArticlesPage({
   params,
@@ -13,7 +13,7 @@ export default async function ArticlesPage({
 }) {
   const { articleSlug } = await params;
 
-  const article = await articlesApi.get({ uuid: articleSlug });
+  const article = await articlesRestApiService.getBySlug(articleSlug);
 
   return (
     <Box id="articles-page">

@@ -7,12 +7,12 @@ import MenuSelect from "@/shared/ui/menu-select";
 import Box from '@mui/material/Box';
 import { SimpleTreeView} from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem} from "@mui/x-tree-view/TreeItem";
-import { useCategoriesListQuery} from "@/entities/categories/api/useCategoriesListQuery";
 import { useRouter } from "next/navigation";
-import {useArticlesListQuery} from "@/entities/articles/api/useArticlesListQuery";
 import { ICategory} from "@/entities/categories/model";
 import { IArticle} from "@/entities/articles/model";
-import { useWorkspacesGetManyQuery } from "@/queries/workspaces/useWorkspacesGetManyQuery";
+import { useCategoriesGetManyQuery } from "@/queries/categories/useCategoriesGetManyQuery";
+import { useArticlesGetManyGetManyQuery } from "@/queries/articles/useArticlesGetManyQuery";
+import { workspacesQueryClientService } from "@/queries/workspaces/api";
 
 interface INavigationTreeItem extends ICategory {
   childNodes: Array<IArticle>
@@ -24,18 +24,17 @@ export default function DocsSideNav() {
   const segments = pathname.split('/');
   const [, , workspaceUuid] = segments;
 
-  const { workspacesList } = useWorkspacesGetManyQuery();
-  const { categoriesList } = useCategoriesListQuery({ workspaceUuid });
+  const { workspacesList } = workspacesQueryClientService.getMany();
+  const { categoriesList } = useCategoriesGetManyQuery();
 
   const categoriesUuidsList = useMemo(() => {
-    return categoriesList.map((item) => item.uuid);
+    return categoriesList?.map((item) => item.id);
   }, [categoriesList]);
 
-  const { articlesList } = useArticlesListQuery({
-    categoriesList: categoriesUuidsList
-  });
+  const { articlesList } = useArticlesGetManyGetManyQuery();
 
   const [selectedWorkspaceUuid, setSelectedWorkspaceUuid] = useState('');
+  // @ts-ignore
   const workspacesMenuSelectOptions = useWorkspacesMenuSelectOptions(workspacesList);
 
   useEffect(() => {
@@ -51,15 +50,15 @@ export default function DocsSideNav() {
   }, [workspaceUuid, workspacesMenuSelectOptions, replace]);
 
   const navigationTree: INavigationTreeItem[] = useMemo(() => {
-    if (!categoriesList.length || !articlesList.length) return [];
+    if (!categoriesList?.length || !articlesList?.length) return [];
 
     const treeMap = Object.create(null);
 
-    categoriesList.forEach((category) => treeMap[category.uuid] = { ...category, childNodes: [] });
+    categoriesList.forEach((category) => treeMap[category.id] = { ...category, childNodes: [] });
 
     articlesList.forEach((article) => {
-      if (treeMap[article.categoryUuid]) {
-        treeMap[article.categoryUuid].childNodes.push(article);
+      if (treeMap[article.categoryId]) {
+        treeMap[article.categoryId].childNodes.push(article);
       }
     });
 
@@ -91,15 +90,15 @@ export default function DocsSideNav() {
       <SimpleTreeView onItemSelectionToggle={handleItemSelectionToggle}>
         {navigationTree.map((category) => (
           <TreeItem
-            key={category.uuid}
-            itemId={`/docs/${workspaceUuid}/${category.uuid}`}
+            key={category.id}
+            itemId={`/docs/${category.id}`}
             label={category.title}
           >
             {category.childNodes && (
               category.childNodes.map((article) => (
                 <TreeItem
-                  key={article.uuid}
-                  itemId={`/docs/${workspaceUuid}/${category.uuid}/${article.uuid}`}
+                  key={article.id}
+                  itemId={`/docs/${category.id}/${article.id}`}
                   label={article.title}
                 />
               ))

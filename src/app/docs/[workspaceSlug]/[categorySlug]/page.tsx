@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { categoriesApi } from '@/shared/api/queries/categories';
+import { categoriesRestApiService } from '@/shared/rest-api/categories';
 
 export default async function CategoriesPage({
   params,
@@ -12,7 +12,7 @@ export default async function CategoriesPage({
 }) {
   const { categorySlug } = await params;
 
-  const category = await categoriesApi.get({ uuid: categorySlug });
+  const category = await categoriesRestApiService.getBySlug(categorySlug);
 
   return (
     <Box id="categories-page">
@@ -20,7 +20,7 @@ export default async function CategoriesPage({
         {category?.title}
       </Typography>
       <Typography gutterBottom>
-        {category?.description}
+        {category?.content}
       </Typography>
     </Box>
   )

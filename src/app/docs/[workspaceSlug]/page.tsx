@@ -1,10 +1,11 @@
-import Box from '@mui/material/Box';
 import {
   dehydrate,
   HydrationBoundary,
+  QueryClient,
 } from '@tanstack/react-query';
-import { useWorkspacesGetBySlugPrefetchQuery } from '@/queries/workspaces/useWorkspacesGetBySlugPrefetchQuery';
-import Workspaces from "@/app/docs/[workspaceSlug]/Workspaces";
+import { workspacesQueryClientKeys } from '@/queries/workspaces/api';
+import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
+import Typography from '@mui/material/Typography';
 
 export default async function WorkspacesPage({
   params,
@@ -13,15 +14,24 @@ export default async function WorkspacesPage({
 }) {
   const { workspaceSlug } = await params;
 
-  if (!workspaceSlug) return;
+  const queryClient = new QueryClient();
 
-  const { queryClient } = await useWorkspacesGetBySlugPrefetchQuery(workspaceSlug);
+  const workspace = await queryClient.fetchQuery({
+    queryKey: workspacesQueryClientKeys.getBySlug(workspaceSlug),
+    queryFn:() => workspacesRestApiService.getBySlug(workspaceSlug),
+  });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Box id="workspaces-page">
-        <Workspaces workspaceSlug={workspaceSlug} />
-      </Box>
+      <Typography variant="h2" gutterBottom>
+        {workspace?.title}
+      </Typography>
+      <Typography gutterBottom>
+        {workspace?.summary}
+      </Typography>
+      <Typography gutterBottom>
+        {workspace?.content}
+      </Typography>
     </HydrationBoundary>
-  )
+  );
 }
