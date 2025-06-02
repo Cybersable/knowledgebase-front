@@ -2,10 +2,10 @@ export interface BaseQueryClientServiceParams {
   resource: string
 }
 
-export default abstract class BaseQueryClientKeysService {
+export default class BaseQueryClientKeysService {
   protected _resource: string
 
-  protected constructor(params: BaseQueryClientServiceParams) {
+  constructor(params: BaseQueryClientServiceParams) {
     this._resource = params.resource
   }
 

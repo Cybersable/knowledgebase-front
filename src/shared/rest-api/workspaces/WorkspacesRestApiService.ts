@@ -1,6 +1,6 @@
 import BaseRestApiService, {
   BaseRestApiServiceParams
-} from '@/shared/rest-api/api/base-rest-api-service/BaseRestApiService';
+} from '@/shared/rest-api/api/BaseRestApiService';
 
 export interface WorkspacesModel {
   id: string

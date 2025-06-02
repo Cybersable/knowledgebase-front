@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
-import BaseQueryClientKeysService from '@/queries/api/BaseQueryClientKeysService';
 import BaseRestApiService from '@/shared/rest-api/api/base-rest-api-service/BaseRestApiService';
 import { useQuery, QueryClient } from '@tanstack/react-query';
+import BaseQueryClientKeysService from "@/shared/rest-api/api/base-query-client-service/BaseQueryClientKeysService";
 
 export interface BaseQueryClientServiceParams<Model, ModelInput> {
   resource: string
@@ -9,12 +9,12 @@ export interface BaseQueryClientServiceParams<Model, ModelInput> {
   restApiService: BaseRestApiService<Model, ModelInput>
 }
 
-export default abstract class BaseQueryClientService<Model, ModelInput> {
+export default class BaseQueryClientService<Model, ModelInput> {
   protected _resource: string
   protected _queryClientKey: BaseQueryClientKeysService
   protected _restApiService: BaseRestApiService<Model, ModelInput>
 
-  protected constructor(params: BaseQueryClientServiceParams<Model, ModelInput>) {
+  constructor(params: BaseQueryClientServiceParams<Model, ModelInput>) {
     this._resource = params.resource
     this._queryClientKey = params.queryClientKey
     this._restApiService = params.restApiService
