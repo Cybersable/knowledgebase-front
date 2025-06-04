@@ -2,14 +2,18 @@
 
 import {
   SyntheticEvent,
-  useCallback
+  useCallback,
+  useEffect,
+  useState
 } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
-import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api/useWorkspacesMenuSelectOptions';
-import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
-import { useWorkspacesDocsQuery } from '@/entities/workspaces/queries/useWorkspacesDocsQuery';
+import {
+  useWorkspacesDocsQuery,
+  useWorkspacesDocsBySlugQuery
+} from "@/entities/workspaces/queries";
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
 
 import Box from '@mui/material/Box';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
@@ -17,34 +21,35 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import MenuSelect from "@/shared/ui/menu-select";
 
 export default function DocsSideNav() {
-  const { push } = useRouter();
+  const { push , replace } = useRouter();
 
   const pathname = usePathname();
   const segments = pathname.split('/');
   // const [, , workspaceSlug, categorySlug, articleSlug] = segments;
   const [, , workspaceSlug] = segments;
 
-  const { workspacesList } = useWorkspacesGetManyQuery();
+  const [selectedWorkspaceSlug, setSelectedWorkspaceSlug] = useState('');
 
-  const { workspacesDocs } = useWorkspacesDocsQuery(workspaceSlug);
+  const { workspacesDocsList } = useWorkspacesDocsQuery();
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesDocsList);
 
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
+  const { workspacesDocs } = useWorkspacesDocsBySlugQuery(workspaceSlug);
 
   const handleWorkspaceChange = useCallback((workspaceSlug: string) => {
     push(`/docs/${workspaceSlug}`);
   }, [push]);
 
-  // useEffect(() => {
-  //   if (workspaceSlug && !!workspacesMenuSelectOptions?.length) {
-  //     if (!workspacesMenuSelectOptions.find((option) => option.value === workspaceSlug)) {
-  //       setSelectedWorkspaceSlug('')
-  //     } else {
-  //       setSelectedWorkspaceSlug(workspaceSlug)
-  //     }
-  //   } else if (!workspaceSlug && !!workspacesMenuSelectOptions?.length) {
-  //     replace(`/docs/${workspacesMenuSelectOptions[0].value}`);
-  //   }
-  // }, [workspaceSlug, workspacesMenuSelectOptions, replace]);
+  useEffect(() => {
+    if (workspaceSlug && !!workspacesOptions?.length) {
+      if (!workspacesOptions.find((option) => option.value === workspaceSlug)) {
+        setSelectedWorkspaceSlug('')
+      } else {
+        setSelectedWorkspaceSlug(workspaceSlug)
+      }
+    } else if (!workspaceSlug && !!workspacesOptions?.length) {
+      replace(`/docs/${workspacesOptions[0].value}`);
+    }
+  }, [workspaceSlug, workspacesOptions, replace]);
 
   const handleItemSelectionToggle = (
     event: SyntheticEvent | null,
@@ -62,7 +67,7 @@ export default function DocsSideNav() {
         id="workspace"
         options={workspacesOptions}
         onChange={handleWorkspaceChange}
-        value={workspaceSlug}
+        value={selectedWorkspaceSlug}
       />
       <SimpleTreeView onItemSelectionToggle={handleItemSelectionToggle}>
         {workspacesDocs?.categories?.map((category) => (

@@ -5,7 +5,11 @@ class WorkspacesQueryClientKeys extends BaseQueryClientKeysService {
     super({ resource: 'workspaces' });
   }
 
-  getDocs(slug: string) {
+  getDocs() {
+    return [this._resource, 'get-docs'];
+  }
+
+  getDocsBySlug(slug: string) {
     return [this._resource, 'get-docs', slug];
   }
 }

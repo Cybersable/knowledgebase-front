@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { WorkspacesModel } from '@/shared/rest-api/workspaces/WorkspacesRestApiService';
+import { IWorkspace } from '@/entities/workspaces/model';
 
 export const useWorkspacesMenuSelectOptions = (
-  list?: Array<WorkspacesModel>
+  list?: Array<Pick<IWorkspace, 'id' | 'slug' | 'title' | 'summary'>>
 ) => {
   return useMemo(() => {
     return list?.map((item) => {

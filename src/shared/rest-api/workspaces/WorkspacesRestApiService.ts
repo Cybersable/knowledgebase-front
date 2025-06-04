@@ -27,16 +27,16 @@ interface GetManyParams {
   page: string
 }
 
-interface SummaryDocs {
+interface Summary {
   id: string
   slug: string
   title: string
   summary: string
 }
 
-interface WorkspacesDocs extends SummaryDocs {
-  categories: Array<SummaryDocs & {
-    articles: Array<SummaryDocs>
+interface WorkspacesDocs extends Summary {
+  categories: Array<Summary & {
+    articles: Array<Summary>
   }>
 }
 
@@ -49,7 +49,11 @@ export class WorkspacesRestApiService extends BaseRestApiService<WorkspacesModel
     return super.getMany(query, abort);
   }
 
-  getDocs(slug: string): Promise<WorkspacesDocs> {
+  getDocs(): Promise<Array<Summary>> {
+    return provideRestApiMethods(this._client).get(`/${this._resource}/docs`);
+  }
+
+  getDocsBySlug(slug: string): Promise<WorkspacesDocs> {
     return provideRestApiMethods(this._client).get(`/${this._resource}/docs/${slug}`);
   }
 }
