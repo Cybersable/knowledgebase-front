@@ -1,0 +1,1 @@
+export { useWorkspacesGetManyQuery } from './useWorkspacesGetManyQuery';

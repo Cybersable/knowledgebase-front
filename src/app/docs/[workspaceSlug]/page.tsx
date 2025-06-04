@@ -3,9 +3,10 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { workspacesQueryClientKeys } from '@/queries/workspaces/api';
+
 import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
 import Typography from '@mui/material/Typography';
+import { workspacesQueryClientKeys } from '@/shared/queries';
 
 export default async function WorkspacesPage({
   params,

@@ -2,10 +2,16 @@ import { AxiosInstance } from 'axios';
 import queryString, { StringifyOptions } from 'query-string';
 import { provideRestApiMethods } from '@/shared/rest-api/api/provideRestApiMethods';
 
+
+export type QueryValue = string | null;
+
 export interface QueryParams {
-  search?: string | string[]
-  limit?: string
-  offset?: string
+  [key: string]: QueryValue | QueryValue[]
+}
+
+export interface Pagination<Model> {
+  data: Array<Model>
+  total: number
 }
 
 export interface BaseRestApiServiceInterface<Model, ModelInput> {
@@ -14,10 +20,7 @@ export interface BaseRestApiServiceInterface<Model, ModelInput> {
   getMany: (
     params?: QueryParams,
     abort?: AbortController
-  ) => Promise<{
-    data: Array<Model>
-    total: number
-  }>
+  ) => Promise<Pagination<Model>>
   create: (data: ModelInput) => Promise<Model>
   update: (id: string, data: Partial<ModelInput>) => Promise<Model>
   delete: (id: string) => Promise<unknown>
@@ -51,25 +54,23 @@ export default abstract class BaseRestApiService<Model, ModelInput>
     return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/slug/${slug}`);
   }
 
-  public getMany<Model>(query?: QueryParams, abort?: AbortController) {
-    if (!abort?.signal) {
-      abort = new AbortController()
-    }
+  public getMany(query?: QueryParams, abort?: AbortController) {
+    // if (!abort?.signal) {
+    //   abort = new AbortController()
+    // }
 
     let url = `/${this._resource}`;
 
     if (query) {
-      url += this._stringify(query);
+      url += `?${this._stringify(query)}`;
     }
 
-    return provideRestApiMethods(this._client).get<{
-      data: Array<Model>,
-      total: number,
-    }>(
-      url,
-      {
-        signal: abort.signal
-      })
+    return provideRestApiMethods(this._client).get<Pagination<Model>>(
+      url
+      // {
+      //   signal: abort.signal
+      // }
+    )
   }
 
   public create(data: ModelInput) {

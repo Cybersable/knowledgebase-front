@@ -1,73 +1,50 @@
 'use client';
 
+import {
+  SyntheticEvent,
+  useCallback
+} from 'react';
+import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import {SyntheticEvent , useCallback, useEffect, useMemo, useState} from "react";
-import { useWorkspacesMenuSelectOptions} from '@/entities/workspaces/api/useWorkspacesMenuSelectOptions';
-import MenuSelect from "@/shared/ui/menu-select";
-import Box from '@mui/material/Box';
-import { SimpleTreeView} from "@mui/x-tree-view/SimpleTreeView";
-import { TreeItem} from "@mui/x-tree-view/TreeItem";
-import { useRouter } from "next/navigation";
-import { ICategory} from "@/entities/categories/model";
-import { IArticle} from "@/entities/articles/model";
-import { useCategoriesGetManyQuery } from "@/queries/categories/useCategoriesGetManyQuery";
-import { useArticlesGetManyGetManyQuery } from "@/queries/articles/useArticlesGetManyQuery";
-import { workspacesQueryClientService } from "@/queries/workspaces/api";
 
-interface INavigationTreeItem extends ICategory {
-  childNodes: Array<IArticle>
-}
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api/useWorkspacesMenuSelectOptions';
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
+import { useWorkspacesDocsQuery } from '@/entities/workspaces/queries/useWorkspacesDocsQuery';
+
+import Box from '@mui/material/Box';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
+import { TreeItem } from '@mui/x-tree-view/TreeItem';
+import MenuSelect from "@/shared/ui/menu-select";
 
 export default function DocsSideNav() {
+  const { push } = useRouter();
+
   const pathname = usePathname();
-  const { push, replace } = useRouter();
   const segments = pathname.split('/');
-  const [, , workspaceUuid] = segments;
+  // const [, , workspaceSlug, categorySlug, articleSlug] = segments;
+  const [, , workspaceSlug] = segments;
 
-  const { workspacesList } = workspacesQueryClientService.getMany();
-  const { categoriesList } = useCategoriesGetManyQuery();
+  const { workspacesList } = useWorkspacesGetManyQuery();
 
-  const categoriesUuidsList = useMemo(() => {
-    return categoriesList?.map((item) => item.id);
-  }, [categoriesList]);
+  const { workspacesDocs } = useWorkspacesDocsQuery(workspaceSlug);
 
-  const { articlesList } = useArticlesGetManyGetManyQuery();
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
 
-  const [selectedWorkspaceUuid, setSelectedWorkspaceUuid] = useState('');
-  // @ts-ignore
-  const workspacesMenuSelectOptions = useWorkspacesMenuSelectOptions(workspacesList);
-
-  useEffect(() => {
-    if (workspaceUuid && !!workspacesMenuSelectOptions?.length) {
-      if (!workspacesMenuSelectOptions.find((option) => option.value === workspaceUuid)) {
-        setSelectedWorkspaceUuid('')
-      } else {
-        setSelectedWorkspaceUuid(workspaceUuid)
-      }
-    } else if (!workspaceUuid && !!workspacesMenuSelectOptions?.length) {
-      replace(`/docs/${workspacesMenuSelectOptions[0].value}`);
-    }
-  }, [workspaceUuid, workspacesMenuSelectOptions, replace]);
-
-  const navigationTree: INavigationTreeItem[] = useMemo(() => {
-    if (!categoriesList?.length || !articlesList?.length) return [];
-
-    const treeMap = Object.create(null);
-
-    categoriesList.forEach((category) => treeMap[category.id] = { ...category, childNodes: [] });
-
-    articlesList.forEach((article) => {
-      if (treeMap[article.categoryId]) {
-        treeMap[article.categoryId].childNodes.push(article);
-      }
-    });
-
-    return Object.values(treeMap);
-  }, [categoriesList, articlesList]);
-
-  const handleWorkspaceChange = useCallback((uuid: string) => {
-    push(`/docs/${uuid}`);
+  const handleWorkspaceChange = useCallback((workspaceSlug: string) => {
+    push(`/docs/${workspaceSlug}`);
   }, [push]);
+
+  // useEffect(() => {
+  //   if (workspaceSlug && !!workspacesMenuSelectOptions?.length) {
+  //     if (!workspacesMenuSelectOptions.find((option) => option.value === workspaceSlug)) {
+  //       setSelectedWorkspaceSlug('')
+  //     } else {
+  //       setSelectedWorkspaceSlug(workspaceSlug)
+  //     }
+  //   } else if (!workspaceSlug && !!workspacesMenuSelectOptions?.length) {
+  //     replace(`/docs/${workspacesMenuSelectOptions[0].value}`);
+  //   }
+  // }, [workspaceSlug, workspacesMenuSelectOptions, replace]);
 
   const handleItemSelectionToggle = (
     event: SyntheticEvent | null,
@@ -83,22 +60,22 @@ export default function DocsSideNav() {
     <Box display="flex" gap={3} flexDirection="column">
       <MenuSelect
         id="workspace"
-        options={workspacesMenuSelectOptions}
+        options={workspacesOptions}
         onChange={handleWorkspaceChange}
-        value={selectedWorkspaceUuid}
+        value={workspaceSlug}
       />
       <SimpleTreeView onItemSelectionToggle={handleItemSelectionToggle}>
-        {navigationTree.map((category) => (
+        {workspacesDocs?.categories?.map((category) => (
           <TreeItem
             key={category.id}
-            itemId={`/docs/${category.id}`}
+            itemId={`/docs/${workspacesDocs?.slug}/${category.slug}`}
             label={category.title}
           >
-            {category.childNodes && (
-              category.childNodes.map((article) => (
+            {category.articles && (
+              category.articles.map((article) => (
                 <TreeItem
                   key={article.id}
-                  itemId={`/docs/${category.id}/${article.id}`}
+                  itemId={`/docs/${workspaceSlug}/${category.id}/${article.id}`}
                   label={article.title}
                 />
               ))

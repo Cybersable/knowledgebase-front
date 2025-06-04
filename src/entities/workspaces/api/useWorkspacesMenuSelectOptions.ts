@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
-import { IWorkspace } from '@/entities/workspaces/model';
+import { WorkspacesModel } from '@/shared/rest-api/workspaces/WorkspacesRestApiService';
 
 export const useWorkspacesMenuSelectOptions = (
-  workspacesList?: Array<IWorkspace>
+  list?: Array<WorkspacesModel>
 ) => {
   return useMemo(() => {
-    return workspacesList?.map((item) => {
+    return list?.map((item) => {
       return {
+        id: item.id,
         value: item.slug,
         label: item.title,
         subLabel: item.summary,
       }
     });
-  }, [workspacesList]);
+  }, [list]);
 };
