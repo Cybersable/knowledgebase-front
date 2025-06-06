@@ -1,0 +1,1 @@
+export { useArticlesGetManyQuery } from './useArticlesGetManyQuery';

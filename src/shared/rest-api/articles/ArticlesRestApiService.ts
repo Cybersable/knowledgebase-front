@@ -17,7 +17,6 @@ export interface ArticlesModel {
 
 export interface ArticlesModelInput {
   title: string
-  slug: string
   summary?: string
   content?: string | null
   categoryId: string
@@ -27,7 +26,6 @@ interface GetManyParams {
   limit: string
   page: string
   categoryId: string
-  categorySlug: string
 }
 
 export class ArticlesRestApiService
@@ -36,7 +34,7 @@ export class ArticlesRestApiService
     super(params);
   }
 
-  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<ArticlesModel>> {
+  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<Omit<ArticlesModel, 'content'>>> {
     return super.getMany(query, abort);
   }
 }

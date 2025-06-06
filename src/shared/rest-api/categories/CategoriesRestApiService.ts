@@ -8,7 +8,6 @@ export interface CategoriesModel {
   title: string
   slug: string
   summary?: string
-  content?: string | null
   workplaceId: string
   createdAt: Date
   updatedAt: Date
@@ -17,9 +16,7 @@ export interface CategoriesModel {
 
 export interface CategoriesModelInput {
   title: string
-  slug: string
   summary?: string
-  content?: string | null
   workplaceId: string
 }
 
@@ -27,7 +24,6 @@ interface GetManyParams {
   limit: string
   page: string
   workspaceId: string
-  workspaceSlug: string
 }
 
 export class CategoriesRestApiService

@@ -16,10 +16,6 @@ export default class BaseQueryClientKeysService {
     return [this._resource, 'get', id];
   }
 
-  getBySlug(slug: string) {
-    return [this._resource, 'get-by-slug', slug];
-  }
-
   getMany(query: QueryParams) {
     return [this._resource, 'get-many', queryString.stringify(query)];
   }

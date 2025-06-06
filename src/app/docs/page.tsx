@@ -1,16 +1,11 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Skeleton from '@mui/material/Skeleton';
+import ArticlesList from "@/widgets/articles-list";
 
 export default function DocsPage() {
+
   return (
     <Box id="docs-page">
-      <Typography variant="h2">
-        <Skeleton />
-      </Typography>
-      <Typography gutterBottom>
-        <Skeleton />
-      </Typography>
+      <ArticlesList />
     </Box>
   );
 }

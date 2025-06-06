@@ -1,93 +1,55 @@
 'use client';
 
 import {
-  SyntheticEvent,
   useCallback,
-  useEffect,
-  useState
+  useMemo,
 } from 'react';
-import { useRouter } from 'next/navigation';
-import { usePathname } from 'next/navigation';
-
 import {
-  useWorkspacesDocsQuery,
-  useWorkspacesDocsBySlugQuery
-} from "@/entities/workspaces/queries";
-import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
+  useRouter,
+  useSearchParams
+} from 'next/navigation';
 
 import Box from '@mui/material/Box';
-import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
-import { TreeItem } from '@mui/x-tree-view/TreeItem';
-import MenuSelect from "@/shared/ui/menu-select";
+import WorkspacesMenuSelect from "@/features/workspaces/MenuSelect";
+import CategoriesMenuSelect from "@/features/categories/MenuSelect";
 
 export default function DocsSideNav() {
-  const { push , replace } = useRouter();
+  const { replace } = useRouter();
 
-  const pathname = usePathname();
-  const segments = pathname.split('/');
-  // const [, , workspaceSlug, categorySlug, articleSlug] = segments;
-  const [, , workspaceSlug] = segments;
+  const searchParams = useSearchParams();
 
-  const [selectedWorkspaceSlug, setSelectedWorkspaceSlug] = useState('');
-
-  const { workspacesDocsList } = useWorkspacesDocsQuery();
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesDocsList);
-
-  const { workspacesDocs } = useWorkspacesDocsBySlugQuery(workspaceSlug);
-
-  const handleWorkspaceChange = useCallback((workspaceSlug: string) => {
-    push(`/docs/${workspaceSlug}`);
-  }, [push]);
-
-  useEffect(() => {
-    if (workspaceSlug && !!workspacesOptions?.length) {
-      if (!workspacesOptions.find((option) => option.value === workspaceSlug)) {
-        setSelectedWorkspaceSlug('')
-      } else {
-        setSelectedWorkspaceSlug(workspaceSlug)
-      }
-    } else if (!workspaceSlug && !!workspacesOptions?.length) {
-      replace(`/docs/${workspacesOptions[0].value}`);
+  const { workspaceId, categoryId } = useMemo(() => {
+    return {
+      workspaceId: searchParams.get('workspaceId') ?? '',
+      categoryId: searchParams.get('categoryId') ?? ''
     }
-  }, [workspaceSlug, workspacesOptions, replace]);
+  }, [searchParams]);
 
-  const handleItemSelectionToggle = (
-    event: SyntheticEvent | null,
-    itemId: string,
-    isSelected: boolean,
-  ) => {
-    if (isSelected) {
-      push(itemId);
-    }
-  };
+  const handleWorkspaceChange = useCallback((workspaceId: string) => {
+    if (!workspaceId) return replace(`?`);
+
+    replace(`?workspaceId=${workspaceId}`);
+  }, [replace]);
+
+  const handleCategoriesChange = useCallback((categoryId: string) => {
+    if (!categoryId) return replace(`?workspaceId=${workspaceId}`);
+
+    replace(`?workspaceId=${workspaceId}&categoryId=${categoryId}`);
+  }, [replace, workspaceId]);
 
   return (
-    <Box display="flex" gap={3} flexDirection="column">
-      <MenuSelect
-        id="workspace"
-        options={workspacesOptions}
-        onChange={handleWorkspaceChange}
-        value={selectedWorkspaceSlug}
+    <Box display="flex" gap={2} flexDirection="column">
+      <WorkspacesMenuSelect
+        id="docs-side-nav-workspaces"
+        workspaceId={workspaceId}
+        onWorkspaceChange={handleWorkspaceChange}
       />
-      <SimpleTreeView onItemSelectionToggle={handleItemSelectionToggle}>
-        {workspacesDocs?.categories?.map((category) => (
-          <TreeItem
-            key={category.id}
-            itemId={`/docs/${workspacesDocs?.slug}/${category.slug}`}
-            label={category.title}
-          >
-            {category.articles && (
-              category.articles.map((article) => (
-                <TreeItem
-                  key={article.id}
-                  itemId={`/docs/${workspaceSlug}/${category.id}/${article.id}`}
-                  label={article.title}
-                />
-              ))
-            )}
-          </TreeItem>
-        ))}
-      </SimpleTreeView>
+      <CategoriesMenuSelect
+        id="docs-side-nav-categories"
+        workspaceId={workspaceId}
+        categoryId={categoryId}
+        onCategoryChange={handleCategoriesChange}
+      />
     </Box>
   )
 }

@@ -1,4 +1,7 @@
-"use client";
+'use client';
+
+import { useCallback, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -11,10 +14,8 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from './ui/ColorModeIconDropdown';
+import SitemarkIcon from '@/shared/ui/icons/SitemarkIcon';
 import { StyledToolbar } from "./styled";
-import {useCallback, useState} from "react";
-import SitemarkIcon from "@/shared/ui/icons/SitemarkIcon";
-import {useRouter} from "next/navigation";
 
 const navigationList = [
   {
@@ -25,6 +26,10 @@ const navigationList = [
     title: 'Docs',
     href: '/docs',
   },
+  {
+    title: 'Managing',
+    href: '/managing/docs',
+  }
 ];
 
 export default function MainNavBar() {

@@ -1,18 +1,21 @@
 import { faker } from '@faker-js/faker/locale/en';
-import { IWorkspace } from '@/entities/workspaces/model';
+import { WorkspacesModel } from '@/entities/workspaces/model';
 
-export const fakeWorkspaces = (): IWorkspace => {
+export interface FakeWorkspaceModel 
+  extends Pick<WorkspacesModel, 'id' | 'title' | 'slug' | 'summary'> {}
+
+export const fakeWorkspaces = (): FakeWorkspaceModel => {
   const title = faker.commerce.department();
 
   return {
-    uuid: faker.string.uuid(),
+    id: faker.string.uuid(),
     title,
-    slug: title.toLowerCase(),
-    description: faker.lorem.paragraph(3),
+    slug: title.toLowerCase().replace(' ', '-'),
+    summary: faker.lorem.paragraph(1),
   };
 };
 
-export const fakeWorkspacesList = (count: number): Array<IWorkspace> => {
+export const fakeWorkspacesList = (count: number): Array<FakeWorkspaceModel> => {
   return Array(count)
       .fill({})
       .map(fakeWorkspaces);

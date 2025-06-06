@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { WorkspacesModel } from '@/entities/workspaces/model';
+import { ICategory } from '@/entities/categories/model';
 
-export const useWorkspacesMenuSelectOptions = (
-  list?: Array<Pick<WorkspacesModel, 'id' | 'title' | 'summary'>>
+export const useCategoriesMenuSelectOptions = (
+  list?: Array<Pick<ICategory, 'id' | 'title' | 'summary'>>
 ) => {
   return useMemo(() => {
     return list?.map((item) => {

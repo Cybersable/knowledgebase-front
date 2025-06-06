@@ -9,6 +9,7 @@ export const useArticlesGetManyQuery = (params: {
   limit?: string
   page?: string
   categoryId?: string
+  workspaceId?: string
 } = {
   limit: '10',
   page: '1',

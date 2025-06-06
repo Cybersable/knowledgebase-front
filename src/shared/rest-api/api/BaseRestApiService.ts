@@ -16,7 +16,6 @@ export interface Pagination<Model> {
 
 export interface BaseRestApiServiceInterface<Model, ModelInput> {
   get: (id: string) => Promise<Model>
-  getBySlug: (slug: string) => Promise<Model>
   getMany: (
     params?: QueryParams,
     abort?: AbortController
@@ -50,10 +49,6 @@ export default abstract class BaseRestApiService<Model, ModelInput>
     return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/${id}`);
   }
 
-  public getBySlug(slug: string) {
-    return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/slug/${slug}`);
-  }
-
   public getMany(query?: QueryParams, abort?: AbortController) {
     // if (!abort?.signal) {
     //   abort = new AbortController()
@@ -74,7 +69,8 @@ export default abstract class BaseRestApiService<Model, ModelInput>
   }
 
   public create(data: ModelInput) {
-    return provideRestApiMethods(this._client).post<Model>(`/${this._resource}`, { data });
+    console.log(`/${this._resource}`);
+    return provideRestApiMethods(this._client).post<Model, ModelInput>(`/${this._resource}`, data);
   }
 
   public update(id: string, data: Partial<ModelInput>) {

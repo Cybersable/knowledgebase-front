@@ -2,24 +2,20 @@ import BaseRestApiService, {
   BaseRestApiServiceParams,
   Pagination
 } from '@/shared/rest-api/api/BaseRestApiService';
-import { provideRestApiMethods } from '@/shared/rest-api/api/provideRestApiMethods';
 
-export interface WorkspacesModel {
+export interface WorkspacesApiModel {
   id: string
   title: string
   slug: string
   summary?: string
-  content?: string | null
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date | null
 }
 
-export interface WorkspacesModelInput {
+export interface WorkspacesApiModelInput {
   title: string
-  slug: string
   summary?: string
-  content?: string | null
 }
 
 interface GetManyParams {
@@ -27,33 +23,13 @@ interface GetManyParams {
   page: string
 }
 
-interface Summary {
-  id: string
-  slug: string
-  title: string
-  summary: string
-}
-
-interface WorkspacesDocs extends Summary {
-  categories: Array<Summary & {
-    articles: Array<Summary>
-  }>
-}
-
-export class WorkspacesRestApiService extends BaseRestApiService<WorkspacesModel, WorkspacesModelInput> {
+export class WorkspacesRestApiService
+  extends BaseRestApiService<WorkspacesApiModel, WorkspacesApiModelInput> {
   constructor(params: BaseRestApiServiceParams) {
     super(params);
   }
 
-  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<WorkspacesModel>> {
+  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<WorkspacesApiModel>> {
     return super.getMany(query, abort);
-  }
-
-  getDocs(): Promise<Array<Summary>> {
-    return provideRestApiMethods(this._client).get(`/${this._resource}/docs`);
-  }
-
-  getDocsBySlug(slug: string): Promise<WorkspacesDocs> {
-    return provideRestApiMethods(this._client).get(`/${this._resource}/docs/${slug}`);
   }
 }
