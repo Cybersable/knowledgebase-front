@@ -69,12 +69,11 @@ export default abstract class BaseRestApiService<Model, ModelInput>
   }
 
   public create(data: ModelInput) {
-    console.log(`/${this._resource}`);
     return provideRestApiMethods(this._client).post<Model, ModelInput>(`/${this._resource}`, data);
   }
 
   public update(id: string, data: Partial<ModelInput>) {
-    return provideRestApiMethods(this._client).patch<Model>(`/${this._resource}/${id}`, { data });
+    return provideRestApiMethods(this._client).patch<Model>(`/${this._resource}/${id}`, data);
   }
 
   public delete(id: string) {

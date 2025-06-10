@@ -1,3 +1,8 @@
-import { CategoriesModel } from '@/shared/rest-api/categories/CategoriesRestApiService';
+import {
+  CategoriesApiModel,
+  CategoriesApiModelInput
+} from '@/shared/rest-api/categories';
 
-export interface ICategory extends CategoriesModel {}
+export interface CategoryModel extends CategoriesApiModel {}
+
+export interface CategoriesModelInput extends CategoriesApiModelInput {}

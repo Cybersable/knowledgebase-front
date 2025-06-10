@@ -1,7 +1,7 @@
 import {
   WorkspacesApiModel,
   WorkspacesApiModelInput
-} from '@/shared/rest-api/workspaces/WorkspacesRestApiService';
+} from '@/shared/rest-api/workspaces';
 
 export interface WorkspacesModel extends WorkspacesApiModel {}
 

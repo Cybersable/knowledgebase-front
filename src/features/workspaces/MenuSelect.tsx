@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 
 import { useWorkspacesGetManyQuery } from "@/entities/workspaces/queries";
@@ -7,15 +9,12 @@ import MenuSelect from '@/shared/ui/menu-select';
 
 export default function WorkspacesMenuSelect({
   id,
-  workspaceId,
+  workspaceId = '',
   onWorkspaceChange,
 }: {
   id: string
   workspaceId?: string
   onWorkspaceChange?: (workspaceId: string) => void
-} = {
-  id: 'workspaces',
-  workspaceId: '',
 }) {
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(workspaceId);
 
@@ -30,7 +29,7 @@ export default function WorkspacesMenuSelect({
 
   return (
     <MenuSelect
-      id={id}
+      id={`${id}-workspaces-menu-select`}
       options={workspacesOptions}
       onChange={handleWorkspaceChange}
       value={selectedWorkspaceId}
@@ -40,5 +39,5 @@ export default function WorkspacesMenuSelect({
         subLabel: 'Select workspace',
       }}
     />
-  )
+  );
 }

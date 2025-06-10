@@ -40,7 +40,7 @@ const routes = {
   workspacesUpdate: (params: { workspaceId: string }) => ({
     key: 'MANAGING_DOCS_WORKSPACES_UPDATE_ROUTE',
     params,
-    path: `/managing/docs/workspaces/${params.workspaceId}`,
+    path: `/managing/docs/workspaces/update/${params.workspaceId}`,
   }),
   managingCategories: {
     key: 'MANAGING_DOCS_CATEGORIES_ROUTE',

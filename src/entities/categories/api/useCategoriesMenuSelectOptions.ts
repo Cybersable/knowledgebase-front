@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
-import { ICategory } from '@/entities/categories/model';
+import { CategoryModel } from '@/entities/categories/model';
 
 export const useCategoriesMenuSelectOptions = (
-  list?: Array<Pick<ICategory, 'id' | 'title' | 'summary'>>
+  list?: Array<Pick<CategoryModel, 'id' | 'title' | 'summary'>>
 ) => {
   return useMemo(() => {
     return list?.map((item) => {

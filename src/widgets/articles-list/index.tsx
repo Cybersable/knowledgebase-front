@@ -2,6 +2,7 @@
 
 import {
   useMemo,
+  useState,
 } from 'react';
 import {
   useRouter,
@@ -14,8 +15,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import Pagination from "@mui/material/Pagination";
-import { StyledTypography, TitleTypography } from "@/widgets/articles-list/styled";
-import * as React from "react";
+import { StyledTypography, StyledTitle } from "@/widgets/articles-list/styled";
 
 export default function ArticlesList() {
   const { replace } = useRouter();
@@ -43,7 +43,7 @@ export default function ArticlesList() {
     page,
   });
 
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState<string | null>(
+  const [focusedCardIndex, setFocusedCardIndex] = useState<string | null>(
     null,
   );
 
@@ -76,11 +76,12 @@ export default function ArticlesList() {
               {/*<Typography gutterBottom variant="caption" component="div">*/}
               {/*  {article.tag}*/}
               {/*</Typography>*/}
-              <TitleTypography
+              <StyledTitle
                 gutterBottom
                 variant="h6"
                 onFocus={() => handleFocus(article.id)}
                 onBlur={handleBlur}
+                onClick={() => handleClick()}
                 tabIndex={0}
                 className={focusedCardIndex === article.id ? 'Mui-focused' : ''}
               >
@@ -89,7 +90,7 @@ export default function ArticlesList() {
                   className="arrow"
                   sx={{ fontSize: '1rem' }}
                 />
-              </TitleTypography>
+              </StyledTitle>
               <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                 {article.summary}
               </StyledTypography>

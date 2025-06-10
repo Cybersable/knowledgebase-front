@@ -3,7 +3,7 @@ import BaseRestApiService, {
   Pagination
 } from '@/shared/rest-api/api/BaseRestApiService';
 
-export interface ArticlesModel {
+export interface ArticlesApiModel {
   id: string
   title: string
   slug: string
@@ -15,7 +15,7 @@ export interface ArticlesModel {
   deletedAt?: Date | null
 }
 
-export interface ArticlesModelInput {
+export interface ArticlesApiModelInput {
   title: string
   summary?: string
   content?: string | null
@@ -29,12 +29,12 @@ interface GetManyParams {
 }
 
 export class ArticlesRestApiService
-  extends BaseRestApiService<ArticlesModel, ArticlesModelInput> {
+  extends BaseRestApiService<ArticlesApiModel, ArticlesApiModelInput> {
   constructor(params: BaseRestApiServiceParams) {
     super(params);
   }
 
-  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<Omit<ArticlesModel, 'content'>>> {
+  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<Omit<ArticlesApiModel, 'content'>>> {
     return super.getMany(query, abort);
   }
 }

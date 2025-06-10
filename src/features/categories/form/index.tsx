@@ -3,7 +3,9 @@
 import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from '@tanstack/react-form';
-import { WorkspacesModelInput } from '@/entities/workspaces/model';
+import { CategoriesModelInput } from '@/entities/categories/model';
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
 
 import { styled } from '@mui/material/styles';
 import FormLabel from '@mui/material/FormLabel';
@@ -11,27 +13,35 @@ import Grid from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Button from '@mui/material/Button';
 import Box from "@mui/material/Box";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
 }));
 
-export default function WorkspacesForm({
-  onSubmit,
-  onCancel,
-  defaultValues,
+export default function CategoriesForm({
+   cancelBtnText = 'Cancel',
+   onCancel,
+   submitBtnText = 'Submit',
+   onSubmit,
+   defaultValues = {
+     title: '',
+     summary: '',
+     workspaceId: '',
+   },
 }: {
-  onCancel?: () => void,
-  onSubmit?: (workspace: WorkspacesModelInput) => void
-  defaultValues?: WorkspacesModelInput
-} = {
-  defaultValues: {
-    title: '',
-    summary: '',
-  }
+  cancelBtnText?: string
+  onCancel?: () => void
+  submitBtnText?: string
+  onSubmit?: (workspace: CategoriesModelInput) => void
+  defaultValues?: CategoriesModelInput
 }) {
   const { back } = useRouter();
+
+  const { workspacesList } = useWorkspacesGetManyQuery();
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
 
   const form = useForm({
     defaultValues,
@@ -67,7 +77,7 @@ export default function WorkspacesForm({
               <OutlinedInput
                 id={field.name}
                 name={field.name}
-                placeholder="Main workspace"
+                placeholder="Main category"
                 required
                 size="small"
                 value={field.state.value}
@@ -88,12 +98,34 @@ export default function WorkspacesForm({
               <OutlinedInput
                 id={field.name}
                 name={field.name}
-                placeholder="Main workspace is need for describe all company features."
+                placeholder="Main category is need for describe all company features."
                 required
                 size="small"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
               />
+            </FormGrid>
+          )}
+        />
+        <form.Field
+          name="workspaceId"
+          children={(field) => (
+            <FormGrid size={12}>
+              <FormLabel htmlFor={field.name} required>
+                Workspace
+              </FormLabel>
+              <Select
+                id={field.name}
+                name={field.name}
+                size="small"
+                required
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+              >
+                {workspacesOptions?.map((option) => (
+                  <MenuItem value={option.value}>{option.label}</MenuItem>
+                ))}
+              </Select>
             </FormGrid>
           )}
         />
@@ -106,7 +138,7 @@ export default function WorkspacesForm({
               onClick={handleCancelBtn}
               sx={{ minWidth: 'fit-content' }}
             >
-              Cancel
+              {cancelBtnText}
             </Button>
             <form.Subscribe
               selector={(state) => [state.canSubmit, state.isSubmitting]}
@@ -119,7 +151,7 @@ export default function WorkspacesForm({
                   type="submit" disabled={!canSubmit}
                   sx={{ minWidth: 'fit-content' }}
                 >
-                  Create
+                  {submitBtnText}
                 </Button>
               )}
             />

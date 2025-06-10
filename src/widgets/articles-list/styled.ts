@@ -1,5 +1,6 @@
-import { styled } from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
 export const StyledTypography = styled(Typography)({
   display: '-webkit-box',
@@ -9,7 +10,8 @@ export const StyledTypography = styled(Typography)({
   textOverflow: 'ellipsis',
 });
 
-export const TitleTypography = styled(Typography)(({ theme }) => ({
+export const StyledTitle = styled(Link)(({ theme }) => ({
+  width: '100%',
   position: 'relative',
   textDecoration: 'none',
   '&:hover': { cursor: 'pointer' },

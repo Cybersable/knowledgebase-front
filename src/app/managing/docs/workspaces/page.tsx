@@ -1,26 +1,31 @@
 'use client';
 
-import {DataGrid, GridColDef} from "@mui/x-data-grid";
-import {useWorkspacesGetManyQuery} from "@/entities/workspaces/queries";
-import Paper from '@mui/material/Paper';
+import { useMemo } from 'react';
+import routes from '@/services/routes-provider';
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
 
-const columns: GridColDef[] = [
-  { field: 'title', headerName: 'Title', width: 100 },
-  { field: 'summary', headerName: 'Summary', width: 200 },
-];
-
+import SummaryList from '@/shared/ui/summary-list';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 export default function ManagingDocsWorkspacesPage() {
   const { workspacesList } = useWorkspacesGetManyQuery();
 
+  const summaryList = useMemo(() => {
+    return workspacesList?.map((workspace) => ({
+      id: workspace.id,
+      title: workspace.title,
+      summary: workspace.summary,
+      href: routes.workspacesUpdate({ workspaceId: workspace.id }).path,
+    }))
+  }, [workspacesList]);
+
   return (
-    <Paper sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={workspacesList}
-        columns={columns}
-        // initialState={{ pagination: { paginationModel } }}
-        // pageSizeOptions={[5, 10]}
-      />
-    </Paper>
+    <Box id="managing-docs-workspaces-page">
+      <Typography variant="h4" gutterBottom>
+        Managing Workspaces
+      </Typography>
+      <SummaryList list={summaryList} />
+    </Box>
   );
 }

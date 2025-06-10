@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ManagingDocsMenu from "@/app/managing/docs/ManagingDocsMenu";
 
 export default function ManagingDocsPage() {
   return (
@@ -8,7 +7,7 @@ export default function ManagingDocsPage() {
       <Typography variant="h4" gutterBottom>
         Managing docs
       </Typography>
-      <ManagingDocsMenu />
+
     </Box>
   );
 }
