@@ -1,14 +1,23 @@
 'use client';
 
-import { use } from 'react';
+import {
+  use,
+  useCallback,
+  useState
+} from 'react';
 import {
   useCategoriesGetQuery,
-  useCategoriesUpdateMutation
+  useCategoriesUpdateMutation,
+  useCategoriesDeleteMutation,
 } from '@/entities/categories/queries';
 
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CategoriesForm from '@/features/categories/form';
+import Dialog from '@/shared/ui/dialog';
 
 export default function CategoriesUpdatePage({
   params,
@@ -16,16 +25,47 @@ export default function CategoriesUpdatePage({
   params: Promise<{ categoryId: string }>
 }) {
   const { categoryId } = use(params);
+
   const { category } = useCategoriesGetQuery({ categoryId });
+
   const { updateCategory } = useCategoriesUpdateMutation({
     categoryId,
   });
 
+  const [deletingDialogOpen, setDeletingDialogOpen] = useState(false);
+  const { deleteCategory } = useCategoriesDeleteMutation({ categoryId });
+  const handleDeleteCategory = useCallback(() => {
+    deleteCategory();
+    setDeletingDialogOpen(false);
+  }, [deleteCategory]);
+
   return (
-    <Box id="managing-docs-categories-update-page">
-      <Typography variant="h4" gutterBottom>
-        Update category
-      </Typography>
+    <Box id="managing-categories-update-page">
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography variant="h4" gutterBottom>
+          Update category
+        </Typography>
+        <Button
+          variant="text"
+          size="small"
+          color="primary"
+          endIcon={<DeleteIcon />}
+          onClick={() => setDeletingDialogOpen(true)}
+        >
+          Delete
+        </Button>
+        <Dialog
+          title="Deleting category"
+          content={`Delete "${category?.title}" category forever?`}
+          open={deletingDialogOpen}
+          onClose={() => setDeletingDialogOpen(false)}
+          onSubmit={handleDeleteCategory}
+        />
+      </Stack>
       <CategoriesForm
         defaultValues={category}
         onSubmit={updateCategory}

@@ -42,8 +42,6 @@ export default function WorkspacesForm({
     },
   });
 
-  console.log(cancelBtnText);
-
   const handleCancelBtn = useCallback(() => {
     if (onCancel) {
       return onCancel();
