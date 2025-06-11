@@ -54,7 +54,7 @@ const routes = {
   categoriesUpdate: (params: { categoryId: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_UPDATE_ROUTE',
     params,
-    path: `/managing/categories/${params.categoryId}`,
+    path: `/managing/categories/update/${params.categoryId}`,
   }),
   managingArticles: {
     key: 'MANAGING_DOCS_ARTICLES_ROUTE',
@@ -71,7 +71,7 @@ const routes = {
   articlesUpdate: (params: { articleId: string }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',
     params,
-    path: `/managing/articles/${params.articleId}`,
+    path: `/managing/articles/update/${params.articleId}`,
   }),
 } as const;
 

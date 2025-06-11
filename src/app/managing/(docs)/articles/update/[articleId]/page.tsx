@@ -22,7 +22,7 @@ export default function ArticlesUpdatePage({
   });
 
   return (
-    <Box id="articles-create-page">
+    <Box id="articles-update-page">
       <Typography variant="h4" gutterBottom>
         Add new article
       </Typography>

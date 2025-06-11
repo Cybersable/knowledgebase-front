@@ -10,15 +10,15 @@ export interface ArticlesApiModel {
   summary?: string
   content?: string | null
   categoryId: string
-  createdAt: Date
+  workspaceId: string
   updatedAt: Date
-  deletedAt?: Date | null
 }
 
 export interface ArticlesApiModelInput {
   title: string
   summary?: string
   content?: string | null
+  workspaceId: string
   categoryId: string
 }
 
