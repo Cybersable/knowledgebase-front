@@ -11,10 +11,10 @@ import routes from '@/services/routes-provider';
 
 const mainListItems = [
   {
-    id: 'workspaces',
-    icon: <WorkspacesOutlineIcon />,
-    text: 'Workspaces',
-    path: routes.managingWorkspaces.path,
+    id: 'articles',
+    icon: <ArticleIcon />,
+    text: 'Articles',
+    path: routes.managingArticles.path,
   },
   {
     id: 'categories',
@@ -23,16 +23,16 @@ const mainListItems = [
     path: routes.managingCategories.path,
   },
   {
-    id: 'articles',
-    icon: <ArticleIcon />,
-    text: 'Articles',
-    path: routes.managingArticles.path,
+    id: 'workspaces',
+    icon: <WorkspacesOutlineIcon />,
+    text: 'Workspaces',
+    path: routes.managingWorkspaces.path,
   },
 ];
 
 export default function ManagingDocsMenu() {
   return (
-    <List sx={{ gap: 1 }}>
+    <List>
       {mainListItems.map((item, index) => (
         <ListItem
           key={index} disablePadding

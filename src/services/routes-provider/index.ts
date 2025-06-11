@@ -25,40 +25,40 @@ const routes = {
     key: 'DOCS_ROUTE',
     path: '/docs',
   },
-  managingDocs: {
-    key: 'MANAGING_DOCS_ROUTE',
-    path: '/managing/docs',
-  },
+  // managingDocs: {
+  //   key: 'MANAGING_DOCS_ROUTE',
+  //   path: '/managing/docs',
+  // },
   managingWorkspaces: {
     key: 'MANAGING_DOCS_WORKSPACES_ROUTE',
-    path: '/managing/docs/workspaces',
+    path: '/managing/workspaces',
   },
   workspacesCreate: {
     key: 'MANAGING_DOCS_WORKSPACES_CREATE_ROUTE',
-    path: '/managing/docs/workspaces/create',
+    path: '/managing/workspaces/create',
   },
   workspacesUpdate: (params: { workspaceId: string }) => ({
     key: 'MANAGING_DOCS_WORKSPACES_UPDATE_ROUTE',
     params,
-    path: `/managing/docs/workspaces/update/${params.workspaceId}`,
+    path: `/managing/workspaces/update/${params.workspaceId}`,
   }),
   managingCategories: {
     key: 'MANAGING_DOCS_CATEGORIES_ROUTE',
-    path: '/managing/docs/categories',
+    path: '/managing/categories',
   },
   categoriesCreate: (params?: { workspaceId: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_CREATE_ROUTE',
     params,
-    path: makePath('/managing/docs/categories/create', params),
+    path: makePath('/managing/categories/create', params),
   }),
   categoriesUpdate: (params: { categoryId: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_UPDATE_ROUTE',
     params,
-    path: `/managing/docs/categories/${params.categoryId}`,
+    path: `/managing/categories/${params.categoryId}`,
   }),
   managingArticles: {
     key: 'MANAGING_DOCS_ARTICLES_ROUTE',
-    path: '/managing/docs/articles',
+    path: '/managing/articles',
   },
   articlesCreate: (params?: {
     workspaceId?: string
@@ -66,12 +66,12 @@ const routes = {
   }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',
     params,
-    path: makePath('/managing/docs/articles', params),
+    path: makePath('/managing/articles', params),
   }),
   articlesUpdate: (params: { articleId: string }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',
     params,
-    path: `/managing/docs/articles/${params.articleId}`,
+    path: `/managing/articles/${params.articleId}`,
   }),
 } as const;
 

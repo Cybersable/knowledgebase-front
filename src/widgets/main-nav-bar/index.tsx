@@ -3,6 +3,8 @@
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+import routes from '@/services/routes-provider';
+
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
@@ -20,16 +22,16 @@ import { StyledToolbar } from "./styled";
 const navigationList = [
   {
     title: 'Home',
-    href: '/',
+    href: routes.home.path,
   },
   {
     title: 'Docs',
-    href: '/docs',
+    href: routes.docs.path,
   },
   {
     title: 'Managing',
-    href: '/managing/docs',
-  }
+    href: routes.managingArticles.path,
+  },
 ];
 
 export default function MainNavBar() {

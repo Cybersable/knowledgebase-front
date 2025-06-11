@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 
-import { useWorkspacesGetManyQuery } from "@/entities/workspaces/queries";
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
 import { useWorkspacesMenuSelectOptions } from "@/entities/workspaces/api";
 
 import MenuSelect from '@/shared/ui/menu-select';

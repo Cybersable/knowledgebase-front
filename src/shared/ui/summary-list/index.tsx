@@ -1,11 +1,11 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 
 import {
   StyledTypography,
   StyledTitle,
-} from '@/widgets/articles-list/styled';
-import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
+} from './styled';
 
 export default function SummaryList({
   list,
