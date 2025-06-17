@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import {
-  useRouter,
   useSearchParams
 } from 'next/navigation';
 
@@ -50,6 +49,10 @@ export default function ArticlesPage() {
     }))
   }, [articlesList]);
 
+  const articlesCreatePath = useMemo(() => {
+    return routes.articlesCreate({ workspaceId, categoryId }).path;
+  }, [workspaceId, categoryId]);
+
   return (
     <Box id="managing-articles-page">
       <Stack direction="row" justifyContent="space-between">
@@ -62,7 +65,7 @@ export default function ArticlesPage() {
           color="primary"
           endIcon={<AddIcon />}
           LinkComponent={Link}
-          href={routes.articlesCreate().path}
+          href={articlesCreatePath}
         >
           Create article
         </Button>

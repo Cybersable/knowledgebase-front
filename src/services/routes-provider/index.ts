@@ -25,10 +25,14 @@ const routes = {
     key: 'DOCS_ROUTE',
     path: '/docs',
   },
-  // managingDocs: {
-  //   key: 'MANAGING_DOCS_ROUTE',
-  //   path: '/managing/docs',
-  // },
+  docsArticles: (params: {
+    articleId: string
+    articleSlug: string
+  }) => ({
+    key: 'DOCS_ARTICLES_ROUTE',
+    params,
+    path: `/docs/${params.articleId}/${params.articleSlug}`,
+  }),
   managingWorkspaces: {
     key: 'MANAGING_DOCS_WORKSPACES_ROUTE',
     path: '/managing/workspaces',

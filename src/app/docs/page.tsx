@@ -2,7 +2,6 @@
 
 import { useMemo } from 'react';
 import {
-  useRouter,
   useSearchParams
 } from 'next/navigation';
 
@@ -10,7 +9,9 @@ import routes from '@/services/routes-provider';
 import { useArticlesGetManyQuery } from '@/entities/articles/queries';
 
 import Box from '@mui/material/Box';
-import SummaryList from "@/shared/ui/summary-list";
+import MainLayout from '@/widgets/layouts/main-layout';
+import DocsSideNav from '@/widgets/docs-side-nav';
+import SummaryList from '@/shared/ui/summary-list';
 
 export default function DocsPage() {
   const searchParams = useSearchParams();
@@ -41,13 +42,21 @@ export default function DocsPage() {
       id: article.id,
       title: article.title,
       summary: article.summary,
-      href: routes.articlesUpdate({ articleId: article.id }).path,
+      href: routes.docsArticles({
+        articleId: article.id,
+        articleSlug: article.slug
+      }).path,
     }))
   }, [articlesList]);
 
   return (
-    <Box id="docs-page">
-      <SummaryList list={summaryList} />
-    </Box>
+    <MainLayout
+      id="docs-layout"
+      leftChildren={(<DocsSideNav />)}
+    >
+      <Box id="docs-page">
+        <SummaryList list={summaryList} />
+      </Box>
+    </MainLayout>
   );
 }
