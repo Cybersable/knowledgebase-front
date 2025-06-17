@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 
 import MainLayout from '@/widgets/layouts/main-layout';
 import ManagingDocsMenu from '@/widgets/managing-docs-menu';
@@ -12,10 +12,12 @@ export default async function ManagingDocsLayout({
   return (
     <MainLayout
       id="managing-articles-layout"
-      leftChildren={(<ArticlesLeftSideBar />)}
+      leftChildren={(<Suspense><ArticlesLeftSideBar /></Suspense>)}
       rightChildren={(<ManagingDocsMenu />)}
     >
-      {children}
+      <Suspense>
+        {children}
+      </Suspense>
     </MainLayout>
   );
 };

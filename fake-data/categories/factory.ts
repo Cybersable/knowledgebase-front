@@ -1,22 +1,23 @@
 import { faker } from '@faker-js/faker/locale/en';
-import { ICategory } from '@/entities/categories/model';
+import { CategoryModel } from '@/entities/categories/model';
 
-export const fakeCategories = (workspaceUuid: string): ICategory => {
+export const fakeCategories = (workspaceId: string): CategoryModel => {
   const title = faker.commerce.productMaterial();
 
   return {
-    uuid: faker.string.uuid(),
+    id: faker.string.uuid(),
     title,
     slug: title.toLowerCase().replace(' ', '-'),
-    description: faker.lorem.paragraph(3),
-    workspaceUuid,
+    workspaceId,
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
   };
 };
 
-export const fakeCategoriesList = (workspaceUuid: string, count: number): Array<ICategory> => {
+export const fakeCategoriesList = (workspaceId: string, count: number): Array<CategoryModel> => {
   const categoriesList = Array(count)
     .fill({})
-    .map(() => fakeCategories(workspaceUuid))
+    .map(() => fakeCategories(workspaceId))
 
   return categoriesList;
 };

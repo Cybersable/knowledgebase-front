@@ -11,10 +11,10 @@ const JSONToFile = (obj: Object, filename: string) =>
 export default function generateFakeData() {
   const workspaces = fakeWorkspacesList(15);
   const categories = workspaces.map((workspace) => {
-    return fakeCategoriesList(workspace.uuid, 10);
+    return fakeCategoriesList(workspace.id, 10);
   }).flat();
   const articles = categories.map((category) => {
-    return fakeArticlesList(category.uuid, 20);
+    return fakeArticlesList(category.workspaceId, category.id, 20);
   }).flat();
 
   if (existsSync(GENERATED_FAKE_DATA_DIR_PATH)) {
