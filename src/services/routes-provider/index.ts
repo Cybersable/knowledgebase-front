@@ -46,11 +46,12 @@ const routes = {
     params,
     path: `/managing/workspaces/update/${params.workspaceId}`,
   }),
-  managingCategories: {
+  managingCategories: (params?: { workspaceId?: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_ROUTE',
-    path: '/managing/categories',
-  },
-  categoriesCreate: (params?: { workspaceId: string }) => ({
+    params,
+    path: makePath('/managing/categories', params),
+  }),
+  categoriesCreate: (params?: { workspaceId?: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_CREATE_ROUTE',
     params,
     path: makePath('/managing/categories/create', params),

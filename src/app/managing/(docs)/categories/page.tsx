@@ -13,7 +13,7 @@ import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import routes from '@/services/routes-provider'
 import SummaryList from '@/shared/ui/summary-list'
 
-export default function ArticlesPage() {
+export default function CategoriesPage() {
   const searchParams = useSearchParams()
 
   const { workspaceId } = useMemo(() => {
@@ -51,7 +51,7 @@ export default function ArticlesPage() {
           color="primary"
           endIcon={<AddIcon />}
           LinkComponent={Link}
-          href={routes.categoriesCreate().path}
+          href={routes.categoriesCreate({ workspaceId }).path}
         >
           Create category
         </Button>

@@ -21,7 +21,7 @@ const mainListItems = [
     id: 'categories',
     icon: <CategoryIcon />,
     text: 'Categories',
-    path: routes.managingCategories.path,
+    path: routes.managingCategories().path,
   },
   {
     id: 'workspaces',

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { useRouter } from 'next/navigation'
 import {
   use,
   useCallback,
@@ -13,8 +14,7 @@ import {
 
 import {
   useCategoriesDeleteMutation,
-  useCategoriesGetQuery,
-  useCategoriesUpdateMutation
+  useCategoriesGetQuery
 } from '@/entities/categories/queries'
 import CategoriesForm from '@/features/categories/form'
 import Dialog from '@/shared/ui/dialog'
@@ -24,20 +24,24 @@ export default function CategoriesUpdatePage({
 }: {
   params: Promise<{ categoryId: string }>
 }) {
+  const { back } = useRouter()
+  
   const { categoryId } = use(params)
 
   const { category } = useCategoriesGetQuery({ categoryId })
 
-  const { updateCategory } = useCategoriesUpdateMutation({
-    categoryId,
-  })
-
   const [deletingDialogOpen, setDeletingDialogOpen] = useState(false)
-  const { deleteCategory } = useCategoriesDeleteMutation({ categoryId })
-  const handleDeleteCategory = useCallback(() => {
-    deleteCategory()
+  const {
+    deleteCategoryAsync,
+    deleteCategoryPending,
+  } = useCategoriesDeleteMutation({
+    onSuccess: back,
+  })
+  const handleDeleteCategory = useCallback(async () => {
+    await deleteCategoryAsync(categoryId)
+
     setDeletingDialogOpen(false)
-  }, [deleteCategory])
+  }, [deleteCategoryAsync, categoryId])
 
   return (
     <Box id="managing-categories-update-page">
@@ -62,15 +66,19 @@ export default function CategoriesUpdatePage({
         </Button>
         <Dialog
           title="Deleting category"
-          content={`Delete "${category?.title}" category forever?`}
+          content={`Delete "${category?.title}" category, with their articles forever?`}
           open={deletingDialogOpen}
           onCloseAction={() => setDeletingDialogOpen(false)}
           onSubmitAction={handleDeleteCategory}
+          disabled={deleteCategoryPending}
+          pending={deleteCategoryPending}
+          submitBtnText={'Delete'}
         />
       </Stack>
       <CategoriesForm
+        categoryId={categoryId}
         defaultValues={category}
-        onSubmit={updateCategory}
+        onCancelAction={back}
       />
     </Box>
   )

@@ -9,10 +9,9 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 import { useForm } from '@tanstack/react-form'
-import { useRouter } from 'next/navigation'
-import { useCallback } from 'react'
 
 import { CategoriesModelInput } from '@/entities/categories/model'
+import { useCategoriesCreateMutation, useCategoriesUpdateMutation } from '@/entities/categories/queries'
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
@@ -21,42 +20,48 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: 'column',
 }))
 
-export default function CategoriesForm({
-  cancelBtnText = 'Cancel',
-  onCancel,
-  submitBtnText = 'Submit',
-  onSubmit,
-  defaultValues = {
-    title: '',
-    summary: '',
-    workspaceId: '',
-  },
-}: {
-  cancelBtnText?: string
-  onCancel?: () => void
-  submitBtnText?: string
-  onSubmit?: (workspace: CategoriesModelInput) => void
-  defaultValues?: CategoriesModelInput
-}) {
-  const { back } = useRouter()
+const defaultFormValues = {
+  title: '',
+  summary: '',
+  workspaceId: '',
+}
 
+export default function CategoriesForm({
+  categoryId,
+  cancelBtnText = 'Cancel',
+  submitBtnText = 'Submit',
+  onCancelAction,
+  defaultValues,
+  onSuccessAction,
+}: {
+  categoryId?: string
+  cancelBtnText?: string
+  onCancelAction?: () => void
+  submitBtnText?: string
+  onSuccessAction?: () => void
+  defaultValues?: Partial<CategoriesModelInput>
+}) {
   const { workspacesList } = useWorkspacesGetManyQuery()
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
-  const form = useForm({
-    defaultValues,
-    onSubmit: ({ value }) => {
-      onSubmit?.(value)
-    },
+  const { createCategoryAsync } = useCategoriesCreateMutation({
+    onSuccess: onSuccessAction,
+  })
+  const { updateCategoryAsync } = useCategoriesUpdateMutation({
+    onSuccess: onSuccessAction,
   })
 
-  const handleCancelBtn = useCallback(() => {
-    if (onCancel) {
-      return onCancel()
-    }
+  const form = useForm({
+    defaultValues: {
+      ...defaultFormValues,
+      ...defaultValues,
+    },
+    onSubmit: async ({ value }) => {
+      if (categoryId) return await updateCategoryAsync({ categoryId, data: value })
 
-    back()
-  }, [onCancel, back])
+      await createCategoryAsync(value)
+    },
+  })
 
   return (
     <form
@@ -85,6 +90,7 @@ export default function CategoriesForm({
                 required
                 size="small"
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => {
                   field.handleChange(e.target.value)
                 }}
@@ -108,6 +114,7 @@ export default function CategoriesForm({
                 required
                 size="small"
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => field.handleChange(e.target.value)}
               />
             </FormGrid>
@@ -128,6 +135,7 @@ export default function CategoriesForm({
                 size="small"
                 required
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {workspacesOptions?.map((option) => (
@@ -151,8 +159,9 @@ export default function CategoriesForm({
               variant="text"
               size="small"
               type="button"
-              onClick={handleCancelBtn}
+              onClick={onCancelAction}
               sx={{ minWidth: 'fit-content' }}
+              disabled={form.state.isSubmitting}
             >
               {cancelBtnText}
             </Button>

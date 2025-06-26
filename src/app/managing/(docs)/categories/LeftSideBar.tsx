@@ -3,11 +3,11 @@
 import Stack from '@mui/material/Stack'
 import {
   useRouter,
-  useSearchParams
+  useSearchParams, useSelectedLayoutSegment
 } from 'next/navigation'
 import {
-  useCallback,
-  useMemo
+  useCallback, useEffect,
+  useMemo, useState
 } from 'react'
 
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
@@ -15,19 +15,33 @@ import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 export default function CategoriesLeftSideBar() {
   const { replace } = useRouter()
 
-  const searchParams = useSearchParams()
+  const [workspaceId, setWorkspaceId] = useState('')
 
-  const { workspaceId } = useMemo(() => {
-    return {
-      workspaceId: searchParams.get('workspaceId') ?? '',
-    }
-  }, [searchParams])
+  const segment = useSelectedLayoutSegment()
+  const canUseQueryParams = useMemo(() => {
+    return !segment
+  }, [segment])
+
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    if (!canUseQueryParams) return
+
+    setWorkspaceId(searchParams.get('workspaceId') ?? '')
+  }, [canUseQueryParams, searchParams])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    if (!workspaceId) return replace(`?`)
+    setWorkspaceId(workspaceId)
+  }, [])
+
+  useEffect(() => {
+    if (!canUseQueryParams) return
+
+    if (!workspaceId) {
+      return replace(`?`)
+    }
 
     replace(`?workspaceId=${workspaceId}`)
-  }, [replace])
+  }, [replace, workspaceId, canUseQueryParams])
 
   return (
     <Stack>

@@ -1,17 +1,27 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
+import { articlesQueryClientKeys } from '@/shared/queries'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 
 export const useArticlesDeleteMutation = ({
-  articleId,
+  onSuccess,
 }: {
-  articleId: string
+  onSuccess?: () => void
 }) => {
-  const { mutate } = useMutation({
-    mutationFn: () => articlesRestApiService.delete(articleId),
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (articleId: string) => articlesRestApiService.delete(articleId),
+    onSuccess: (_, variables) => {
+      queryClient.removeQueries({ queryKey: articlesQueryClientKeys.get(variables) })
+      queryClient.invalidateQueries({ queryKey: articlesQueryClientKeys.getManyBase() })
+
+      onSuccess?.()
+    },
   })
 
   return {
-    deleteArticle: mutate,
+    deleteArticleAsync: mutateAsync,
+    deleteArticlePending: isPending,
   }
 }

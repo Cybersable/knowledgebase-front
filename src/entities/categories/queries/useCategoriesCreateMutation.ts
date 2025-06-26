@@ -7,7 +7,7 @@ import {
 } from '@/shared/rest-api/categories'
 
 export const useCategoriesCreateMutation = ({
-  onSuccess
+  onSuccess,
 }: {
   onSuccess?: () => void
 }) => {
@@ -16,9 +16,15 @@ export const useCategoriesCreateMutation = ({
   const { mutateAsync } = useMutation({
     mutationKey: categoriesQueryClientKeys.create(),
     mutationFn: (data: CategoriesApiModelInput) => categoriesRestApiService.create(data),
+    onSuccess: (data) => {
+      queryClient.setQueryData(categoriesQueryClientKeys.get(data.id), data)
+      queryClient.invalidateQueries({ queryKey: categoriesQueryClientKeys.getManyBase() })
+
+      onSuccess?.()
+    },
   })
 
   return {
-    createCategory: mutateAsync,
+    createCategoryAsync: mutateAsync,
   }
 }

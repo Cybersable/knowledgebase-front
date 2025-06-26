@@ -2,12 +2,15 @@
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-import { useCategoriesCreateMutation } from '@/entities/categories/queries'
 import CategoriesForm from '@/features/categories/form'
+import routes from '@/services/routes-provider'
 
 export default function CategoriesCreatePage() {
-  const { createCategory } = useCategoriesCreateMutation()
+  const { back, push } = useRouter()
+  const searchParams = useSearchParams()
+  const workspaceId = searchParams.get('workspaceId') ?? ''
 
   return (
     <Box id="categories-create-page">
@@ -17,7 +20,13 @@ export default function CategoriesCreatePage() {
         Add new category
       </Typography>
       <CategoriesForm
-        onSubmit={createCategory}
+        onSuccessAction={() => push(routes.managingCategories({
+          workspaceId,
+        }).path)}
+        onCancelAction={back}
+        defaultValues={{
+          workspaceId,
+        }}
       />
     </Box>
   )

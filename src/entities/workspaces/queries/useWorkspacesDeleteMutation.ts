@@ -12,7 +12,7 @@ export const useWorkspacesDeleteMutation = ({
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (workspaceId: string) => workspacesRestApiService.delete(workspaceId),
-    onSuccess: (data, variables) => {
+    onSuccess: (_, variables) => {
       queryClient.removeQueries({ queryKey: workspacesQueryClientKeys.get(variables) })
       queryClient.invalidateQueries({ queryKey: workspacesQueryClientKeys.getManyBase() })
 

@@ -2,7 +2,6 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query'
-import { useMemo } from 'react'
 
 import { articlesQueryClientKeys } from '@/shared/queries'
 import {
@@ -11,34 +10,31 @@ import {
 } from '@/shared/rest-api/articles'
 
 export const useArticlesUpdateMutation =({
-  articleId,
+  onSuccess,
 }: {
-  articleId: string
+  onSuccess?: () => void
 }) => {
   const queryClient = useQueryClient()
 
-  const queryKey = useMemo(() => {
-    return articlesQueryClientKeys.get(articleId)
-  }, [articleId])
-
-  const { mutate } = useMutation({
-    mutationFn: (data: Partial<ArticlesApiModelInput>) =>
+  const { mutateAsync } = useMutation({
+    mutationKey: articlesQueryClientKeys.update(),
+    mutationFn: ({
+      articleId,
+      data,
+    }: {
+      articleId: string
+      data: Partial<ArticlesApiModelInput>
+    }) =>
       articlesRestApiService.update(articleId, data),
-    onMutate: async (data: Partial<ArticlesApiModelInput>) => {
-      console.log(queryClient.getQueryData(queryKey))
-      // const prevArticle = queryClient.getQueryData(queryKey);
+    onSuccess: (data, variables) => {
+      queryClient.setQueryData(articlesQueryClientKeys.get(variables.articleId), data)
+      queryClient.invalidateQueries({ queryKey: articlesQueryClientKeys.getManyBase() })
 
-      // await queryClient.cancelQueries({ queryKey });
-
-      // return { prevArticle }
-    },
-    onSuccess: (article) => {
-      // queryClient.setQueryData(queryKey, article);
-      // queryClient.invalidateQueries(articlesQueryClientKeys.getManyBase());
+      onSuccess?.()
     },
   })
 
   return {
-    updateArticle: mutate,
+    updateArticleAsync: mutateAsync,
   }
 }

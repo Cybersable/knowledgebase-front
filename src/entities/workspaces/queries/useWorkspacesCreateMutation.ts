@@ -27,5 +27,7 @@ export const useWorkspacesCreateMutation = ({
     },
   })
 
-  return { createWorkspaceAsync: mutateAsync }
+  return {
+    createWorkspaceAsync: mutateAsync,
+  }
 }

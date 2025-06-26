@@ -41,7 +41,7 @@ const eslintConfig = [
       'object-curly-spacing': ['error', 'always',
         {
           'arraysInObjects': false,
-          'objectsInObjects': false
+          'objectsInObjects': false,
         }
       ],
 
@@ -55,7 +55,7 @@ const eslintConfig = [
       'indent': ['error', 2,
         {
           'FunctionDeclaration': { 'body': 1, 'parameters': 1 },
-          'FunctionExpression': { 'body': 1, 'parameters': 1 }
+          'FunctionExpression': { 'body': 1, 'parameters': 1 },
         }
       ],
       'function-paren-newline': ['error', 'consistent'],
@@ -64,7 +64,7 @@ const eslintConfig = [
         'code': 90,
         'ignoreComments': true,
         'ignoreStrings': true,
-        'ignoreTemplateLiterals': true
+        'ignoreTemplateLiterals': true,
       }],
 
       // 'react/jsx-first-prop-new-line': `"always" | "never" | "multiline" | "multiprop" | "multiline-multiprop"`
@@ -75,7 +75,7 @@ const eslintConfig = [
       'comma-spacing': ['error', { 'before': false, 'after': true }],
       'comma-dangle': ['error', {
         'arrays': 'only-multiline',
-        'objects': 'only-multiline',
+        'objects': 'always-multiline',
         'imports': 'never',
         'exports': 'never',
         'functions': 'never',
