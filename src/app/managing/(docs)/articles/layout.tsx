@@ -6,7 +6,7 @@ import ManagingDocsMenu from '@/widgets/managing-docs-menu'
 import ArticlesLeftSideBar from './LeftSideBar'
 
 export default async function ManagingDocsLayout({
- children,
+  children,
 }: Readonly<{
   children: ReactNode;
 }>) {

@@ -18,16 +18,16 @@ export default function WorkspacesMenuSelect({
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   return (
-      <MenuSelect
-        id={`${id}-workspaces-menu-select`}
-        options={workspacesOptions}
-        onChangeAction={onWorkspaceChangeAction}
-        value={workspaceId}
-        clearable
-        emptyValue={{
-          label: 'All Workspaces',
-          subLabel: 'Select workspace',
-        }}
-      />
+    <MenuSelect
+      id={`${id}-workspaces-menu-select`}
+      options={workspacesOptions}
+      onChangeAction={onWorkspaceChangeAction}
+      value={workspaceId}
+      clearable
+      emptyValue={{
+        label: 'All Workspaces',
+        subLabel: 'Select workspace',
+      }}
+    />
   )
 }

@@ -22,7 +22,8 @@ export const useArticlesUpdateMutation =({
   }, [articleId])
 
   const { mutate } = useMutation({
-    mutationFn: (data: Partial<ArticlesApiModelInput>) => articlesRestApiService.update(articleId, data),
+    mutationFn: (data: Partial<ArticlesApiModelInput>) =>
+      articlesRestApiService.update(articleId, data),
     onMutate: async (data: Partial<ArticlesApiModelInput>) => {
       console.log(queryClient.getQueryData(queryKey))
       // const prevArticle = queryClient.getQueryData(queryKey);

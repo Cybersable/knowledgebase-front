@@ -35,7 +35,7 @@ export const useWorkspacesGetManyQuery = (params: {
     [params]
   )
 
-  const prefetchWorkspaces = useCallback( async () => {
+  const prefetchWorkspaces = useCallback(async () => {
     return workspacesQueryClient.prefetchInfiniteQuery({
       queryKey,
       queryFn,

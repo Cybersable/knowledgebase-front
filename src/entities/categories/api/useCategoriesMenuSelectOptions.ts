@@ -2,9 +2,7 @@ import { useMemo } from 'react'
 
 import { CategoryModel } from '@/entities/categories/model'
 
-export const useCategoriesMenuSelectOptions = (
-  list?: Array<Pick<CategoryModel, 'id' | 'title' | 'summary'>>
-) => {
+export const useCategoriesMenuSelectOptions = (list?: Array<Pick<CategoryModel, 'id' | 'title' | 'summary'>>) => {
   return useMemo(() => {
     return list?.map((item) => {
       return {

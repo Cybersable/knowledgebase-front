@@ -171,9 +171,7 @@ export function Search() {
 }
 
 export default function Blog() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null
-  )
+  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null)
 
   const handleFocus = (index: number) => {
     setFocusedCardIndex(index)

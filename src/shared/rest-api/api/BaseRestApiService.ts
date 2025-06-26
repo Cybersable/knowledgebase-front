@@ -32,7 +32,7 @@ export interface BaseRestApiServiceParams {
 }
 
 export default abstract class BaseRestApiService<Model, ModelInput>
-  implements BaseRestApiServiceInterface<Model, ModelInput>
+implements BaseRestApiServiceInterface<Model, ModelInput>
 {
   protected _resource: string
   protected _client: AxiosInstance
@@ -61,12 +61,11 @@ export default abstract class BaseRestApiService<Model, ModelInput>
       url += `?${this._stringify(query)}`
     }
 
-    return provideRestApiMethods(this._client).get<Pagination<Model>>(
-      url
-      // {
-      //   signal: abort.signal
-      // }
-    )
+    return provideRestApiMethods(this._client).get<Pagination<Model>>(url)
+    // {
+    //   signal: abort.signal
+    // }
+    // )
   }
 
   public create(data: ModelInput) {

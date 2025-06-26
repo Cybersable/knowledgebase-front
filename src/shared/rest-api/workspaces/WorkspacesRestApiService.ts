@@ -29,7 +29,10 @@ export class WorkspacesRestApiService
     super(params)
   }
 
-  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<WorkspacesApiModel>> {
+  getMany(
+    query?: Partial<GetManyParams>,
+    abort?: AbortController
+  ): Promise<Pagination<WorkspacesApiModel>> {
     return super.getMany(query, abort)
   }
 }

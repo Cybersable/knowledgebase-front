@@ -45,6 +45,28 @@ const eslintConfig = [
         }
       ],
 
+      // 'padding-line-between-statements': [
+      //   'error',
+      //   { 'blankLine': 'always', 'prev': 'function', 'next': 'function' },
+      //   { 'blankLine': 'always', 'prev': 'function', 'next': 'block' },
+      //   { 'blankLine': 'always', 'prev': 'block', 'next': 'function' },
+      // ],
+
+      'indent': ['error', 2,
+        {
+          'FunctionDeclaration': { 'body': 1, 'parameters': 1 },
+          'FunctionExpression': { 'body': 1, 'parameters': 1 }
+        }
+      ],
+      'function-paren-newline': ['error', 'consistent'],
+
+      'max-len': ['error', {
+        'code': 90,
+        'ignoreComments': true,
+        'ignoreStrings': true,
+        'ignoreTemplateLiterals': true
+      }],
+
       // 'react/jsx-first-prop-new-line': `"always" | "never" | "multiline" | "multiprop" | "multiline-multiprop"`
       'react/jsx-first-prop-new-line': 'error',
 

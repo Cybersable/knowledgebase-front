@@ -28,17 +28,17 @@ const FormGrid = styled(Grid)(() => ({
 }))
 
 export default function ArticlesForm({
-   cancelBtnText = 'Cancel',
-   onCancel,
-   submitBtnText = 'Submit',
-   onSubmit,
-   defaultValues = {
-     title: '',
-     summary: '',
-     content: '',
-     categoryId: '',
-     workspaceId: '',
-   },
+  cancelBtnText = 'Cancel',
+  onCancel,
+  submitBtnText = 'Submit',
+  onSubmit,
+  defaultValues = {
+    title: '',
+    summary: '',
+    content: '',
+    categoryId: '',
+    workspaceId: '',
+  },
 }: {
   cancelBtnText?: string
   onCancel?: () => void

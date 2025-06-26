@@ -50,18 +50,18 @@ export const provideRestApiMethods = (axiosInstance: AxiosInstance) => {
     hideMessage?: boolean,
     cancelToken?: CancelToken,
     options?: AxiosOptions
-  ) =>
-    request<T>(
-      'get',
-      url,
-      {
-        params,
-        paramsSerializer: (p) => queryString.stringify(p, { arrayFormat: 'comma' }),
-        cancelToken,
-        ...options,
-      },
-      hideMessage
-    )
+  ) => 
+      request<T>(
+        'get',
+        url,
+        {
+          params,
+          paramsSerializer: (p) => queryString.stringify(p, { arrayFormat: 'comma' }),
+          cancelToken,
+          ...options,
+        },
+        hideMessage
+      )
 
   const post = <T, D = GenericData>(
     url: string,

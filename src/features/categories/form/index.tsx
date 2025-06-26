@@ -22,15 +22,15 @@ const FormGrid = styled(Grid)(() => ({
 }))
 
 export default function CategoriesForm({
-   cancelBtnText = 'Cancel',
-   onCancel,
-   submitBtnText = 'Submit',
-   onSubmit,
-   defaultValues = {
-     title: '',
-     summary: '',
-     workspaceId: '',
-   },
+  cancelBtnText = 'Cancel',
+  onCancel,
+  submitBtnText = 'Submit',
+  onSubmit,
+  defaultValues = {
+    title: '',
+    summary: '',
+    workspaceId: '',
+  },
 }: {
   cancelBtnText?: string
   onCancel?: () => void

@@ -6,12 +6,13 @@ import {
 } from '@/shared/rest-api/categories'
 
 export const useCategoriesUpdateMutation = ({
-  categoryId,
+  categoryId
 }: {
   categoryId: string
 }) => {
   const { mutate } = useMutation({
-    mutationFn: (data: Partial<CategoriesApiModelInput>) => categoriesRestApiService.update(categoryId, data),
+    mutationFn: (data: Partial<CategoriesApiModelInput>) =>
+      categoriesRestApiService.update(categoryId, data),
   })
 
   return {

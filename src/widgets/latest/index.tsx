@@ -176,9 +176,7 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
 }
 
 export default function Latest() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null
-  )
+  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null)
 
   const handleFocus = (index: number) => {
     setFocusedCardIndex(index)
