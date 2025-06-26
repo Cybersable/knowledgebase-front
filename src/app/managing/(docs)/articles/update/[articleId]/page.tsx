@@ -1,43 +1,43 @@
-'use client';
+'use client'
 
+import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import {
   use,
   useCallback,
   useState
-} from 'react';
-import {
-  useArticlesGetQuery,
-  useArticlesUpdateMutation,
-  useArticlesDeleteMutation,
-} from '@/entities/articles/queries';
+} from 'react'
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ArticlesForm from '@/features/articles/form';
-import Dialog from '@/shared/ui/dialog';
+import {
+  useArticlesDeleteMutation,
+  useArticlesGetQuery,
+  useArticlesUpdateMutation
+} from '@/entities/articles/queries'
+import ArticlesForm from '@/features/articles/form'
+import Dialog from '@/shared/ui/dialog'
 
 export default function ArticlesUpdatePage({
   params,
 }: {
   params: Promise<{ articleId: string }>
 }) {
-  const { articleId } = use(params);
+  const { articleId } = use(params)
 
-  const { article } = useArticlesGetQuery({ articleId });
+  const { article } = useArticlesGetQuery({ articleId })
 
   const { updateArticle } = useArticlesUpdateMutation({
     articleId,
-  });
+  })
 
-  const [deletingDialogOpen, setDeletingDialogOpen] = useState(false);
-  const { deleteArticle } = useArticlesDeleteMutation({ articleId });
+  const [deletingDialogOpen, setDeletingDialogOpen] = useState(false)
+  const { deleteArticle } = useArticlesDeleteMutation({ articleId })
   const handleDeleteArticle = useCallback(() => {
-    deleteArticle();
-    setDeletingDialogOpen(false);
-  }, [deleteArticle]);
+    deleteArticle()
+    setDeletingDialogOpen(false)
+  }, [deleteArticle])
 
   return (
     <Box id="articles-update-page">
@@ -46,7 +46,9 @@ export default function ArticlesUpdatePage({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom>
           Add new article
         </Typography>
         <Button
@@ -71,5 +73,5 @@ export default function ArticlesUpdatePage({
         onSubmit={updateArticle}
       />
     </Box>
-  );
+  )
 }

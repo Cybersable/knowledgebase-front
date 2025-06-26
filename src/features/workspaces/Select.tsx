@@ -1,17 +1,16 @@
-'use client';
+'use client'
 
-import {
-  useCallback,
-} from 'react';
-
-import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
-import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
-
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem'
 import Select, {
-  SelectProps,
   SelectChangeEvent,
-} from '@mui/material/Select';
+  SelectProps
+} from '@mui/material/Select'
+import {
+  useCallback
+} from 'react'
+
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
 export default function WorkspacesSelect({
   id = 'workspaces-select',
@@ -19,24 +18,24 @@ export default function WorkspacesSelect({
   size,
   required,
   workspaceId = '',
-  onWorkspaceChange,
+  onWorkspaceChangeAction,
 }: {
   id: string
   name: string
   required: SelectProps['required']
   size: SelectProps['size']
   workspaceId: string
-  onWorkspaceChange: (workspaceId: string) => void
+  onWorkspaceChangeAction: (workspaceId: string) => void
 }) {
-  const { workspacesList } = useWorkspacesGetManyQuery();
+  const { workspacesList } = useWorkspacesGetManyQuery()
 
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   const handleWorkspaceChange = useCallback((event: SelectChangeEvent) => {
-    const value = event.target.value as string;
+    const value = event.target.value as string
 
-    onWorkspaceChange(value);
-  }, [onWorkspaceChange]);
+    onWorkspaceChangeAction(value)
+  }, [onWorkspaceChangeAction])
 
   return (
     <Select
@@ -49,8 +48,12 @@ export default function WorkspacesSelect({
       onChange={handleWorkspaceChange}
     >
       {workspacesOptions?.map((option) => (
-        <MenuItem value={option.value}>{option.label}</MenuItem>
+        <MenuItem
+          value={option.value}
+          key={option.value}>
+          {option.label}
+        </MenuItem>
       ))}
     </Select>
-  );
+  )
 }

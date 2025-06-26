@@ -1,21 +1,21 @@
-import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios';
+import axios, { AxiosInstance, CreateAxiosDefaults } from 'axios'
 
 const options: CreateAxiosDefaults = {
   baseURL: 'http://localhost:4200/api',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
-  withCredentials: true
+  withCredentials: true,
 }
 
 class RestApiClient {
-  client: AxiosInstance;
+  client: AxiosInstance
 
   constructor() {
-    this.client = axios.create(options);
+    this.client = axios.create(options)
   }
 }
 
-const restApiClient = new RestApiClient();
+const restApiClient = new RestApiClient()
 
-export const restApi = restApiClient.client;
+export const restApi = restApiClient.client

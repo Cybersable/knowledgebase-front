@@ -1,18 +1,19 @@
-"use client";
+'use client'
 
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Pagination from '@mui/material/Pagination';
-import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
-import { Search } from "@/widgets/blog";
-import IconButton from "@mui/material/IconButton";
-import RssFeedRoundedIcon from "@mui/icons-material/RssFeedRounded";
-import Chip from "@mui/material/Chip";
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded'
+import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded'
+import Avatar from '@mui/material/Avatar'
+import AvatarGroup from '@mui/material/AvatarGroup'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import Pagination from '@mui/material/Pagination'
+import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
+
+import { Search } from '@/widgets/blog'
 
 const articleInfo = [
   {
@@ -22,7 +23,7 @@ const articleInfo = [
       'Artificial intelligence is revolutionizing software engineering. Explore how AI-driven tools are enhancing development processes and improving software quality.',
     authors: [
       { name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg' },
-      { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
+      { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' }
     ],
   },
   {
@@ -53,7 +54,7 @@ const articleInfo = [
       'Our next-generation cybersecurity solutions are setting new standards in the industry. Discover how we protect our clients from evolving cyber threats.',
     authors: [
       { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
-      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' },
+      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' }
     ],
   },
   {
@@ -70,7 +71,7 @@ const articleInfo = [
       "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
     authors: [
       { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
-      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' },
+      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' }
     ],
   },
   {
@@ -93,8 +94,8 @@ const articleInfo = [
     description:
       "Take a look at our company's journey and the milestones we've achieved along the way. From humble beginnings to industry leader, discover our story of growth and success.",
     authors: [{ name: 'Cindy Baker', avatar: '/static/images/avatar/3.jpg' }],
-  },
-];
+  }
+]
 
 const StyledTypography = styled(Typography)({
   display: '-webkit-box',
@@ -102,7 +103,7 @@ const StyledTypography = styled(Typography)({
   WebkitLineClamp: 2,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-});
+})
 
 const TitleTypography = styled(Typography)(({ theme }) => ({
   position: 'relative',
@@ -139,7 +140,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
   '&:hover::before': {
     width: '100%',
   },
-}));
+}))
 
 function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
   return (
@@ -171,29 +172,31 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
       </Box>
       <Typography variant="caption">July 14, 2021</Typography>
     </Box>
-  );
+  )
 }
 
 export default function Latest() {
   const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null,
-  );
+    null
+  )
 
   const handleFocus = (index: number) => {
-    setFocusedCardIndex(index);
-  };
+    setFocusedCardIndex(index)
+  }
 
   const handleBlur = () => {
-    setFocusedCardIndex(null);
-  };
+    setFocusedCardIndex(null)
+  }
 
   const handleClick = () => {
-    console.info('You clicked the filter chip.');
-  };
+    console.info('You clicked the filter chip.')
+  }
 
   return (
     <div>
-      <Typography variant="h2" gutterBottom>
+      <Typography
+        variant="h2"
+        gutterBottom>
         Latest
       </Typography>
       <Box
@@ -206,7 +209,9 @@ export default function Latest() {
         }}
       >
         <Search />
-        <IconButton size="small" aria-label="RSS feed">
+        <IconButton
+          size="small"
+          aria-label="RSS feed">
           <RssFeedRoundedIcon />
         </IconButton>
       </Box>
@@ -229,7 +234,10 @@ export default function Latest() {
             overflow: 'auto',
           }}
         >
-          <Chip onClick={handleClick} size="medium" label="All categories" />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="All categories" />
           <Chip
             onClick={handleClick}
             size="medium"
@@ -277,14 +285,22 @@ export default function Latest() {
           }}
         >
           <Search />
-          <IconButton size="small" aria-label="RSS feed">
+          <IconButton
+            size="small"
+            aria-label="RSS feed">
             <RssFeedRoundedIcon />
           </IconButton>
         </Box>
       </Box>
-      <Grid container spacing={8} columns={12} sx={{ my: 4 }}>
+      <Grid
+        container
+        spacing={8}
+        columns={12}
+        sx={{ my: 4 }}>
         {articleInfo.map((article, index) => (
-          <Grid key={index} size={{ xs: 12, sm: 6 }}>
+          <Grid
+            key={index}
+            size={{ xs: 12, sm: 6 }}>
             <Box
               sx={{
                 display: 'flex',
@@ -294,7 +310,10 @@ export default function Latest() {
                 height: '100%',
               }}
             >
-              <Typography gutterBottom variant="caption" component="div">
+              <Typography
+                gutterBottom
+                variant="caption"
+                component="div">
                 {article.tag}
               </Typography>
               <TitleTypography
@@ -311,7 +330,10 @@ export default function Latest() {
                   sx={{ fontSize: '1rem' }}
                 />
               </TitleTypography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+              <StyledTypography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom>
                 {article.description}
               </StyledTypography>
 
@@ -321,8 +343,12 @@ export default function Latest() {
         ))}
       </Grid>
       <Box sx={{ display: 'flex', flexDirection: 'row', pt: 4, justifyContent: 'end' }}>
-        <Pagination hidePrevButton hideNextButton count={10} boundaryCount={10} />
+        <Pagination
+          hidePrevButton
+          hideNextButton
+          count={10}
+          boundaryCount={10} />
       </Box>
     </div>
-  );
+  )
 }

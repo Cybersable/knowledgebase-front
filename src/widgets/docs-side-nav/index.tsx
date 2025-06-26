@@ -1,55 +1,125 @@
-'use client';
+'use client'
 
-import {
-  useCallback,
-  useMemo,
-} from 'react';
+import Box from '@mui/material/Box'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Link from 'next/link'
 import {
   useRouter,
-  useSearchParams
-} from 'next/navigation';
+  useSearchParams,
+  useSelectedLayoutSegment
+} from 'next/navigation'
+import {
+  useCallback,
+  useEffect, useMemo,
+  useState
+} from 'react'
 
-import Box from '@mui/material/Box';
-import WorkspacesMenuSelect from "@/features/workspaces/MenuSelect";
-import CategoriesMenuSelect from "@/features/categories/MenuSelect";
+import {
+  useArticlesGetManyQuery,
+  useArticlesGetQuery
+} from '@/entities/articles/queries'
+import CategoriesMenuSelect from '@/features/categories/MenuSelect'
+import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
+import routes from '@/services/routes-provider'
 
 export default function DocsSideNav() {
-  const { replace } = useRouter();
+  const { replace } = useRouter()
 
-  const searchParams = useSearchParams();
+  const [workspaceId, setWorkspaceId] = useState('')
+  const [categoryId, setCategoryId] = useState('')
 
-  const { workspaceId, categoryId } = useMemo(() => {
-    return {
-      workspaceId: searchParams.get('workspaceId') ?? '',
-      categoryId: searchParams.get('categoryId') ?? ''
+  const articleId = useSelectedLayoutSegment()
+  const canUseQueryParams = useMemo(() => {
+    return !articleId
+  }, [articleId])
+
+  const { article } = useArticlesGetQuery({ articleId })
+
+  useEffect(() => {
+    if (article) {
+      setWorkspaceId(article.workspaceId)
+      setCategoryId(article.categoryId)
     }
-  }, [searchParams]);
+  }, [article])
+
+  const { articlesList } = useArticlesGetManyQuery({
+    workspaceId,
+    categoryId,
+    limit: '10',
+    page: '1',
+  })
+
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    if (!canUseQueryParams) return
+
+    const [queryWorkspaceId, queryCategoryId] = [
+      searchParams.get('workspaceId'),
+      searchParams.get('categoryId')
+    ]
+
+    setWorkspaceId(queryWorkspaceId ?? '')
+    setCategoryId(queryCategoryId ?? '')
+  }, [canUseQueryParams, searchParams])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    if (!workspaceId) return replace(`?`);
+    setCategoryId('')
+    setWorkspaceId(workspaceId)
+  }, [])
 
-    replace(`?workspaceId=${workspaceId}`);
-  }, [replace]);
+  useEffect(() => {
+    if (!canUseQueryParams) return
 
-  const handleCategoriesChange = useCallback((categoryId: string) => {
-    if (!categoryId) return replace(`?workspaceId=${workspaceId}`);
+    if (!workspaceId) {
+      return replace(`?`)
+    }
 
-    replace(`?workspaceId=${workspaceId}&categoryId=${categoryId}`);
-  }, [replace, workspaceId]);
+    if (!categoryId) {
+      return replace(`?workspaceId=${workspaceId}`)
+    }
+
+    replace(`?workspaceId=${workspaceId}&categoryId=${categoryId}`)
+  }, [workspaceId, categoryId, canUseQueryParams, replace])
 
   return (
-    <Box display="flex" gap={2} flexDirection="column">
+    <Box
+      id="docs-side-nav"
+      display="flex"
+      gap={2}
+      flexDirection="column">
       <WorkspacesMenuSelect
         id="docs-side-nav-workspaces"
         workspaceId={workspaceId}
-        onWorkspaceChange={handleWorkspaceChange}
+        onWorkspaceChangeAction={handleWorkspaceChange}
       />
       <CategoriesMenuSelect
         id="docs-side-nav-categories"
         workspaceId={workspaceId}
         categoryId={categoryId}
-        onCategoryChange={handleCategoriesChange}
+        onCategoryChangeAction={setCategoryId}
       />
+      <List>
+        {articlesList?.map((item) => (
+          <ListItem
+            key={item.id}
+            disablePadding
+            sx={{ display: 'block' }}
+          >
+            <ListItemButton
+              LinkComponent={Link}
+              href={routes.docsArticles({
+                articleId: item.id,
+                articleSlug: item.slug,
+              }).path}
+            >
+              <ListItemText primary={item.title} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   )
 }

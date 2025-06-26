@@ -1,31 +1,31 @@
-"use client";
+'use client'
 
-import DarkModeIcon from '@mui/icons-material/DarkModeRounded';
-import LightModeIcon from '@mui/icons-material/LightModeRounded';
-import Box from '@mui/material/Box';
-import IconButton, { IconButtonOwnProps } from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useColorScheme } from '@mui/material/styles';
-import { useState, MouseEvent, Fragment } from "react";
+import DarkModeIcon from '@mui/icons-material/DarkModeRounded'
+import LightModeIcon from '@mui/icons-material/LightModeRounded'
+import Box from '@mui/material/Box'
+import IconButton, { IconButtonOwnProps } from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import { useColorScheme } from '@mui/material/styles'
+import { Fragment, MouseEvent, useState } from 'react'
 
 export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
-  const { mode, systemMode, setMode } = useColorScheme();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const { mode, systemMode, setMode } = useColorScheme()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleMode = (targetMode: 'system' | 'light' | 'dark') => () => {
-    setMode(targetMode);
-    handleClose();
-  };
+    setMode(targetMode)
+    handleClose()
+  }
 
   if (!mode) {
     return (
@@ -41,13 +41,13 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
           borderColor: (theme.vars || theme).palette.divider,
         })}
       />
-    );
+    )
   }
-  const resolvedMode = (systemMode || mode) as 'light' | 'dark';
+  const resolvedMode = (systemMode || mode) as 'light' | 'dark'
   const icon = {
     light: <LightModeIcon />,
     dark: <DarkModeIcon />,
-  }[resolvedMode];
+  }[resolvedMode]
 
   return (
     <Fragment>
@@ -81,16 +81,22 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem selected={mode === 'system'} onClick={handleMode('system')}>
+        <MenuItem
+          selected={mode === 'system'}
+          onClick={handleMode('system')}>
           System
         </MenuItem>
-        <MenuItem selected={mode === 'light'} onClick={handleMode('light')}>
+        <MenuItem
+          selected={mode === 'light'}
+          onClick={handleMode('light')}>
           Light
         </MenuItem>
-        <MenuItem selected={mode === 'dark'} onClick={handleMode('dark')}>
+        <MenuItem
+          selected={mode === 'dark'}
+          onClick={handleMode('dark')}>
           Dark
         </MenuItem>
       </Menu>
     </Fragment>
-  );
+  )
 }

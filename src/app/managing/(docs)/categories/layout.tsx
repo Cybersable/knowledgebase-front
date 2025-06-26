@@ -1,8 +1,9 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense } from 'react'
 
-import MainLayout from '@/widgets/layouts/main-layout';
-import CategoriesLeftSideBar from './LeftSideBar';
-import ManagingDocsMenu from "@/widgets/managing-docs-menu";
+import MainLayout from '@/widgets/layouts/main-layout'
+import ManagingDocsMenu from '@/widgets/managing-docs-menu'
+
+import CategoriesLeftSideBar from './LeftSideBar'
 
 export default async function ManagingDocsLayout({
  children,
@@ -23,5 +24,5 @@ export default async function ManagingDocsLayout({
         {children}
       </Suspense>
     </MainLayout>
-  );
+  )
 };

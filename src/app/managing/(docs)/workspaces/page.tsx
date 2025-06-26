@@ -1,20 +1,19 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
+import AddIcon from '@mui/icons-material/Add'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Link from 'next/link'
+import { useMemo } from 'react'
 
-import routes from '@/services/routes-provider';
-import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
-
-import Link from 'next/link';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import SummaryList from '@/shared/ui/summary-list';
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
+import routes from '@/services/routes-provider'
+import SummaryList from '@/shared/ui/summary-list'
 
 export default function ManagingDocsWorkspacesPage() {
-  const { workspacesList } = useWorkspacesGetManyQuery();
+  const { workspacesList } = useWorkspacesGetManyQuery()
 
   const summaryList = useMemo(() => {
     return workspacesList?.map((workspace) => ({
@@ -23,12 +22,16 @@ export default function ManagingDocsWorkspacesPage() {
       summary: workspace.summary,
       href: routes.workspacesUpdate({ workspaceId: workspace.id }).path,
     }))
-  }, [workspacesList]);
+  }, [workspacesList])
 
   return (
     <Box id="managing-workspaces-page">
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h4" gutterBottom>
+      <Stack
+        direction="row"
+        justifyContent="space-between">
+        <Typography
+          variant="h4"
+          gutterBottom>
           Managing Workspaces
         </Typography>
         <Button
@@ -44,5 +47,5 @@ export default function ManagingDocsWorkspacesPage() {
       </Stack>
       <SummaryList list={summaryList} />
     </Box>
-  );
+  )
 }

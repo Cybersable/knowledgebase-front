@@ -1,25 +1,25 @@
-'use client';
+'use client'
 
-import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from '@tanstack/react-form';
-import { CategoriesModelInput } from '@/entities/categories/model';
-import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
-import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormLabel from '@mui/material/FormLabel'
+import Grid from '@mui/material/Grid'
+import MenuItem from '@mui/material/MenuItem'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import Select from '@mui/material/Select'
+import { styled } from '@mui/material/styles'
+import { useForm } from '@tanstack/react-form'
+import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 
-import { styled } from '@mui/material/styles';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
-import Box from "@mui/material/Box";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { CategoriesModelInput } from '@/entities/categories/model'
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
-}));
+}))
 
 export default function CategoriesForm({
    cancelBtnText = 'Cancel',
@@ -38,25 +38,25 @@ export default function CategoriesForm({
   onSubmit?: (workspace: CategoriesModelInput) => void
   defaultValues?: CategoriesModelInput
 }) {
-  const { back } = useRouter();
+  const { back } = useRouter()
 
-  const { workspacesList } = useWorkspacesGetManyQuery();
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
+  const { workspacesList } = useWorkspacesGetManyQuery()
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   const form = useForm({
     defaultValues,
     onSubmit: ({ value }) => {
-      onSubmit?.(value);
+      onSubmit?.(value)
     },
-  });
+  })
 
   const handleCancelBtn = useCallback(() => {
     if (onCancel) {
-      return onCancel();
+      return onCancel()
     }
 
-    back();
-  }, [onCancel, back]);
+    back()
+  }, [onCancel, back])
 
   return (
     <form
@@ -66,12 +66,16 @@ export default function CategoriesForm({
         form.handleSubmit()
       }}
     >
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}>
         <form.Field
           name="title"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Title
               </FormLabel>
               <OutlinedInput
@@ -92,7 +96,9 @@ export default function CategoriesForm({
           name="summary"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Summary
               </FormLabel>
               <OutlinedInput
@@ -111,7 +117,9 @@ export default function CategoriesForm({
           name="workspaceId"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Workspace
               </FormLabel>
               <Select
@@ -123,14 +131,22 @@ export default function CategoriesForm({
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {workspacesOptions?.map((option) => (
-                  <MenuItem value={option.value}>{option.label}</MenuItem>
+                  <MenuItem
+                    value={option.value}
+                    key={option.value}
+                  >
+                    {option.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormGrid>
           )}
         />
         <FormGrid size={12}>
-          <Box display="flex" justifyContent="end" gap={1}>
+          <Box
+            display="flex"
+            justifyContent="end"
+            gap={1}>
             <Button
               variant="text"
               size="small"
@@ -148,7 +164,8 @@ export default function CategoriesForm({
                   color="secondary"
                   size="small"
                   loading={isSubmitting}
-                  type="submit" disabled={!canSubmit}
+                  type="submit"
+                  disabled={!canSubmit}
                   sx={{ minWidth: 'fit-content' }}
                 >
                   {submitBtnText}

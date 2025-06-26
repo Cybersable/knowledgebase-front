@@ -1,11 +1,11 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 
 import {
-  StyledTypography,
   StyledTitle,
-} from './styled';
+  StyledTypography
+} from './styled'
 
 export default function SummaryList({
   list,
@@ -18,9 +18,15 @@ export default function SummaryList({
   }>
 }) {
   return (
-    <Grid container spacing={1} columns={12} sx={{ my: 4 }}>
+    <Grid
+      container
+      spacing={1}
+      columns={12}
+      sx={{ my: 4 }}>
       {list?.map((item) => (
-        <Grid key={item.id} size={12}>
+        <Grid
+          key={item.id}
+          size={12}>
           <Box
             sx={{
               display: 'flex',
@@ -46,7 +52,10 @@ export default function SummaryList({
                 sx={{ fontSize: '1rem' }}
               />
             </StyledTitle>
-            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+            <StyledTypography
+              variant="body2"
+              color="text.secondary"
+              gutterBottom>
               {item.summary}
             </StyledTypography>
             {/*<Author authors={article.authors} />*/}
@@ -54,5 +63,5 @@ export default function SummaryList({
         </Grid>
       ))}
     </Grid>
-  );
+  )
 }

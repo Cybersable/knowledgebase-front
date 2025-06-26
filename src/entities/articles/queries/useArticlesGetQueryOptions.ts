@@ -1,33 +1,28 @@
-import { useQuery } from '@tanstack/react-query'
-import { useCallback, useMemo } from 'react'
+import { queryOptions } from '@tanstack/react-query'
 
 import { articlesQueryClientKeys } from '@/shared/queries'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 
-export const useArticlesGetQuery = ({
+export const useArticlesGetQueryOptions = ({
   articleId,
 }: {
-  articleId?: string | null
+  articleId?: string
 }) => {
-  const queryKey = useMemo(() => {
+  const queryKey = () => {
     if (!articleId) return []
 
     return articlesQueryClientKeys.get(articleId)
-  }, [articleId])
+  }
 
-  const queryFn = useCallback(() => {
+  const queryFn = () => {
     if (!articleId) return
 
     return articlesRestApiService.get(articleId)
-  }, [articleId])
+  }
 
-  const { data } = useQuery({
+  return queryOptions({
     enabled: !!articleId,
-    queryKey,
+    queryKey: queryKey(),
     queryFn,
   })
-
-  return {
-    article: data,
-  }
 }

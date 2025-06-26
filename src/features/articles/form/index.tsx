@@ -1,31 +1,31 @@
-'use client';
+'use client'
 
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormLabel from '@mui/material/FormLabel'
+import Grid from '@mui/material/Grid'
+import MenuItem from '@mui/material/MenuItem'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import Select from '@mui/material/Select'
+import { styled } from '@mui/material/styles'
+import { useForm } from '@tanstack/react-form'
+import { useRouter } from 'next/navigation'
 import {
   useCallback,
   useEffect,
   useState
-} from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from '@tanstack/react-form';
-import { ArticlesModelInput } from '@/entities/articles/model';
-import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries';
-import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api';
-import { useCategoriesGetManyQuery } from '@/entities/categories/queries';
-import { useCategoriesMenuSelectOptions } from '@/entities/categories/api';
+} from 'react'
 
-import { styled } from '@mui/material/styles';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
-import Box from "@mui/material/Box";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { ArticlesModelInput } from '@/entities/articles/model'
+import { useCategoriesMenuSelectOptions } from '@/entities/categories/api'
+import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
+import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
+import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
-}));
+}))
 
 export default function ArticlesForm({
    cancelBtnText = 'Cancel',
@@ -46,35 +46,37 @@ export default function ArticlesForm({
   onSubmit?: (article: ArticlesModelInput) => void
   defaultValues?: ArticlesModelInput
 }) {
-  const { back } = useRouter();
+  const { back } = useRouter()
 
   const form = useForm({
     defaultValues,
     onSubmit: ({ value }) => {
-      onSubmit?.(value);
+      onSubmit?.(value)
     },
-  });
+  })
 
-  const [workspaceId, setWorkspaceId] = useState('');
-  const { workspacesList } = useWorkspacesGetManyQuery();
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList);
+  const [workspaceId, setWorkspaceId] = useState('')
+  const { workspacesList } = useWorkspacesGetManyQuery()
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   const { categoriesList } = useCategoriesGetManyQuery({
     workspaceId,
-  });
-  const categoriesOptions = useCategoriesMenuSelectOptions(categoriesList);
+  })
+  const categoriesOptions = useCategoriesMenuSelectOptions(categoriesList)
 
   const handleCancelBtn = useCallback(() => {
     if (onCancel) {
-      return onCancel();
+      return onCancel()
     }
 
-    back();
-  }, [onCancel, back]);
+    back()
+  }, [onCancel, back])
 
   useEffect(() => {
-    defaultValues?.workspaceId && setWorkspaceId(defaultValues.workspaceId);
-  }, [defaultValues?.workspaceId]);
+    if (defaultValues?.workspaceId) {
+      setWorkspaceId(defaultValues.workspaceId)
+    }
+  }, [defaultValues?.workspaceId])
 
   return (
     <form
@@ -84,12 +86,16 @@ export default function ArticlesForm({
         form.handleSubmit()
       }}
     >
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}>
         <form.Field
           name="title"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Title
               </FormLabel>
               <OutlinedInput
@@ -110,7 +116,9 @@ export default function ArticlesForm({
           name="summary"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Summary
               </FormLabel>
               <OutlinedInput
@@ -129,13 +137,15 @@ export default function ArticlesForm({
           name="workspaceId"
           listeners={{
             onChange: ({ value }) => {
-              setWorkspaceId(value);
-              form.setFieldValue('categoryId', '');
-            }
+              setWorkspaceId(value)
+              form.setFieldValue('categoryId', '')
+            },
           }}
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Workspace
               </FormLabel>
               <Select
@@ -147,7 +157,12 @@ export default function ArticlesForm({
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {workspacesOptions?.map((option) => (
-                  <MenuItem value={option.value}>{option.label}</MenuItem>
+                  <MenuItem
+                    value={option.value}
+                    key={option.value}
+                  >
+                    {option.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormGrid>
@@ -157,7 +172,9 @@ export default function ArticlesForm({
           name="categoryId"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Category
               </FormLabel>
               <Select
@@ -169,7 +186,12 @@ export default function ArticlesForm({
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {categoriesOptions?.map((option) => (
-                  <MenuItem value={option.value}>{option.label}</MenuItem>
+                  <MenuItem
+                    value={option.value}
+                    key={option.value}
+                  >
+                    {option.label}
+                  </MenuItem>
                 ))}
               </Select>
             </FormGrid>
@@ -179,7 +201,9 @@ export default function ArticlesForm({
           name="content"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Summary
               </FormLabel>
               <OutlinedInput
@@ -196,7 +220,10 @@ export default function ArticlesForm({
         />
       </Grid>
       <FormGrid size={12}>
-        <Box display="flex" justifyContent="end" gap={1}>
+        <Box
+          display="flex"
+          justifyContent="end"
+          gap={1}>
           <Button
             variant="text"
             size="small"
@@ -214,7 +241,8 @@ export default function ArticlesForm({
                 color="secondary"
                 size="small"
                 loading={isSubmitting}
-                type="submit" disabled={!canSubmit}
+                type="submit"
+                disabled={!canSubmit}
                 sx={{ minWidth: 'fit-content' }}
               >
                 {submitBtnText}
@@ -224,5 +252,5 @@ export default function ArticlesForm({
         </Box>
       </FormGrid>
     </form>
-  );
+  )
 }

@@ -1,7 +1,7 @@
 import {
   ArticlesApiModel,
-  ArticlesApiModelInput,
-} from '@/shared/rest-api/articles';
+  ArticlesApiModelInput
+} from '@/shared/rest-api/articles'
 
 export interface ArticleModel extends ArticlesApiModel {}
 

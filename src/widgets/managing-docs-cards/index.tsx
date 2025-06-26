@@ -1,10 +1,10 @@
-import routes from '@/services/routes-provider';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded'
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Link from 'next/link'
 
-import Button from '@mui/material/Button';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import HighlightedCard from '@/shared/ui/cards/HighlightedCard';
-import Link from 'next/link';
-import Grid from '@mui/material/Grid';
+import routes from '@/services/routes-provider'
+import HighlightedCard from '@/shared/ui/cards/HighlightedCard'
 
 const cards = [
   {
@@ -27,14 +27,19 @@ const cards = [
     summary: 'Add new workspace',
     btnText: 'Create workspace',
     path: routes.workspacesCreate.path,
-  },
-];
+  }
+]
 
 export default function ManagingDocsCards() {
   return (
-    <Grid container spacing={2} id="managing-docs-cards">
+    <Grid
+      container
+      spacing={2}
+      id="managing-docs-cards">
       {cards.map((card, index) => (
-        <Grid size={12} key={index}>
+        <Grid
+          size={12}
+          key={index}>
           <HighlightedCard
             title={card.title}
             summary={card.summary}

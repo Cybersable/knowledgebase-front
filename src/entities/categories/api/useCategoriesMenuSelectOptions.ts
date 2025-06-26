@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
-import { CategoryModel } from '@/entities/categories/model';
+import { useMemo } from 'react'
+
+import { CategoryModel } from '@/entities/categories/model'
 
 export const useCategoriesMenuSelectOptions = (
   list?: Array<Pick<CategoryModel, 'id' | 'title' | 'summary'>>
@@ -11,6 +12,6 @@ export const useCategoriesMenuSelectOptions = (
         label: item.title,
         subLabel: item.summary,
       }
-    });
-  }, [list]);
-};
+    })
+  }, [list])
+}

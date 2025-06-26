@@ -1,17 +1,16 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
 import {
   useSearchParams
-} from 'next/navigation';
+} from 'next/navigation'
+import { useMemo } from 'react'
 
-import routes from '@/services/routes-provider';
-import { useArticlesGetManyQuery } from '@/entities/articles/queries';
-
-import SummaryList from '@/shared/ui/summary-list';
+import { useArticlesGetManyQuery } from '@/entities/articles/queries'
+import routes from '@/services/routes-provider'
+import SummaryList from '@/shared/ui/summary-list'
 
 export default function DocsList() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const {
     workspaceId,
@@ -25,14 +24,14 @@ export default function DocsList() {
       limit: searchParams.get('limit') ?? '10',
       page: searchParams.get('page') ?? '1',
     }
-  }, [searchParams]);
+  }, [searchParams])
 
   const { articlesList } = useArticlesGetManyQuery({
     workspaceId,
     categoryId,
     limit,
     page,
-  });
+  })
 
   const summaryList = useMemo(() => {
     return articlesList?.map((article) => ({
@@ -41,10 +40,10 @@ export default function DocsList() {
       summary: article.summary,
       href: routes.docsArticles({
         articleId: article.id,
-        articleSlug: article.slug
+        articleSlug: article.slug,
       }).path,
     }))
-  }, [articlesList]);
+  }, [articlesList])
 
   return (
     <SummaryList list={summaryList} />

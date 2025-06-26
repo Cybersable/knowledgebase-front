@@ -1,19 +1,20 @@
-'use client';
+'use client'
 
-import { useCallback } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import ClearIcon from '@mui/icons-material/Clear';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import ClearIcon from '@mui/icons-material/Clear'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Paper from '@mui/material/Paper'
+import { SelectChangeEvent } from '@mui/material/Select'
+import { useCallback } from 'react'
+
 import {
-  StyledSelect,
   StyledAvatar,
   StyledListItemAvatar,
   StyledListItemText,
+  StyledSelect,
   StyledSelectMenuProps
-} from './styled';
-import { SelectChangeEvent } from '@mui/material/Select';
-import IconButton from "@mui/material/IconButton";
+} from './styled'
 
 interface MenuSelectOption {
   icon?: string
@@ -42,10 +43,10 @@ export default function MenuSelect({
 }) {
 
   const handleChange = useCallback((event: unknown) => {
-    const value = (event as SelectChangeEvent).target.value;
+    const value = (event as SelectChangeEvent).target.value
 
-    onChange(value as string);
-  }, [onChange]);
+    onChange(value as string)
+  }, [onChange])
 
   // useEffect(() => {
   //   if (value || !options || !options.length) return;
@@ -66,12 +67,20 @@ export default function MenuSelect({
         MenuProps={StyledSelectMenuProps}
       >
         {emptyValue && (
-          <MenuItem value={''} key='emptyValue' sx={{ display: 'none' }}>
-            <StyledListItemText primary={emptyValue.label} secondary={emptyValue.subLabel} />
+          <MenuItem
+            value={''}
+            key='emptyValue'
+            sx={{ display: 'none' }}>
+            <StyledListItemText
+              primary={emptyValue.label}
+              secondary={emptyValue.subLabel} />
           </MenuItem>
         )}
         {options?.map((option) => (
-          <MenuItem value={option.value} key={option.value} sx={{ width: 276 }}>
+          <MenuItem
+            value={option.value}
+            key={option.value}
+            sx={{ width: 276 }}>
             {option.icon &&
               <StyledListItemAvatar>
                 <StyledAvatar alt={option.label}>
@@ -80,7 +89,9 @@ export default function MenuSelect({
                 </StyledAvatar>
               </StyledListItemAvatar>
             }
-            <StyledListItemText primary={option.label} secondary={option.subLabel} />
+            <StyledListItemText
+              primary={option.label}
+              secondary={option.subLabel} />
           </MenuItem>
         ))}
         {!options?.length && (
@@ -104,7 +115,7 @@ export default function MenuSelect({
               width: 20,
               height: 20,
               padding: 0,
-              border: 'none'
+              border: 'none',
             }}
           >
             <ClearIcon />
@@ -112,5 +123,5 @@ export default function MenuSelect({
         </Paper>
       )}
     </Box>
-  );
+  )
 }

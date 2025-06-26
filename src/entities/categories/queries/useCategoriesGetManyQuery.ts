@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 
-import { categoriesQueryClientKeys } from '@/shared/queries';
-import { categoriesRestApiService } from '@/shared/rest-api/categories';
-import { filterQueryParams } from '@/shared/queries/filterQueryParams';
+import { categoriesQueryClientKeys } from '@/shared/queries'
+import { filterQueryParams } from '@/shared/queries/filterQueryParams'
+import { categoriesRestApiService } from '@/shared/rest-api/categories'
 
 export const useCategoriesGetManyQuery = (params: {
   limit?: string
@@ -15,12 +15,12 @@ export const useCategoriesGetManyQuery = (params: {
 }) => {
   const queryKey = useMemo(
     () => {
-      const queryParams = filterQueryParams(params);
+      const queryParams = filterQueryParams(params)
 
-      return categoriesQueryClientKeys.getMany(queryParams);
+      return categoriesQueryClientKeys.getMany(queryParams)
     },
     [params]
-  );
+  )
 
   const queryFn = useCallback(
     ({ pageParam }: { pageParam: unknown }) =>
@@ -29,8 +29,8 @@ export const useCategoriesGetManyQuery = (params: {
         page: pageParam as string,
         workspaceId: params.workspaceId,
       }),
-    [params],
-  );
+    [params]
+  )
 
   const { data } = useInfiniteQuery({
     queryKey,
@@ -38,16 +38,16 @@ export const useCategoriesGetManyQuery = (params: {
     enabled: !!params.workspaceId,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
-      const page = allPages.reduce((acc, item) => acc + item.data.length, 0);
+      const page = allPages.reduce((acc, item) => acc + item.data.length, 0)
 
-      return lastPage.total > page ? page : undefined;
-    }
-  });
+      return lastPage.total > page ? page : undefined
+    },
+  })
 
   const rawData = useMemo(
     () => data?.pages.flatMap((page) => page.data),
     [data?.pages]
-  );
+  )
 
   return {
     categoriesList: rawData,

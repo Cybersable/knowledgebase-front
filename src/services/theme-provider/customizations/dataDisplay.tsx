@@ -1,12 +1,13 @@
-import { Theme, alpha, Components } from '@mui/material/styles';
-import { svgIconClasses } from '@mui/material/SvgIcon';
-import { typographyClasses } from '@mui/material/Typography';
-import { buttonBaseClasses } from '@mui/material/ButtonBase';
-import { chipClasses } from '@mui/material/Chip';
-import { iconButtonClasses } from '@mui/material/IconButton';
-import { gray, red, green } from './api';
+import { buttonBaseClasses } from '@mui/material/ButtonBase'
+import { chipClasses } from '@mui/material/Chip'
+import { iconButtonClasses } from '@mui/material/IconButton'
+import { alpha, Components, Theme } from '@mui/material/styles'
+import { svgIconClasses } from '@mui/material/SvgIcon'
+import { typographyClasses } from '@mui/material/Typography'
 
-/* eslint-disable import/prefer-default-export */
+import { gray, green, red } from './api'
+
+ 
 export const dataDisplayCustomizations: Components<Theme> = {
   MuiList: {
     styleOverrides: {
@@ -192,7 +193,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
                 fontSize: theme.typography.caption.fontSize,
               },
             },
-          },
+          }
         ],
       }),
     },
@@ -225,9 +226,9 @@ export const dataDisplayCustomizations: Components<Theme> = {
             style: {
               fontSize: '1rem',
             },
-          },
+          }
         ],
       },
     },
   },
-};
+}

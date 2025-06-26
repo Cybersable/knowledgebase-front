@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Chip from '@mui/material/Chip';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { styled } from '@mui/material/styles';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
+import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import Avatar from '@mui/material/Avatar'
+import AvatarGroup from '@mui/material/AvatarGroup'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Chip from '@mui/material/Chip'
+import FormControl from '@mui/material/FormControl'
+import Grid from '@mui/material/Grid'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
 
 const cardData = [
   {
@@ -27,7 +27,7 @@ const cardData = [
       'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
     authors: [
       { name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg' },
-      { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
+      { name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' }
     ],
   },
   {
@@ -62,7 +62,7 @@ const cardData = [
       "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
     authors: [
       { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
-      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' },
+      { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' }
     ],
   },
   {
@@ -72,8 +72,8 @@ const cardData = [
     description:
       'Our recent product updates are designed to help you maximize efficiency and achieve more. Get a detailed overview of the new features and improvements that can elevate your workflow.',
     authors: [{ name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' }],
-  },
-];
+  }
+]
 
 const SyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
@@ -90,7 +90,7 @@ const SyledCard = styled(Card)(({ theme }) => ({
     outlineColor: 'hsla(210, 98%, 48%, 0.5)',
     outlineOffset: '2px',
   },
-}));
+}))
 
 const SyledCardContent = styled(CardContent)({
   display: 'flex',
@@ -101,7 +101,7 @@ const SyledCardContent = styled(CardContent)({
   '&:last-child': {
     paddingBottom: 16,
   },
-});
+})
 
 const StyledTypography = styled(Typography)({
   display: '-webkit-box',
@@ -109,7 +109,7 @@ const StyledTypography = styled(Typography)({
   WebkitLineClamp: 2,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-});
+})
 
 function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
   return (
@@ -142,19 +142,23 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
       </Box>
       <Typography variant="caption">July 14, 2021</Typography>
     </Box>
-  );
+  )
 }
 
 export function Search() {
   return (
-    <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
+    <FormControl
+      sx={{ width: { xs: '100%', md: '25ch' }}}
+      variant="outlined">
       <OutlinedInput
         size="small"
         id="search"
         placeholder="Search…"
         sx={{ flexGrow: 1 }}
         startAdornment={
-          <InputAdornment position="start" sx={{ color: 'text.primary' }}>
+          <InputAdornment
+            position="start"
+            sx={{ color: 'text.primary' }}>
             <SearchRoundedIcon fontSize="small" />
           </InputAdornment>
         }
@@ -163,30 +167,32 @@ export function Search() {
         }}
       />
     </FormControl>
-  );
+  )
 }
 
 export default function Blog() {
   const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null,
-  );
+    null
+  )
 
   const handleFocus = (index: number) => {
-    setFocusedCardIndex(index);
-  };
+    setFocusedCardIndex(index)
+  }
 
   const handleBlur = () => {
-    setFocusedCardIndex(null);
-  };
+    setFocusedCardIndex(null)
+  }
 
   const handleClick = () => {
-    console.info('You clicked the filter chip.');
-  };
+    console.info('You clicked the filter chip.')
+  }
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
       <div>
-        <Typography variant="h1" gutterBottom>
+        <Typography
+          variant="h1"
+          gutterBottom>
           Knowledgebase
         </Typography>
         <Typography>Stay in the loop with the latest about our products</Typography>
@@ -201,7 +207,9 @@ export default function Blog() {
         }}
       >
         <Search />
-        <IconButton size="small" aria-label="RSS feed">
+        <IconButton
+          size="small"
+          aria-label="RSS feed">
           <RssFeedRoundedIcon />
         </IconButton>
       </Box>
@@ -224,7 +232,10 @@ export default function Blog() {
             overflow: 'auto',
           }}
         >
-          <Chip onClick={handleClick} size="medium" label="All categories" />
+          <Chip
+            onClick={handleClick}
+            size="medium"
+            label="All categories" />
           <Chip
             onClick={handleClick}
             size="medium"
@@ -272,12 +283,17 @@ export default function Blog() {
           }}
         >
           <Search />
-          <IconButton size="small" aria-label="RSS feed">
+          <IconButton
+            size="small"
+            aria-label="RSS feed">
             <RssFeedRoundedIcon />
           </IconButton>
         </Box>
       </Box>
-      <Grid container spacing={2} columns={12}>
+      <Grid
+        container
+        spacing={2}
+        columns={12}>
         <Grid size={{ xs: 12, md: 6 }}>
           <SyledCard
             variant="outlined"
@@ -297,13 +313,22 @@ export default function Blog() {
               }}
             />
             <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
+              <Typography
+                gutterBottom
+                variant="caption"
+                component="div">
                 {cardData[0].tag}
               </Typography>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div">
                 {cardData[0].title}
               </Typography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+              <StyledTypography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom>
                 {cardData[0].description}
               </StyledTypography>
             </SyledCardContent>
@@ -329,13 +354,22 @@ export default function Blog() {
               }}
             />
             <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
+              <Typography
+                gutterBottom
+                variant="caption"
+                component="div">
                 {cardData[1].tag}
               </Typography>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div">
                 {cardData[1].title}
               </Typography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+              <StyledTypography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom>
                 {cardData[1].description}
               </StyledTypography>
             </SyledCardContent>
@@ -361,13 +395,22 @@ export default function Blog() {
               }}
             />
             <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
+              <Typography
+                gutterBottom
+                variant="caption"
+                component="div">
                 {cardData[2].tag}
               </Typography>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div">
                 {cardData[2].title}
               </Typography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+              <StyledTypography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom>
                 {cardData[2].description}
               </StyledTypography>
             </SyledCardContent>
@@ -395,10 +438,16 @@ export default function Blog() {
                 }}
               >
                 <div>
-                  <Typography gutterBottom variant="caption" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="caption"
+                    component="div">
                     {cardData[3].tag}
                   </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div">
                     {cardData[3].title}
                   </Typography>
                   <StyledTypography
@@ -429,10 +478,16 @@ export default function Blog() {
                 }}
               >
                 <div>
-                  <Typography gutterBottom variant="caption" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="caption"
+                    component="div">
                     {cardData[4].tag}
                   </Typography>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div">
                     {cardData[4].title}
                   </Typography>
                   <StyledTypography
@@ -467,13 +522,22 @@ export default function Blog() {
               }}
             />
             <SyledCardContent>
-              <Typography gutterBottom variant="caption" component="div">
+              <Typography
+                gutterBottom
+                variant="caption"
+                component="div">
                 {cardData[5].tag}
               </Typography>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div">
                 {cardData[5].title}
               </Typography>
-              <StyledTypography variant="body2" color="text.secondary" gutterBottom>
+              <StyledTypography
+                variant="body2"
+                color="text.secondary"
+                gutterBottom>
                 {cardData[5].description}
               </StyledTypography>
             </SyledCardContent>
@@ -482,5 +546,5 @@ export default function Blog() {
         </Grid>
       </Grid>
     </Box>
-  );
+  )
 }

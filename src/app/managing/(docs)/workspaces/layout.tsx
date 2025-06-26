@@ -1,7 +1,7 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense } from 'react'
 
-import ManagingDocsMenu from '@/widgets/managing-docs-menu';
-import MainLayout from '@/widgets/layouts/main-layout';
+import MainLayout from '@/widgets/layouts/main-layout'
+import ManagingDocsMenu from '@/widgets/managing-docs-menu'
 
 export default async function ManagingWorkspacesLayout({
   children,
@@ -17,5 +17,5 @@ export default async function ManagingWorkspacesLayout({
         {children}
       </Suspense>
     </MainLayout>
-  );
+  )
 };

@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
-
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import { ReactNode } from 'react'
 
 export default function MainLayout({
   id = 'main-layout',
@@ -15,12 +14,19 @@ export default function MainLayout({
   rightChildren?: ReactNode
 }>) {
   return (
-    <Grid id={id} container spacing={3} columns={12}>
+    <Grid
+      id={id}
+      container
+      spacing={3}
+      columns={12}>
       <Grid size={{ xs: 12, sm: 3 }}>
         {leftChildren}
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
-        <Box display="flex" flexDirection="column" gap={4}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={4}>
           {children}
         </Box>
       </Grid>
@@ -28,5 +34,5 @@ export default function MainLayout({
         {rightChildren}
       </Grid>
     </Grid>
-  );
+  )
 }

@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
-import { categoriesRestApiService } from '@/shared/rest-api/categories';
+import { useMutation } from '@tanstack/react-query'
+
+import { categoriesRestApiService } from '@/shared/rest-api/categories'
 
 export const useCategoriesDeleteMutation = ({
   categoryId,
@@ -8,7 +9,7 @@ export const useCategoriesDeleteMutation = ({
 }) => {
   const { mutate } = useMutation({
     mutationFn: () => categoriesRestApiService.delete(categoryId),
-  });
+  })
 
   return {
     deleteCategory: mutate,

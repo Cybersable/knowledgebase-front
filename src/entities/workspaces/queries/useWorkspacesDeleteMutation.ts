@@ -1,16 +1,27 @@
-import { useMutation } from '@tanstack/react-query';
-import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
+import { workspacesQueryClientKeys } from '@/shared/queries'
+import { workspacesRestApiService } from '@/shared/rest-api/workspaces'
 
 export const useWorkspacesDeleteMutation = ({
-  workspaceId,
+  onSuccess,
 }: {
-  workspaceId: string
+  onSuccess?: () => void
 }) => {
-  const { mutate } = useMutation({
-    mutationFn: () => workspacesRestApiService.delete(workspaceId),
-  });
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (workspaceId: string) => workspacesRestApiService.delete(workspaceId),
+    onSuccess: (data, variables) => {
+      queryClient.removeQueries({ queryKey: workspacesQueryClientKeys.get(variables) })
+      queryClient.invalidateQueries({ queryKey: workspacesQueryClientKeys.getManyBase() })
+
+      onSuccess?.()
+    },
+  })
 
   return {
-    deleteWorkspace: mutate,
+    deleteWorkspaceAsync: mutateAsync,
+    deleteWorkspacePending: isPending,
   }
 }

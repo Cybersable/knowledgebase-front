@@ -1,15 +1,17 @@
-import * as React from 'react';
-import { Theme, alpha, Components } from '@mui/material/styles';
-import { SvgIconProps } from '@mui/material/SvgIcon';
-import { buttonBaseClasses } from '@mui/material/ButtonBase';
-import { dividerClasses } from '@mui/material/Divider';
-import { menuItemClasses } from '@mui/material/MenuItem';
-import { selectClasses } from '@mui/material/Select';
-import { tabClasses } from '@mui/material/Tab';
-import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
-import { gray, brand } from './api';
+import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded'
+import { buttonBaseClasses } from '@mui/material/ButtonBase'
+import { dividerClasses } from '@mui/material/Divider'
+import { menuItemClasses } from '@mui/material/MenuItem'
+import { selectClasses } from '@mui/material/Select'
+import { alpha, Components, Theme } from '@mui/material/styles'
+import { SvgIconProps } from '@mui/material/SvgIcon'
+import { tabClasses } from '@mui/material/Tab'
+import Link from 'next/link'
+import * as React from 'react'
 
-/* eslint-disable import/prefer-default-export */
+import { brand, gray } from './api'
+
+ 
 export const navigationCustomizations: Components<Theme> = {
   MuiMenuItem: {
     styleOverrides: {
@@ -59,7 +61,10 @@ export const navigationCustomizations: Components<Theme> = {
   MuiSelect: {
     defaultProps: {
       IconComponent: React.forwardRef<SVGSVGElement, SvgIconProps>((props, ref) => (
-        <UnfoldMoreRoundedIcon fontSize="small" {...props} ref={ref} />
+        <UnfoldMoreRoundedIcon
+          fontSize="small"
+          {...props}
+          ref={ref} />
       )),
     },
     styleOverrides: {
@@ -117,6 +122,7 @@ export const navigationCustomizations: Components<Theme> = {
   MuiLink: {
     defaultProps: {
       underline: 'none',
+      component: Link,
     },
     styleOverrides: {
       root: ({ theme }) => ({
@@ -261,7 +267,7 @@ export const navigationCustomizations: Components<Theme> = {
               width: 12,
               height: 12,
             },
-          },
+          }
         ],
       }),
     },
@@ -276,4 +282,4 @@ export const navigationCustomizations: Components<Theme> = {
       }),
     },
   },
-};
+}

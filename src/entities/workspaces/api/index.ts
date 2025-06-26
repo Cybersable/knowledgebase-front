@@ -1,1 +1,1 @@
-export { useWorkspacesMenuSelectOptions } from './useWorkspacesMenuSelectOptions';
+export { useWorkspacesMenuSelectOptions } from './useWorkspacesMenuSelectOptions'

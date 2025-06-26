@@ -1,20 +1,21 @@
-"use client";
+'use client'
 
-import { ReactNode } from 'react';
-import {ThemeProvider as MUIThemeProvider, createTheme } from '@mui/material/styles';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import CssBaseline from '@mui/material/CssBaseline'
+import { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/styles'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
+import { ReactNode } from 'react'
+
 import {
   colorSchemes,
-  typography,
-  shadows,
-  shape,
-  inputsCustomizations,
   dataDisplayCustomizations,
   feedbackCustomizations,
+  inputsCustomizations,
   navigationCustomizations,
-  surfacesCustomizations
-} from './customizations';
-import CssBaseline from '@mui/material/CssBaseline';
+  shadows,
+  shape,
+  surfacesCustomizations,
+  typography
+} from './customizations'
 
 const theme = createTheme({
   cssVariables: {
@@ -32,15 +33,17 @@ const theme = createTheme({
     ...navigationCustomizations,
     ...surfacesCustomizations,
   },
-});
+})
 
 export default function ThemeProvider({ children }: { children: ReactNode }) {
   return (
     <AppRouterCacheProvider>
-      <MUIThemeProvider theme={theme} disableTransitionOnChange>
+      <MUIThemeProvider
+        theme={theme}
+        disableTransitionOnChange>
         <CssBaseline enableColorScheme />
         {children}
       </MUIThemeProvider>
     </AppRouterCacheProvider>
-  );
+  )
 }

@@ -1,7 +1,7 @@
 import {
   CategoriesApiModel,
   CategoriesApiModelInput
-} from '@/shared/rest-api/categories';
+} from '@/shared/rest-api/categories'
 
 export interface CategoryModel extends CategoriesApiModel {}
 

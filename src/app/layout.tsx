@@ -1,17 +1,16 @@
-import { ReactNode } from 'react';
-import type { Metadata } from 'next';
+import Container from '@mui/material/Container'
+import type { Metadata } from 'next'
+import { ReactNode } from 'react'
 
-import QueryClientProvider from "@/services/query-provider";
-import ThemeProvider from '@/services/theme-provider';
-
-import Container from "@mui/material/Container";
-import MainNavBar from "@/widgets/main-nav-bar";
-import Footer from "@/widgets/footer";
+import QueryClientProvider from '@/services/query-provider'
+import ThemeProvider from '@/services/theme-provider'
+import Footer from '@/widgets/footer'
+import MainNavBar from '@/widgets/main-nav-bar'
 
 export const metadata: Metadata = {
-  title: "Knowledgebase",
-  description: "",
-};
+  title: 'Knowledgebase',
+  description: '',
+}
 
 export default function RootLayout({
   children,
@@ -37,5 +36,5 @@ export default function RootLayout({
         </QueryClientProvider>
       </body>
     </html>
-  );
+  )
 }

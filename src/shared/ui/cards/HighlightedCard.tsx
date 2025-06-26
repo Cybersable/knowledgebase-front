@@ -1,10 +1,9 @@
-'use client';
+'use client'
 
-import { ReactNode } from 'react';
-
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import { ReactNode } from 'react'
 
 export default function HighlightedCard({
   title,
@@ -35,5 +34,5 @@ export default function HighlightedCard({
         {children}
       </CardContent>
     </Card>
-  );
+  )
 }

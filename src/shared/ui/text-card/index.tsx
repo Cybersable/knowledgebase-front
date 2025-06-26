@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Link from "next/link";
-import Typography from "@mui/material/Typography";
-import {styled} from "@mui/material/styles";
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Link from 'next/link'
 
 const StyledTypography = styled(Typography)({
   display: '-webkit-box',
@@ -12,7 +12,7 @@ const StyledTypography = styled(Typography)({
   WebkitLineClamp: 2,
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-});
+})
 
 export default function TextCard({
   title,
@@ -41,7 +41,7 @@ export default function TextCard({
             boxShadow: (theme.vars || theme).palette.baseShadow,
             backgroundColor: (theme.vars || theme).palette.action.selected,
           },
-        }),
+        })
       ]}
     >
       <Box
@@ -54,12 +54,16 @@ export default function TextCard({
             gap: 1,
             textAlign: 'left',
             textTransform: 'none',
-          },
+          }
         ]}
       >
-        <Typography variant="h6" color="text.primary">{title}</Typography>
-        <StyledTypography variant="body2" color="text.secondary">{description}</StyledTypography>
+        <Typography
+          variant="h6"
+          color="text.primary">{title}</Typography>
+        <StyledTypography
+          variant="body2"
+          color="text.secondary">{description}</StyledTypography>
       </Box>
     </Box>
-  );
+  )
 }

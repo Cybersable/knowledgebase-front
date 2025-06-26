@@ -1,54 +1,65 @@
-'use client';
+'use client'
 
-import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import { useForm } from '@tanstack/react-form';
-import { WorkspacesModelInput } from '@/entities/workspaces/model';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import FormLabel from '@mui/material/FormLabel'
+import Grid from '@mui/material/Grid'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import { styled } from '@mui/material/styles'
+import { useForm } from '@tanstack/react-form'
 
-import { styled } from '@mui/material/styles';
-import FormLabel from '@mui/material/FormLabel';
-import Grid from '@mui/material/Grid';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
-import Box from "@mui/material/Box";
+import {
+  WorkspacesModelInput
+} from '@/entities/workspaces/model'
+import {
+  useWorkspacesCreateMutation,
+  useWorkspacesUpdateMutation
+} from '@/entities/workspaces/queries'
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
   flexDirection: 'column',
-}));
+}))
 
 export default function WorkspacesForm({
+  workspaceId,
   cancelBtnText = 'Cancel',
-  onCancel,
+  onCancelAction,
   submitBtnText = 'Submit',
-  onSubmit,
+  onSuccessAction,
   defaultValues = {
     title: '',
     summary: '',
-  }
+  },
 }: {
+  workspaceId?: string
   cancelBtnText?: string
-  onCancel?: () => void
+  onCancelAction: () => void
   submitBtnText?: string
-  onSubmit?: (workspace: WorkspacesModelInput) => void
+  onSuccessAction?: () => void
   defaultValues?: WorkspacesModelInput
 }) {
-  const { back } = useRouter();
+
+  const {
+    createWorkspaceAsync,
+  } = useWorkspacesCreateMutation({
+    onSuccess: onSuccessAction,
+  })
+
+  const {
+    updateWorkspaceAsync,
+  } = useWorkspacesUpdateMutation({
+    onSuccess: onSuccessAction,
+  })
 
   const form = useForm({
     defaultValues,
-    onSubmit: ({ value }) => {
-      onSubmit?.(value);
+    onSubmit: async ({ value }) => {
+      if (workspaceId) return await updateWorkspaceAsync({ workspaceId, data: value })
+
+      await createWorkspaceAsync(value)
     },
-  });
-
-  const handleCancelBtn = useCallback(() => {
-    if (onCancel) {
-      return onCancel();
-    }
-
-    back();
-  }, [onCancel, back]);
+  })
 
   return (
     <form
@@ -58,18 +69,23 @@ export default function WorkspacesForm({
         form.handleSubmit()
       }}
     >
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={2}>
         <form.Field
           name="title"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Title
               </FormLabel>
               <OutlinedInput
                 id={field.name}
                 name={field.name}
                 placeholder="Main workspace"
+                disabled={form.state.isSubmitting}
                 required
                 size="small"
                 value={field.state.value}
@@ -84,7 +100,9 @@ export default function WorkspacesForm({
           name="summary"
           children={(field) => (
             <FormGrid size={12}>
-              <FormLabel htmlFor={field.name} required>
+              <FormLabel
+                htmlFor={field.name}
+                required>
                 Summary
               </FormLabel>
               <OutlinedInput
@@ -92,6 +110,7 @@ export default function WorkspacesForm({
                 name={field.name}
                 placeholder="Main workspace is need for describe all company features."
                 required
+                disabled={form.state.isSubmitting}
                 size="small"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -100,13 +119,17 @@ export default function WorkspacesForm({
           )}
         />
         <FormGrid size={12}>
-          <Box display="flex" justifyContent="end" gap={1}>
+          <Box
+            display="flex"
+            justifyContent="end"
+            gap={1}>
             <Button
               variant="text"
               size="small"
               type="button"
-              onClick={handleCancelBtn}
+              onClick={onCancelAction}
               sx={{ minWidth: 'fit-content' }}
+              disabled={form.state.isSubmitting}
             >
               {cancelBtnText}
             </Button>
@@ -118,7 +141,8 @@ export default function WorkspacesForm({
                   color="secondary"
                   size="small"
                   loading={isSubmitting}
-                  type="submit" disabled={!canSubmit}
+                  type="submit"
+                  disabled={!canSubmit}
                   sx={{ minWidth: 'fit-content' }}
                 >
                   {submitBtnText}

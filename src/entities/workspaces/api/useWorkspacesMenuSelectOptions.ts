@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
-import { WorkspacesModel } from '@/entities/workspaces/model';
+import { useMemo } from 'react'
+
+import { WorkspacesModel } from '@/entities/workspaces/model'
 
 export const useWorkspacesMenuSelectOptions = (
   list?: Array<Pick<WorkspacesModel, 'id' | 'title' | 'summary'>>
@@ -11,6 +12,6 @@ export const useWorkspacesMenuSelectOptions = (
         label: item.title,
         subLabel: item.summary,
       }
-    });
-  }, [list]);
-};
+    })
+  }, [list])
+}

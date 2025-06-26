@@ -1,5 +1,6 @@
-import { QueryParams } from '@/shared/rest-api/api/BaseRestApiService';
-import queryString from 'query-string';
+import queryString from 'query-string'
+
+import { QueryParams } from '@/shared/rest-api/api/BaseRestApiService'
 
 export interface BaseQueryClientServiceParams {
   resource: string
@@ -13,10 +14,22 @@ export default class BaseQueryClientKeysService {
   }
 
   get(id: string) {
-    return [this._resource, 'get', id];
+    return [this._resource, 'get', id]
+  }
+
+  getManyBase() {
+    return [this._resource, 'get-many']
   }
 
   getMany(query: QueryParams) {
-    return [this._resource, 'get-many', queryString.stringify(query)];
+    return [...this.getManyBase(), queryString.stringify(query)]
+  }
+
+  create() {
+    return [this._resource, 'create']
+  }
+
+  update() {
+    return [this._resource, 'update']
   }
 }

@@ -1,6 +1,7 @@
-import { AxiosInstance } from 'axios';
-import queryString, { StringifyOptions } from 'query-string';
-import { provideRestApiMethods } from '@/shared/rest-api/api/provideRestApiMethods';
+import { AxiosInstance } from 'axios'
+import queryString, { StringifyOptions } from 'query-string'
+
+import { provideRestApiMethods } from '@/shared/rest-api/api/provideRestApiMethods'
 
 
 export type QueryValue = string | null;
@@ -46,7 +47,7 @@ export default abstract class BaseRestApiService<Model, ModelInput>
   }
 
   public get(id: string) {
-    return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/${id}`);
+    return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/${id}`)
   }
 
   public getMany(query?: QueryParams, abort?: AbortController) {
@@ -54,10 +55,10 @@ export default abstract class BaseRestApiService<Model, ModelInput>
     //   abort = new AbortController()
     // }
 
-    let url = `/${this._resource}`;
+    let url = `/${this._resource}`
 
     if (query) {
-      url += `?${this._stringify(query)}`;
+      url += `?${this._stringify(query)}`
     }
 
     return provideRestApiMethods(this._client).get<Pagination<Model>>(
@@ -69,15 +70,15 @@ export default abstract class BaseRestApiService<Model, ModelInput>
   }
 
   public create(data: ModelInput) {
-    return provideRestApiMethods(this._client).post<Model, ModelInput>(`/${this._resource}`, data);
+    return provideRestApiMethods(this._client).post<Model, ModelInput>(`/${this._resource}`, data)
   }
 
   public update(id: string, data: Partial<ModelInput>) {
-    return provideRestApiMethods(this._client).patch<Model>(`/${this._resource}/${id}`, data);
+    return provideRestApiMethods(this._client).patch<Model>(`/${this._resource}/${id}`, data)
   }
 
   public delete(id: string) {
-    return provideRestApiMethods(this._client).del(`/${this._resource}/${id}`);
+    return provideRestApiMethods(this._client).del(`/${this._resource}/${id}`)
   }
 
   [key: string]: CallableFunction | unknown

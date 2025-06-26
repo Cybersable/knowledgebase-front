@@ -1,17 +1,19 @@
-'use client';
+'use client'
 
-import Button from '@mui/material/Button';
-import MUIDialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button'
+import MUIDialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 export default function Dialog({
   title,
   content,
   open = false,
   closeBtnText = 'Cancel',
+  disabled,
+  pending,
   onClose,
   submitBtnText = 'Submit',
   onSubmit,
@@ -23,6 +25,8 @@ export default function Dialog({
   onClose: () => void
   submitBtnText?: string
   onSubmit: () => void
+  disabled?: boolean
+  pending?: boolean
 }) {
   return (
     <MUIDialog
@@ -40,7 +44,10 @@ export default function Dialog({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>
+        <Button
+          onClick={onClose}
+          disabled={disabled}
+        >
           {closeBtnText}
         </Button>
         <Button
@@ -48,11 +55,13 @@ export default function Dialog({
           variant="contained"
           color="primary"
           onClick={onSubmit}
+          disabled={disabled}
+          loading={pending}
           autoFocus
         >
           {submitBtnText}
         </Button>
       </DialogActions>
     </MUIDialog>
-  );
+  )
 }

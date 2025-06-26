@@ -1,5 +1,5 @@
-export { useCategoriesGetQuery } from './useCategoriesGetQuery';
-export { useCategoriesGetManyQuery } from './useCategoriesGetManyQuery';
-export { useCategoriesCreateMutation } from './useCategoriesCreateMutation';
-export { useCategoriesUpdateMutation } from './useCategoriesUpdateMutation';
-export { useCategoriesDeleteMutation } from './useCategoriesDeleteMutation';
+export { useCategoriesCreateMutation } from './useCategoriesCreateMutation'
+export { useCategoriesDeleteMutation } from './useCategoriesDeleteMutation'
+export { useCategoriesGetManyQuery } from './useCategoriesGetManyQuery'
+export { useCategoriesGetQuery } from './useCategoriesGetQuery'
+export { useCategoriesUpdateMutation } from './useCategoriesUpdateMutation'

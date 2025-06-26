@@ -1,15 +1,16 @@
-import * as React from 'react';
-import { alpha, Theme, Components } from '@mui/material/styles';
-import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import { svgIconClasses } from '@mui/material/SvgIcon';
-import { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup';
-import { toggleButtonClasses } from '@mui/material/ToggleButton';
-import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { gray, brand } from './api';
+import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded'
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
+import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded'
+import { outlinedInputClasses } from '@mui/material/OutlinedInput'
+import { alpha, Components, Theme } from '@mui/material/styles'
+import { svgIconClasses } from '@mui/material/SvgIcon'
+import { toggleButtonClasses } from '@mui/material/ToggleButton'
+import { toggleButtonGroupClasses } from '@mui/material/ToggleButtonGroup'
+import * as React from 'react'
 
-/* eslint-disable import/prefer-default-export */
+import { brand, gray } from './api'
+
+ 
 export const inputsCustomizations: Components<Theme> = {
   MuiButtonBase: {
     defaultProps: {
@@ -216,7 +217,7 @@ export const inputsCustomizations: Components<Theme> = {
                 },
               }),
             },
-          },
+          }
         ],
       }),
     },
@@ -271,7 +272,7 @@ export const inputsCustomizations: Components<Theme> = {
               width: '2.5rem',
               height: '2.5rem',
             },
-          },
+          }
         ],
       }),
     },
@@ -416,7 +417,7 @@ export const inputsCustomizations: Components<Theme> = {
             style: {
               height: '2.5rem',
             },
-          },
+          }
         ],
       }),
       notchedOutline: {
@@ -442,4 +443,4 @@ export const inputsCustomizations: Components<Theme> = {
       }),
     },
   },
-};
+}

@@ -1,4 +1,4 @@
-import queryString, { StringifyOptions } from 'query-string';
+import queryString, { StringifyOptions } from 'query-string'
 
 type QueryValue = string | null;
 
@@ -11,7 +11,7 @@ const makePath = (
   params?: QueryParams,
   options?: StringifyOptions
 ) => {
-  if (!params) return route;
+  if (!params) return route
 
   return `${route}?${queryString.stringify(params, options)}`
 }
@@ -19,7 +19,7 @@ const makePath = (
 const routes = {
   home: {
     key: 'HOME_ROUTE',
-    path: '/'
+    path: '/',
   },
   docs: {
     key: 'DOCS_ROUTE',
@@ -77,6 +77,6 @@ const routes = {
     params,
     path: `/managing/articles/update/${params.articleId}`,
   }),
-} as const;
+} as const
 
-export default routes;
+export default routes

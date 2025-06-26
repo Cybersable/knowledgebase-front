@@ -1,1 +1,1 @@
-export { useCategoriesMenuSelectOptions } from './useCategoriesMenuSelectOptions';
+export { useCategoriesMenuSelectOptions } from './useCategoriesMenuSelectOptions'

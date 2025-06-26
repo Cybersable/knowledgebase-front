@@ -1,7 +1,7 @@
 import BaseRestApiService, {
   BaseRestApiServiceParams,
   Pagination
-} from '@/shared/rest-api/api/BaseRestApiService';
+} from '@/shared/rest-api/api/BaseRestApiService'
 
 export interface ArticlesApiModel {
   id: string
@@ -31,10 +31,10 @@ interface GetManyParams {
 export class ArticlesRestApiService
   extends BaseRestApiService<ArticlesApiModel, ArticlesApiModelInput> {
   constructor(params: BaseRestApiServiceParams) {
-    super(params);
+    super(params)
   }
 
   getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<Omit<ArticlesApiModel, 'content'>>> {
-    return super.getMany(query, abort);
+    return super.getMany(query, abort)
   }
 }

@@ -1,20 +1,20 @@
-'use client'
-
 import {
+  defaultShouldDehydrateQuery,
   isServer,
-  QueryClient,
-  QueryClientProvider
+  QueryClient
 } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { ReactNode } from 'react'
 
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
         staleTime: 60 * 1000,
+      },
+      dehydrate: {
+        // include pending queries in dehydration
+        shouldDehydrateQuery: (query) =>
+          defaultShouldDehydrateQuery(query) ||
+          query.state.status === 'pending',
       },
     },
   })
@@ -22,7 +22,7 @@ function makeQueryClient() {
 
 let browserQueryClient: QueryClient | undefined = undefined
 
-function getQueryClient() {
+export function getQueryClient() {
   if (isServer) {
     // Server: always make a new query client
     return makeQueryClient()
@@ -34,19 +34,4 @@ function getQueryClient() {
     if (!browserQueryClient) browserQueryClient = makeQueryClient()
     return browserQueryClient
   }
-}
-
-export default function QueryProvider({
-  children,
-}: {
-  children: ReactNode
-}) {
-  const queryClient = getQueryClient()
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={true} />
-      {children}
-    </QueryClientProvider>
-  )
 }

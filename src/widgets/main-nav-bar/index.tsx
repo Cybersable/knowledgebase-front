@@ -1,52 +1,71 @@
-'use client';
+'use client'
 
-import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import ArticleIcon from '@mui/icons-material/Article'
+import CategoryIcon from '@mui/icons-material/Category'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import MenuIcon from '@mui/icons-material/Menu'
+import WorkspacesOutlineIcon from '@mui/icons-material/WorkspacesOutline'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import { useState } from 'react'
 
-import routes from '@/services/routes-provider';
+import routes from '@/services/routes-provider'
+import SitemarkIcon from '@/shared/ui/icons/SitemarkIcon'
+import MenuDropdown from '@/widgets/main-nav-bar/ui/MenuDropdown'
 
-import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import ColorModeIconDropdown from './ui/ColorModeIconDropdown';
-import SitemarkIcon from '@/shared/ui/icons/SitemarkIcon';
-import { StyledToolbar } from "./styled";
+import { StyledToolbar } from './styled'
+import ColorModeIconDropdown from './ui/ColorModeIconDropdown'
 
 const navigationList = [
   {
+    id: 'home',
     title: 'Home',
     href: routes.home.path,
   },
   {
+    id: 'docs',
     title: 'Docs',
     href: routes.docs.path,
   },
   {
+    id: 'managing',
     title: 'Managing',
     href: routes.managingArticles.path,
-  },
-];
+    children: [
+      {
+        id: 'managing-articles',
+        icon: <ArticleIcon />,
+        title: 'Articles',
+        href: routes.managingArticles.path,
+      },
+      {
+        id: 'managing-categories',
+        title: 'Categories',
+        icon: <CategoryIcon />,
+        href: routes.managingCategories.path,
+      },
+      {
+        id: 'managing-workspaces',
+        title: 'Workspaces',
+        icon: <WorkspacesOutlineIcon />,
+        href: routes.managingWorkspaces.path,
+      }
+    ],
+  }
+]
 
 export default function MainNavBar() {
-  const [open, setOpen] = useState(false);
-  const { push } = useRouter();
+  const [open, setOpen] = useState(false)
 
   const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen);
-  };
-
-  const onNavClick = useCallback((href?: string) => {
-    if (!href) return;
-
-    push(href);
-  }, [push]);
+    setOpen(newOpen)
+  }
 
   return (
     <AppBar
@@ -60,20 +79,21 @@ export default function MainNavBar() {
       }}
     >
       <Container maxWidth="lg">
-        <StyledToolbar variant="dense" disableGutters>
+        <StyledToolbar
+          variant="dense"
+          disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <SitemarkIcon />
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              {navigationList.map((item, index) => (
-                <Button
-                  key={index}
-                  variant="text"
-                  color="info"
-                  size="small"
-                  onClick={() => onNavClick(item.href)}
+            <Box sx={{ display: { xs: 'none', md: 'flex' }}}>
+              {navigationList.map((item) => (
+                <MenuDropdown
+                  key={item.id}
+                  href={item.href}
+                  list={item.children}
+                  menuId={`nav-menu-${item.id}`}
                 >
                   {item.title}
-                </Button>
+                </MenuDropdown>
               ))}
             </Box>
           </Box>
@@ -94,7 +114,9 @@ export default function MainNavBar() {
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
             <ColorModeIconDropdown size="medium" />
-            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+            <IconButton
+              aria-label="Menu button"
+              onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
             <Drawer
@@ -126,12 +148,18 @@ export default function MainNavBar() {
                 <MenuItem>Blog</MenuItem>
                 <Divider sx={{ my: 3 }} />
                 <MenuItem>
-                  <Button color="primary" variant="contained" fullWidth>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    fullWidth>
                     Sign up
                   </Button>
                 </MenuItem>
                 <MenuItem>
-                  <Button color="primary" variant="outlined" fullWidth>
+                  <Button
+                    color="primary"
+                    variant="outlined"
+                    fullWidth>
                     Sign in
                   </Button>
                 </MenuItem>
@@ -141,5 +169,5 @@ export default function MainNavBar() {
         </StyledToolbar>
       </Container>
     </AppBar>
-  );
+  )
 }

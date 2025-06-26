@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import visuallyHidden from '@mui/utils/visuallyHidden';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import InputLabel from '@mui/material/InputLabel'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import visuallyHidden from '@mui/utils/visuallyHidden'
 
 export default function Home() {
   return (
@@ -25,7 +25,7 @@ export default function Home() {
         <Stack
           spacing={2}
           useFlexGap
-          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' } }}
+          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' }}}
         >
           <Typography
             variant="h1"
@@ -66,9 +66,11 @@ export default function Home() {
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}
             useFlexGap
-            sx={{ pt: 2, width: { xs: '100%', sm: '350px' } }}
+            sx={{ pt: 2, width: { xs: '100%', sm: '350px' }}}
           >
-            <InputLabel htmlFor="search-hero" sx={visuallyHidden}>
+            <InputLabel
+              htmlFor="search-hero"
+              sx={visuallyHidden}>
               Search
             </InputLabel>
             <TextField
@@ -101,7 +103,9 @@ export default function Home() {
             sx={{ textAlign: 'center' }}
           >
             By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
+            <Link
+              href="#"
+              color="primary">
               Terms & Conditions
             </Link>
             .
@@ -109,5 +113,5 @@ export default function Home() {
         </Stack>
       </Container>
     </Box>
-  );
+  )
 }

@@ -1,7 +1,8 @@
-import { alpha, Theme, Components } from '@mui/material/styles';
-import { gray } from './api';
+import { alpha, Components, Theme } from '@mui/material/styles'
 
-/* eslint-disable import/prefer-default-export */
+import { gray } from './api'
+
+ 
 export const surfacesCustomizations: Components<Theme> = {
   MuiAccordion: {
     defaultProps: {
@@ -82,9 +83,9 @@ export const surfacesCustomizations: Components<Theme> = {
                   background: alpha(gray[900], 0.4),
                 }),
               },
-            },
+            }
           ],
-        };
+        }
       },
     },
   },
@@ -110,4 +111,4 @@ export const surfacesCustomizations: Components<Theme> = {
       },
     },
   },
-};
+}

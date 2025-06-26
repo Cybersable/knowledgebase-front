@@ -1,24 +1,20 @@
-import { Suspense } from 'react';
-import Box from '@mui/material/Box';
-import MainLayout from '@/widgets/layouts/main-layout';
-import DocsSideNav from '@/widgets/docs-side-nav';
-import DocsList from '@/widgets/docs-list';
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { Suspense } from 'react'
 
-export default function DocsPage() {
+import DocsList from '@/widgets/docs-list'
+
+export default async function DocsPage() {
   return (
-    <MainLayout
-      id="docs-layout"
-      leftChildren={(
-        <Suspense>
-          <DocsSideNav />
-        </Suspense>
-      )}
-    >
-      <Box id="docs-page">
-        <Suspense>
-          <DocsList />
-        </Suspense>
-      </Box>
-    </MainLayout>
-  );
+    <Box id="docs-page">
+      <Suspense>
+        <Typography
+          variant="h4"
+          gutterBottom>
+          Docs
+        </Typography>
+        <DocsList />
+      </Suspense>
+    </Box>
+  )
 }

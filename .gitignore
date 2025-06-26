@@ -24,6 +24,7 @@
 /src/generated-fake-data
 
 # misc
+.idea
 .DS_Store
 *.pem
 

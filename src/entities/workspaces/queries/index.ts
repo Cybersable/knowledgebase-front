@@ -1,5 +1,5 @@
-export { useWorkspacesGetManyQuery } from './useWorkspacesGetManyQuery';
-export { useWorkspacesGetQuery } from './useWorkspacesGetQuery';
-export { useWorkspacesUpdateMutation } from './useWorkspacesUpdateMutation';
-export { useWorkspacesCreateMutation } from './useWorkspacesCreateMutation';
-export { useWorkspacesDeleteMutation } from './useWorkspacesDeleteMutation';
+export { useWorkspacesCreateMutation } from './useWorkspacesCreateMutation'
+export { useWorkspacesDeleteMutation } from './useWorkspacesDeleteMutation'
+export { useWorkspacesGetManyQuery } from './useWorkspacesGetManyQuery'
+export { useWorkspacesGetQuery } from './useWorkspacesGetQuery'
+export { useWorkspacesUpdateMutation } from './useWorkspacesUpdateMutation'

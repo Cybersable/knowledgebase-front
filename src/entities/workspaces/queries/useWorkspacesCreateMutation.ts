@@ -1,15 +1,31 @@
-import { useMutation } from '@tanstack/react-query';
 import {
-  workspacesRestApiService,
-  WorkspacesApiModelInput
-} from '@/shared/rest-api/workspaces';
+  useMutation,
+  useQueryClient
+} from '@tanstack/react-query'
 
-export const useWorkspacesCreateMutation = () => {
-  const { mutate } = useMutation({
+import { workspacesQueryClientKeys } from '@/shared/queries'
+import {
+  WorkspacesApiModelInput,
+  workspacesRestApiService
+} from '@/shared/rest-api/workspaces'
+
+export const useWorkspacesCreateMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void
+}) => {
+  const queryClient = useQueryClient()
+
+  const { mutateAsync } = useMutation({
+    mutationKey: workspacesQueryClientKeys.create(),
     mutationFn: (data: WorkspacesApiModelInput) => workspacesRestApiService.create(data),
-  });
+    onSuccess: (data) => {
+      queryClient.setQueryData(workspacesQueryClientKeys.get(data.id), data)
+      queryClient.invalidateQueries({ queryKey: workspacesQueryClientKeys.getManyBase() })
 
-  return {
-    createWorkspace: mutate,
-  }
+      onSuccess?.()
+    },
+  })
+
+  return { createWorkspaceAsync: mutateAsync }
 }

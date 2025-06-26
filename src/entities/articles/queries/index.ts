@@ -1,5 +1,5 @@
-export { useArticlesGetQuery } from './useArticlesGetQuery';
-export { useArticlesGetManyQuery } from './useArticlesGetManyQuery';
-export { useArticlesCreateMutation } from './useArticlesCreateMutation';
-export { useArticlesUpdateMutation } from './useArticlesUpdateMutation';
-export { useArticlesDeleteMutation } from './useArticlesDeleteMutation';
+export { useArticlesCreateMutation } from './useArticlesCreateMutation'
+export { useArticlesDeleteMutation } from './useArticlesDeleteMutation'
+export { useArticlesGetManyQuery } from './useArticlesGetManyQuery'
+export { useArticlesGetQuery } from './useArticlesGetQuery'
+export { useArticlesUpdateMutation } from './useArticlesUpdateMutation'

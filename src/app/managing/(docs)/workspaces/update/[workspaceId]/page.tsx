@@ -1,43 +1,44 @@
-'use client';
+'use client'
 
+import DeleteIcon from '@mui/icons-material/Delete'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import { useRouter } from 'next/navigation'
 import {
   use,
   useCallback,
   useState
-} from 'react';
-import {
-  useWorkspacesGetQuery,
-  useWorkspacesUpdateMutation,
-  useWorkspacesDeleteMutation,
-} from '@/entities/workspaces/queries';
+} from 'react'
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import WorkspacesForm from '@/features/workspaces/form';
-import Dialog from '@/shared/ui/dialog';
+import {
+  useWorkspacesDeleteMutation,
+  useWorkspacesGetQuery
+} from '@/entities/workspaces/queries'
+import WorkspacesForm from '@/features/workspaces/form'
+import routes from '@/services/routes-provider'
+import Dialog from '@/shared/ui/dialog'
 
 export default function WorkspacesUpdatePage({
   params,
 }: {
   params: Promise<{ workspaceId: string }>
 }) {
-  const { workspaceId } = use(params);
+  const { back, push } = useRouter()
 
-  const { workspace } = useWorkspacesGetQuery({ workspaceId });
+  const { workspaceId } = use(params)
 
-  const { updateWorkspace } = useWorkspacesUpdateMutation({
-    workspaceId,
-  });
+  const { workspace } = useWorkspacesGetQuery({ workspaceId })
 
-  const [deletingDialogOpen, setDeletingDialogOpen] = useState(false);
-  const { deleteWorkspace } = useWorkspacesDeleteMutation({ workspaceId });
-  const handleDeleteWorkspace = useCallback(() => {
-    deleteWorkspace();
-    setDeletingDialogOpen(false);
-  }, [deleteWorkspace]);
+  const [deletingDialogOpen, setDeletingDialogOpen] = useState(false)
+  const { deleteWorkspaceAsync, deleteWorkspacePending } = useWorkspacesDeleteMutation({
+    onSuccess: () => push(routes.managingWorkspaces.path),
+  })
+  const handleDeleteWorkspace = useCallback(async () => {
+    await deleteWorkspaceAsync(workspaceId)
+    setDeletingDialogOpen(false)
+  }, [deleteWorkspaceAsync, workspaceId])
 
   return (
     <Box id="managing-workspaces-update-page">
@@ -46,7 +47,9 @@ export default function WorkspacesUpdatePage({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography
+          variant="h4"
+          gutterBottom>
           Update workspace
         </Typography>
         <Button
@@ -60,16 +63,20 @@ export default function WorkspacesUpdatePage({
         </Button>
         <Dialog
           title="Deleting workspace"
-          content={`Delete "${workspace?.title}" workspace forever?`}
+          content={`Delete "${workspace?.title}" workspace, with their categories and articles forever?`}
           open={deletingDialogOpen}
           onClose={() => setDeletingDialogOpen(false)}
           onSubmit={handleDeleteWorkspace}
+          disabled={deleteWorkspacePending}
+          pending={deleteWorkspacePending}
+          submitBtnText={'Delete'}
         />
       </Stack>
       <WorkspacesForm
+        workspaceId={workspaceId}
         defaultValues={workspace}
-        onSubmit={updateWorkspace}
+        onCancelAction={back}
       />
     </Box>
-  );
+  )
 }

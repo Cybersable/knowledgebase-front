@@ -1,31 +1,30 @@
-'use client';
+'use client'
 
-import { useMemo } from 'react';
+import AddIcon from '@mui/icons-material/Add'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
+import { useMemo } from 'react'
 
-import routes from '@/services/routes-provider';
-import { useCategoriesGetManyQuery } from '@/entities/categories/queries';
-import { useSearchParams } from 'next/navigation';
-
-import Link from 'next/link';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import SummaryList from '@/shared/ui/summary-list';
+import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
+import routes from '@/services/routes-provider'
+import SummaryList from '@/shared/ui/summary-list'
 
 export default function ArticlesPage() {
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const { workspaceId } = useMemo(() => {
     return {
       workspaceId: searchParams.get('workspaceId') ?? '',
     }
-  }, [searchParams]);
+  }, [searchParams])
 
   const { categoriesList } = useCategoriesGetManyQuery({
     workspaceId,
-  });
+  })
 
   const summaryList = useMemo(() => {
     return categoriesList?.map((category) => ({
@@ -34,12 +33,16 @@ export default function ArticlesPage() {
       summary: category.summary,
       href: routes.categoriesUpdate({ categoryId: category.id }).path,
     }))
-  }, [categoriesList]);
+  }, [categoriesList])
 
   return (
     <Box id="managing-categories-page">
-      <Stack direction="row" justifyContent="space-between">
-        <Typography variant="h4" gutterBottom>
+      <Stack
+        direction="row"
+        justifyContent="space-between">
+        <Typography
+          variant="h4"
+          gutterBottom>
           Managing categories
         </Typography>
         <Button
@@ -55,5 +58,5 @@ export default function ArticlesPage() {
       </Stack>
       <SummaryList list={summaryList} />
     </Box>
-  );
+  )
 }

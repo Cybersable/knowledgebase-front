@@ -1,14 +1,13 @@
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 import {
-  QueryClient,
   dehydrate,
   HydrationBoundary,
-} from '@tanstack/react-query';
-import { articlesQueryClientKeys } from '@/shared/queries';
-import { articlesRestApiService } from '@/shared/rest-api/articles';
+  QueryClient
+} from '@tanstack/react-query'
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import MainLayout from '@/widgets/layouts/main-layout';
+import { articlesQueryClientKeys } from '@/shared/queries'
+import { articlesRestApiService } from '@/shared/rest-api/articles'
 
 export default async function DocsArticlesPage({
   params,
@@ -18,24 +17,30 @@ export default async function DocsArticlesPage({
     articleSlug: string
   }>
 }) {
-  const { articleId } = await params;
+  const { articleId } = await params
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient()
 
   const article = await queryClient.fetchQuery({
     queryKey: articlesQueryClientKeys.get(articleId),
     queryFn: () => articlesRestApiService.get(articleId),
-  });
+  })
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <MainLayout id="docs-articles-layout">
-        <Box id="docs-articles-page">
-          <Typography variant="h4" gutterBottom>
-            {article.title}
-          </Typography>
-        </Box>
-      </MainLayout>
+      <Box id="docs-articles-page">
+        <Typography
+          variant="h4"
+          gutterBottom>
+          {article.title}
+        </Typography>
+        <Typography>
+          {article.summary}
+        </Typography>
+        <Typography>
+          {article.content}
+        </Typography>
+      </Box>
     </HydrationBoundary>
-  );
+  )
 }

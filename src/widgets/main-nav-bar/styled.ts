@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { alpha, styled } from '@mui/material/styles';
-import Toolbar from '@mui/material/Toolbar';
+import { alpha, styled } from '@mui/material/styles'
+import Toolbar from '@mui/material/Toolbar'
 
 export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -17,4 +17,4 @@ export const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     : alpha(theme.palette.background.default, 0.4),
   boxShadow: (theme.vars || theme).shadows[1],
   padding: '8px 12px',
-}));
+}))

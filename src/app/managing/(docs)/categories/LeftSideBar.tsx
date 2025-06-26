@@ -1,41 +1,41 @@
-'use client';
+'use client'
 
-import {
-  useCallback,
-  useMemo
-} from 'react';
+import Stack from '@mui/material/Stack'
 import {
   useRouter,
   useSearchParams
-} from 'next/navigation';
+} from 'next/navigation'
+import {
+  useCallback,
+  useMemo
+} from 'react'
 
-import Stack from '@mui/material/Stack';
-import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect';
+import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 
 export default function CategoriesLeftSideBar() {
-  const { replace } = useRouter();
+  const { replace } = useRouter()
 
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
   const { workspaceId } = useMemo(() => {
     return {
       workspaceId: searchParams.get('workspaceId') ?? '',
     }
-  }, [searchParams]);
+  }, [searchParams])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    if (!workspaceId) return replace(`?`);
+    if (!workspaceId) return replace(`?`)
 
-    replace(`?workspaceId=${workspaceId}`);
-  }, [replace]);
+    replace(`?workspaceId=${workspaceId}`)
+  }, [replace])
 
   return (
     <Stack>
       <WorkspacesMenuSelect
         id="docs-side-nav-workspaces"
         workspaceId={workspaceId}
-        onWorkspaceChange={handleWorkspaceChange}
+        onWorkspaceChangeAction={handleWorkspaceChange}
       />
     </Stack>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import { useCallback, useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 
-import { workspacesQueryClientKeys } from '@/shared/queries';
-import { workspacesRestApiService } from '@/shared/rest-api/workspaces';
+import { workspacesQueryClientKeys } from '@/shared/queries'
+import { workspacesRestApiService } from '@/shared/rest-api/workspaces'
 
 export const useWorkspacesGetQuery = ({
   workspaceId,
@@ -10,22 +10,22 @@ export const useWorkspacesGetQuery = ({
   workspaceId?: string
 }) => {
   const queryKey = useMemo(() => {
-    if (!workspaceId) return [];
+    if (!workspaceId) return []
 
-    return workspacesQueryClientKeys.get(workspaceId);
-  }, [workspaceId]);
+    return workspacesQueryClientKeys.get(workspaceId)
+  }, [workspaceId])
 
   const queryFn = useCallback(() => {
-    if (!workspaceId) return;
+    if (!workspaceId) return
 
-    return workspacesRestApiService.get(workspaceId);
-  }, [workspaceId]);
+    return workspacesRestApiService.get(workspaceId)
+  }, [workspaceId])
 
   const { data } = useQuery({
     enabled: !!workspaceId,
     queryKey,
     queryFn,
-  });
+  })
 
   return {
     workspace: data,

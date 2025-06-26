@@ -1,8 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query'
+
 import {
   CategoriesApiModelInput,
-  categoriesRestApiService,
-} from '@/shared/rest-api/categories';
+  categoriesRestApiService
+} from '@/shared/rest-api/categories'
 
 export const useCategoriesUpdateMutation = ({
   categoryId,
@@ -11,7 +12,7 @@ export const useCategoriesUpdateMutation = ({
 }) => {
   const { mutate } = useMutation({
     mutationFn: (data: Partial<CategoriesApiModelInput>) => categoriesRestApiService.update(categoryId, data),
-  });
+  })
 
   return {
     updateCategory: mutate,
