@@ -15,7 +15,7 @@ const mainListItems = [
     id: 'articles',
     icon: <ArticleIcon />,
     text: 'Articles',
-    path: routes.managingArticles.path,
+    path: routes.managingArticles().path,
   },
   {
     id: 'categories',

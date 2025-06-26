@@ -16,7 +16,8 @@ export default function CategoriesCreatePage() {
     <Box id="categories-create-page">
       <Typography
         variant="h4"
-        gutterBottom>
+        gutterBottom
+      >
         Add new category
       </Typography>
       <CategoriesForm

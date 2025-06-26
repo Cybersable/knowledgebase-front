@@ -18,7 +18,6 @@ export interface ArticlesApiModelInput {
   title: string
   summary?: string
   content?: string | null
-  workspaceId: string
   categoryId: string
 }
 

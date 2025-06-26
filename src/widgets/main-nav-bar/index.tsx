@@ -36,19 +36,19 @@ const navigationList = [
   {
     id: 'managing',
     title: 'Managing',
-    href: routes.managingArticles.path,
+    href: routes.managingArticles().path,
     children: [
       {
         id: 'managing-articles',
         icon: <ArticleIcon />,
         title: 'Articles',
-        href: routes.managingArticles.path,
+        href: routes.managingArticles().path,
       },
       {
         id: 'managing-categories',
         title: 'Categories',
         icon: <CategoryIcon />,
-        href: routes.managingCategories.path,
+        href: routes.managingCategories().path,
       },
       {
         id: 'managing-workspaces',

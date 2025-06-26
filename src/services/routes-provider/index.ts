@@ -61,17 +61,18 @@ const routes = {
     params,
     path: `/managing/categories/update/${params.categoryId}`,
   }),
-  managingArticles: {
+  managingArticles: (params?: { workspaceId: string, categoryId: string }) => ({
     key: 'MANAGING_DOCS_ARTICLES_ROUTE',
-    path: '/managing/articles',
-  },
+    params,
+    path: makePath('/managing/articles', params),
+  }),
   articlesCreate: (params?: {
     workspaceId?: string
     categoryId?: string
   }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',
     params,
-    path: makePath('/managing/articles', params),
+    path: makePath('/managing/articles/create', params),
   }),
   articlesUpdate: (params: { articleId: string }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',

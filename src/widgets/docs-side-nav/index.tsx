@@ -8,12 +8,11 @@ import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
 import {
   useRouter,
-  useSearchParams,
-  useSelectedLayoutSegment
+  useSearchParams
 } from 'next/navigation'
 import {
   useCallback,
-  useEffect, useMemo,
+  useEffect,
   useState
 } from 'react'
 
@@ -25,16 +24,17 @@ import CategoriesMenuSelect from '@/features/categories/MenuSelect'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
-export default function DocsSideNav() {
+export default function DocsSideNav({
+  articleId = '',
+  canUseQueryParams,
+}: {
+  articleId?: string
+  canUseQueryParams?: boolean
+}) {
   const { replace } = useRouter()
 
   const [workspaceId, setWorkspaceId] = useState('')
   const [categoryId, setCategoryId] = useState('')
-
-  const articleId = useSelectedLayoutSegment()
-  const canUseQueryParams = useMemo(() => {
-    return !articleId
-  }, [articleId])
 
   const { article } = useArticlesGetQuery({ articleId })
 

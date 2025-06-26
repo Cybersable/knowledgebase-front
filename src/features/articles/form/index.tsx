@@ -9,14 +9,13 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
 import { useForm } from '@tanstack/react-form'
-import { useRouter } from 'next/navigation'
 import {
-  useCallback,
   useEffect,
   useState
 } from 'react'
 
-import { ArticlesModelInput } from '@/entities/articles/model'
+import { ArticlesModel } from '@/entities/articles/model'
+import { useArticlesCreateMutation, useArticlesUpdateMutation } from '@/entities/articles/queries'
 import { useCategoriesMenuSelectOptions } from '@/entities/categories/api'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
@@ -27,34 +26,29 @@ const FormGrid = styled(Grid)(() => ({
   flexDirection: 'column',
 }))
 
+const defaultFormValues = {
+  title: '',
+  summary: '',
+  content: '',
+  categoryId: '',
+  workspaceId: '',
+}
+
 export default function ArticlesForm({
+  articleId,
   cancelBtnText = 'Cancel',
-  onCancel,
+  onCancelAction,
   submitBtnText = 'Submit',
-  onSubmit,
-  defaultValues = {
-    title: '',
-    summary: '',
-    content: '',
-    categoryId: '',
-    workspaceId: '',
-  },
+  onSuccessAction,
+  defaultValues,
 }: {
+  articleId?: string
   cancelBtnText?: string
-  onCancel?: () => void
+  onCancelAction?: () => void
   submitBtnText?: string
-  onSubmit?: (article: ArticlesModelInput) => void
-  defaultValues?: ArticlesModelInput
+  onSuccessAction?: () => void
+  defaultValues?: Partial<ArticlesModel>
 }) {
-  const { back } = useRouter()
-
-  const form = useForm({
-    defaultValues,
-    onSubmit: ({ value }) => {
-      onSubmit?.(value)
-    },
-  })
-
   const [workspaceId, setWorkspaceId] = useState('')
   const { workspacesList } = useWorkspacesGetManyQuery()
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
@@ -64,19 +58,33 @@ export default function ArticlesForm({
   })
   const categoriesOptions = useCategoriesMenuSelectOptions(categoriesList)
 
-  const handleCancelBtn = useCallback(() => {
-    if (onCancel) {
-      return onCancel()
-    }
-
-    back()
-  }, [onCancel, back])
-
   useEffect(() => {
     if (defaultValues?.workspaceId) {
       setWorkspaceId(defaultValues.workspaceId)
     }
   }, [defaultValues?.workspaceId])
+
+  const { createArticleAsync } = useArticlesCreateMutation({
+    onSuccess: onSuccessAction,
+  })
+  const { updateArticleAsync } = useArticlesUpdateMutation({
+    onSuccess: onSuccessAction,
+  })
+
+  const form = useForm({
+    defaultValues: {
+      ...defaultFormValues,
+      ...defaultValues,
+    },
+    onSubmit: async ({ value }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { workspaceId, ...data } = value
+
+      if (articleId) return await updateArticleAsync({ articleId, data })
+
+      await createArticleAsync(data)
+    },
+  })
 
   return (
     <form
@@ -105,6 +113,7 @@ export default function ArticlesForm({
                 required
                 size="small"
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => {
                   field.handleChange(e.target.value)
                 }}
@@ -128,6 +137,7 @@ export default function ArticlesForm({
                 required
                 size="small"
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => field.handleChange(e.target.value)}
               />
             </FormGrid>
@@ -154,6 +164,7 @@ export default function ArticlesForm({
                 size="small"
                 required
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {workspacesOptions?.map((option) => (
@@ -183,6 +194,7 @@ export default function ArticlesForm({
                 size="small"
                 required
                 value={field.state.value}
+                disabled={form.state.isSubmitting}
                 onChange={(e) => field.handleChange(e.target.value)}
               >
                 {categoriesOptions?.map((option) => (
@@ -212,6 +224,7 @@ export default function ArticlesForm({
                 placeholder="Main content is need for describe all company features."
                 required
                 size="small"
+                disabled={form.state.isSubmitting}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
               />
@@ -228,8 +241,9 @@ export default function ArticlesForm({
             variant="text"
             size="small"
             type="button"
-            onClick={handleCancelBtn}
+            onClick={onCancelAction}
             sx={{ minWidth: 'fit-content' }}
+            disabled={form.state.isSubmitting}
           >
             {cancelBtnText}
           </Button>
