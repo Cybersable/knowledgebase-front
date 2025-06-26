@@ -23,7 +23,7 @@ export default function CategoriesMenuSelect({
     <MenuSelect
       id={id}
       options={categoriesOptions}
-      onChange={onCategoryChangeAction}
+      onChangeAction={onCategoryChangeAction}
       value={categoryId}
       clearable
       emptyValue={{

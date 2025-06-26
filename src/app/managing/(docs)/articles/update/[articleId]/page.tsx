@@ -64,8 +64,8 @@ export default function ArticlesUpdatePage({
           title="Deleting article"
           content={`Delete "${article?.title}" article forever?`}
           open={deletingDialogOpen}
-          onClose={() => setDeletingDialogOpen(false)}
-          onSubmit={handleDeleteArticle}
+          onCloseAction={() => setDeletingDialogOpen(false)}
+          onSubmitAction={handleDeleteArticle}
         />
       </Stack>
       <ArticlesForm

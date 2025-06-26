@@ -64,8 +64,8 @@ export default function CategoriesUpdatePage({
           title="Deleting category"
           content={`Delete "${category?.title}" category forever?`}
           open={deletingDialogOpen}
-          onClose={() => setDeletingDialogOpen(false)}
-          onSubmit={handleDeleteCategory}
+          onCloseAction={() => setDeletingDialogOpen(false)}
+          onSubmitAction={handleDeleteCategory}
         />
       </Stack>
       <CategoriesForm

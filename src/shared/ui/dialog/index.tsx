@@ -14,24 +14,24 @@ export default function Dialog({
   closeBtnText = 'Cancel',
   disabled,
   pending,
-  onClose,
+  onCloseAction,
   submitBtnText = 'Submit',
-  onSubmit,
+  onSubmitAction,
 }: {
   title: string
   content?: string
   open: boolean
   closeBtnText?: string
-  onClose: () => void
+  onCloseAction: () => void
   submitBtnText?: string
-  onSubmit: () => void
+  onSubmitAction: () => void
   disabled?: boolean
   pending?: boolean
 }) {
   return (
     <MUIDialog
       open={open}
-      onClose={onClose}
+      onClose={onCloseAction}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -45,7 +45,7 @@ export default function Dialog({
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={onClose}
+          onClick={onCloseAction}
           disabled={disabled}
         >
           {closeBtnText}
@@ -54,7 +54,7 @@ export default function Dialog({
           size="small"
           variant="contained"
           color="primary"
-          onClick={onSubmit}
+          onClick={onSubmitAction}
           disabled={disabled}
           loading={pending}
           autoFocus

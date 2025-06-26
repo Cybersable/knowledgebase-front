@@ -26,14 +26,14 @@ interface MenuSelectOption {
 export default function MenuSelect({
   id,
   value,
-  onChange,
+  onChangeAction,
   options,
   emptyValue,
   clearable,
 }: {
   id: string,
   value?: string
-  onChange: (value: string) => void
+  onChangeAction: (value: string) => void
   options?: Array<MenuSelectOption>
   emptyValue?: {
     label: string
@@ -45,8 +45,8 @@ export default function MenuSelect({
   const handleChange = useCallback((event: unknown) => {
     const value = (event as SelectChangeEvent).target.value
 
-    onChange(value as string)
-  }, [onChange])
+    onChangeAction(value as string)
+  }, [onChangeAction])
 
   // useEffect(() => {
   //   if (value || !options || !options.length) return;
@@ -110,7 +110,7 @@ export default function MenuSelect({
           <IconButton
             size="small"
             aria-label="clear"
-            onClick={() => onChange('')}
+            onClick={() => onChangeAction('')}
             sx={{
               width: 20,
               height: 20,

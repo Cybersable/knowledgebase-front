@@ -65,8 +65,8 @@ export default function WorkspacesUpdatePage({
           title="Deleting workspace"
           content={`Delete "${workspace?.title}" workspace, with their categories and articles forever?`}
           open={deletingDialogOpen}
-          onClose={() => setDeletingDialogOpen(false)}
-          onSubmit={handleDeleteWorkspace}
+          onCloseAction={() => setDeletingDialogOpen(false)}
+          onSubmitAction={handleDeleteWorkspace}
           disabled={deleteWorkspacePending}
           pending={deleteWorkspacePending}
           submitBtnText={'Delete'}

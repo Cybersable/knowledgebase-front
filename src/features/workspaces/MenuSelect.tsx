@@ -21,7 +21,7 @@ export default function WorkspacesMenuSelect({
       <MenuSelect
         id={`${id}-workspaces-menu-select`}
         options={workspacesOptions}
-        onChange={onWorkspaceChangeAction}
+        onChangeAction={onWorkspaceChangeAction}
         value={workspaceId}
         clearable
         emptyValue={{
