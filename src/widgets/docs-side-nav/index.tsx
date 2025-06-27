@@ -1,74 +1,43 @@
 'use client'
 
 import Box from '@mui/material/Box'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Link from 'next/link'
 import {
-  useRouter,
-  useSearchParams
+  useRouter
 } from 'next/navigation'
 import {
-  useCallback,
-  useEffect,
+  useCallback, useEffect,
   useState
 } from 'react'
 
-import {
-  useArticlesGetQuery
-} from '@/entities/articles/queries'
-import CategoriesMenuSelect from '@/features/categories/MenuSelect'
+import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 
 export default function DocsSideNav({
-  articleId = '',
-  canUseQueryParams,
+  workspaceSlug,
+  categorySlug,
 }: {
-  articleId?: string
-  canUseQueryParams?: boolean
+  workspaceSlug?: string
+  categorySlug?: string
 }) {
-  const { replace } = useRouter()
+  const { push } = useRouter()
 
   const [workspaceId, setWorkspaceId] = useState('')
-  const [categoryId, setCategoryId] = useState('')
-
-  const { article } = useArticlesGetQuery({ articleId })
 
   useEffect(() => {
-    if (article) {
-      setWorkspaceId(article.workspaceId)
-      setCategoryId(article.categoryId)
-    }
-  }, [article])
-
-  const searchParams = useSearchParams()
-  useEffect(() => {
-    if (!canUseQueryParams) return
-
-    const [queryWorkspaceId, queryCategoryId] = [
-      searchParams.get('workspaceId'),
-      searchParams.get('categoryId')
-    ]
-
-    setWorkspaceId(queryWorkspaceId ?? '')
-    setCategoryId(queryCategoryId ?? '')
-  }, [canUseQueryParams, searchParams])
+    setWorkspaceId(workspaceSlug ?? '')
+  }, [workspaceSlug])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    setCategoryId('')
     setWorkspaceId(workspaceId)
-  }, [])
+    push(`/docs/${workspaceId}`)
+  }, [push])
 
-  useEffect(() => {
-    if (!canUseQueryParams) return
-
-    if (!workspaceId) {
-      return replace(`?`)
-    }
-
-    if (!categoryId) {
-      return replace(`?workspaceId=${workspaceId}`)
-    }
-
-    replace(`?workspaceId=${workspaceId}&categoryId=${categoryId}`)
-  }, [workspaceId, categoryId, canUseQueryParams, replace])
+  const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
 
   return (
     <Box
@@ -81,31 +50,22 @@ export default function DocsSideNav({
         workspaceId={workspaceId}
         onWorkspaceChangeAction={handleWorkspaceChange}
       />
-      <CategoriesMenuSelect
-        id="docs-side-nav-categories"
-        workspaceId={workspaceId}
-        categoryId={categoryId}
-        onCategoryChangeAction={setCategoryId}
-      />
-      {/*<List>*/}
-      {/*  {articlesList?.map((item) => (*/}
-      {/*    <ListItem*/}
-      {/*      key={item.id}*/}
-      {/*      disablePadding*/}
-      {/*      sx={{ display: 'block' }}*/}
-      {/*    >*/}
-      {/*      <ListItemButton*/}
-      {/*        LinkComponent={Link}*/}
-      {/*        href={routes.docsArticles({*/}
-      {/*          articleId: item.id,*/}
-      {/*          articleSlug: item.slug,*/}
-      {/*        }).path}*/}
-      {/*      >*/}
-      {/*        <ListItemText primary={item.title} />*/}
-      {/*      </ListItemButton>*/}
-      {/*    </ListItem>*/}
-      {/*  ))}*/}
-      {/*</List>*/}
+      <List>
+        {categoriesList?.map((item) => (
+          <ListItem
+            key={item.id}
+            disablePadding
+            sx={{ display: 'block' }}
+          >
+            <ListItemButton
+              LinkComponent={Link}
+              href={`/docs/${item.workspaceId}/${item.id}`}
+            >
+              <ListItemText primary={item.title} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   )
 }

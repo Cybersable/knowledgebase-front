@@ -1,6 +1,5 @@
 import {
-  useInfiniteQuery,
-  useQueryClient
+  useQuery
 } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
@@ -15,8 +14,6 @@ export const useWorkspacesGetManyQuery = (params: {
   limit: '10',
   page: '1',
 }) => {
-  const workspacesQueryClient = useQueryClient()
-
   const queryKey = useMemo(
     () => {
       const queryParams = filterQueryParams(params)
@@ -27,41 +24,25 @@ export const useWorkspacesGetManyQuery = (params: {
   )
 
   const queryFn = useCallback(
-    ({ pageParam }: { pageParam: unknown }) =>
+    () =>
       workspacesRestApiService.getMany({
         limit: params.limit,
-        page: pageParam as string,
+        page: params.page,
       }),
     [params]
   )
 
-  const prefetchWorkspaces = useCallback(async () => {
-    return workspacesQueryClient.prefetchInfiniteQuery({
-      queryKey,
-      queryFn,
-      initialPageParam: 1,
-    })
-  }, [queryKey, queryFn, workspacesQueryClient])
-
-  const { data } = useInfiniteQuery({
+  const {
+    data,
+    isLoading,
+  } = useQuery({
     queryKey,
     queryFn,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const page = allPages.reduce((acc, item) => acc + item.data.length, 0)
-
-      return lastPage.total > page ? page : undefined
-    },
   })
 
-  const rawData = useMemo(
-    () => data?.pages.flatMap((page) => page.data),
-    [data?.pages]
-  )
-
   return {
-    workspacesQueryClient,
-    prefetchWorkspaces,
-    workspacesList: rawData,
+    workspacesList: data?.data,
+    workspacesListTotal: data?.total,
+    workspacesListLoading: isLoading,
   }
 }

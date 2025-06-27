@@ -6,8 +6,18 @@ import {
   QueryClient
 } from '@tanstack/react-query'
 
+import routes from '@/services/routes-provider'
 import { articlesQueryClientKeys } from '@/shared/queries'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
+import Breadcrumbs from '@/shared/ui/breadcrumbs'
+
+const staticBreadcrumbs = [
+  {
+    key: routes.docs.key,
+    title: 'Docs',
+    href: routes.docs.path,
+  }
+]
 
 export default async function DocsArticlesPage({
   params,
@@ -26,23 +36,46 @@ export default async function DocsArticlesPage({
     queryFn: () => articlesRestApiService.get(articleId),
   })
 
+  const breadcrumbs = [
+    ...staticBreadcrumbs,
+    {
+      key: article.workspaceId,
+      title: 'Workspace',
+      href: `/docs/${article.workspaceId}`,
+    },
+    {
+      key: article.categoryId,
+      title: 'Category',
+      href: `/docs/${article.workspaceId}/${article.categoryId}`,
+    },
+    {
+      key: article.id,
+      title: article.title,
+    }
+  ]
+
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Stack
-        id="docs-articles-page"
-        gap={2}>
+    <Stack
+      id="docs-articles-page"
+    >
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Breadcrumbs breadcrumbs={breadcrumbs} />
         <Typography
           variant="h4"
-          gutterBottom>
+          mt={2}
+        >
           {article.title}
         </Typography>
-        <Typography>
+        <Typography
+        >
           {article.summary}
         </Typography>
-        <Typography>
+        <Typography
+          mt={2}
+        >
           {article.content}
         </Typography>
-      </Stack>
-    </HydrationBoundary>
+      </HydrationBoundary>
+    </Stack>
   )
 }

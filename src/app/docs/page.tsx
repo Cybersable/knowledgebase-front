@@ -1,21 +1,31 @@
-import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { Suspense } from 'react'
 
-import DocsList from '@/widgets/docs-list'
+import routes from '@/services/routes-provider'
+import Breadcrumbs from '@/shared/ui/breadcrumbs'
+import WorkspacesList from '@/widgets/workspaces-list'
+
+const breadcrumbs = [
+  {
+    key: routes.docs.key,
+    title: 'Docs',
+  }
+]
 
 export default async function DocsPage() {
   return (
-    <Box id="docs-page">
+    <Stack id="docs-page">
       <Suspense>
+        <Breadcrumbs breadcrumbs={breadcrumbs} />
         <Typography
           variant="h4"
-          gutterBottom
+          my={2}
         >
-          Docs
+          Workspaces
         </Typography>
-        <DocsList />
+        <WorkspacesList />
       </Suspense>
-    </Box>
+    </Stack>
   )
 }

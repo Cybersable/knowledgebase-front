@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 import { categoriesQueryClientKeys } from '@/shared/queries'
@@ -23,32 +23,26 @@ export const useCategoriesGetManyQuery = (params: {
   )
 
   const queryFn = useCallback(
-    ({ pageParam }: { pageParam: unknown }) =>
+    () =>
       categoriesRestApiService.getMany({
         limit: params.limit,
-        page: pageParam as string,
+        page: params.page,
         ...(params.workspaceId ? { workspaceId: params.workspaceId } : {}),
       }),
     [params]
   )
 
-  const { data } = useInfiniteQuery({
+  const {
+    data,
+    isLoading,
+  } = useQuery({
     queryKey,
     queryFn,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const page = allPages.reduce((acc, item) => acc + item.data.length, 0)
-
-      return lastPage.total > page ? page : undefined
-    },
   })
 
-  const rawData = useMemo(
-    () => data?.pages.flatMap((page) => page.data),
-    [data?.pages]
-  )
-
   return {
-    categoriesList: rawData,
+    categoriesList: data?.data,
+    categoriesListTotal: data?.total,
+    categoriesListLoading: isLoading,
   }
 }

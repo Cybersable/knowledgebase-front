@@ -11,23 +11,24 @@ import queryString from 'query-string'
 import { ChangeEvent, useCallback, useMemo } from 'react'
 
 import { useArticlesGetManyQuery } from '@/entities/articles/queries'
-import routes from '@/services/routes-provider'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import SummaryList from '@/shared/ui/summary-list'
 
-export default function DocsList() {
+export default function DocsList({
+  workspaceSlug,
+  categorySlug,
+}: {
+  workspaceSlug: string
+  categorySlug: string
+}) {
   const searchParams = useSearchParams()
   const { push } = useRouter()
 
   const {
-    workspaceId,
-    categoryId,
     limit,
     page,
   } = useMemo(() => {
     return {
-      workspaceId: searchParams.get('workspaceId') ?? '',
-      categoryId: searchParams.get('categoryId') ?? '',
       limit: searchParams.get('limit') ?? '10',
       page: searchParams.get('page') ?? '1',
     }
@@ -38,34 +39,31 @@ export default function DocsList() {
     articlesListTotal,
     articlesListLoading,
   } = useArticlesGetManyQuery({
-    workspaceId,
-    categoryId,
+    workspaceId: workspaceSlug,
+    categoryId: categorySlug,
     limit,
     page,
   })
 
   const onPageChange = useCallback((event: ChangeEvent<unknown>, page: number) => {
     const queryParams = filterQueryParams({
-      workspaceId,
-      categoryId,
+      workspaceId: workspaceSlug,
+      categoryId: categorySlug,
       limit,
       page: page.toString(),
     })
 
     push(`?${queryString.stringify(queryParams)}`)
-  }, [categoryId, limit, push, workspaceId])
+  }, [categorySlug, limit, push, workspaceSlug])
 
   const summaryList = useMemo(() => {
     return articlesList?.map((article) => ({
       id: article.id,
       title: article.title,
       summary: article.summary,
-      href: routes.docsArticles({
-        articleId: article.id,
-        articleSlug: article.slug,
-      }).path,
+      href: `/docs/${workspaceSlug}/${categorySlug}/${article.id}/${article.slug}`,
     }))
-  }, [articlesList])
+  }, [articlesList, categorySlug, workspaceSlug])
 
   return (
     <Stack>

@@ -58,9 +58,7 @@ export default function SummaryList({
       container
       spacing={1}
       columns={12}
-      sx={{
-        my: 2,
-      }}>
+    >
       {!loading && !list?.length && emptyPlaceholder &&
         <Typography>
           {emptyPlaceholder}
