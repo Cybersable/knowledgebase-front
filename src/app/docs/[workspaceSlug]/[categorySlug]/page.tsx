@@ -59,17 +59,10 @@ export default async function DocsCategoriesPage({
         >
           {category.title}
         </Typography>
-        <Typography>
+        <Typography mb={2}>
           {category.summary}
         </Typography>
       </HydrationBoundary>
-      <Typography
-        variant="h6"
-        mt={2}
-        mb={1}
-      >
-          Category articles
-      </Typography>
       <DocsList
         workspaceSlug={category.workspaceId}
         categorySlug={categorySlug}

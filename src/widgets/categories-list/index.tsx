@@ -1,6 +1,7 @@
 'use client'
 
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -9,7 +10,7 @@ import { ChangeEvent, useCallback, useMemo } from 'react'
 
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
-import SummaryList from '@/shared/ui/summary-list'
+import TextCard from '@/shared/ui/text-card'
 
 export default function CategoriesList({
   workspaceSlug,
@@ -46,25 +47,31 @@ export default function CategoriesList({
     push(`?${queryString.stringify(queryParams)}`)
   }, [limit, push])
 
-  const summaryList = useMemo(() =>
-    categoriesList?.map(({ id, title, summary, workspaceId }) =>
-      ({
-        id,
-        title,
-        summary,
-        href: `/docs/${workspaceId}/${id}`,
-      })), [categoriesList])
-
   return (
-    <Stack
-      id="categories-list"
-    >
+    <Stack id="categories-list">
       <Box minHeight={650}>
-        <SummaryList
-          list={summaryList}
-          loading={categoriesListLoading}
-          emptyPlaceholder="Categories list is empty."
-        />
+        <Grid
+          container
+          spacing={2}
+          columns={12}
+        >
+          {categoriesList?.map((category) => (
+            <Grid
+              key={category.id}
+              size={6}
+            >
+              <Box
+                height={110}
+              >
+                <TextCard
+                  title={category.title}
+                  description={category.summary}
+                  href={`/docs/${category.workspaceId}/${category.id}`}
+                />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
       {categoriesListTotal !== undefined
         && categoriesListTotal > 1

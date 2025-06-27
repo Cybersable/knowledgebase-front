@@ -1,37 +1,42 @@
 'use client'
 
 import Box from '@mui/material/Box'
-import { useMemo } from 'react'
+import Grid from '@mui/material/Grid'
 
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
-import SummaryList from '@/shared/ui/summary-list'
+import TextCard from '@/shared/ui/text-card'
 
 export default function WorkspacesList() {
   const {
     workspacesList,
-    workspacesListLoading,
   } = useWorkspacesGetManyQuery({
     limit: '50',
   })
 
-  const summaryList = useMemo(() =>
-    workspacesList?.map(({ id, title, summary }) =>
-      ({
-        id,
-        title,
-        summary,
-        href: `/docs/${id}`,
-      })), [workspacesList])
-
   return (
-    <Box
-      id="categories-list"
-    >
-      <SummaryList
-        list={summaryList}
-        loading={workspacesListLoading}
-        emptyPlaceholder="Categories list is empty."
-      />
+    <Box id="workspaces-list">
+      <Grid
+        container
+        spacing={2}
+        columns={12}
+      >
+        {workspacesList?.map((workspace) => (
+          <Grid
+            key={workspace.id}
+            size={6}
+          >
+            <Box
+              height={110}
+            >
+              <TextCard
+                title={workspace.title}
+                description={workspace.summary}
+                href={`/docs/${workspace.id}`}
+              />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   )
 }

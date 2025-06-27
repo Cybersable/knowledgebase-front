@@ -53,17 +53,10 @@ export default async function DocsWorkspacesPage({
         >
           {workspace.title}
         </Typography>
-        <Typography>
+        <Typography mb={2}>
           {workspace.summary}
         </Typography>
       </HydrationBoundary>
-      <Typography
-        variant="h6"
-        mt={2}
-        mb={1}
-      >
-        Workspace categories
-      </Typography>
       <CategoriesList workspaceSlug={workspaceSlug} />
     </Stack>
   )
