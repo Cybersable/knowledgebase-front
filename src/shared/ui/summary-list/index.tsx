@@ -1,3 +1,5 @@
+'use client'
+
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -11,8 +13,10 @@ import {
 export default function SummaryList({
   emptyPlaceholder,
   list,
+  loading,
 }: {
   emptyPlaceholder?: string
+  loading?: boolean
   list?: Array<{
     id: string
     title: string
@@ -20,20 +24,48 @@ export default function SummaryList({
     href: string
   }>
 }) {
-  if (!list?.length && emptyPlaceholder) {
-    return (
-      <Typography sx={{ my: 4 }}>
-        {emptyPlaceholder}
-      </Typography>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <Stack
+  //       gap={1}
+  //       my={2}>
+  //       {Array(3).fill(1).map((_, idx) => (
+  //         <Stack
+  //           key={idx}
+  //           gap={1}>
+  //           <Skeleton
+  //             variant="rounded"
+  //             sx={{
+  //               width: `${Math.random() * (100 - 30) + 30}%`,
+  //               height: 28,
+  //             }}
+  //           />
+  //           <Skeleton
+  //             variant="rounded"
+  //             sx={{
+  //               height: 18,
+  //             }}
+  //           />
+  //         </Stack>
+  //       ))
+  //       }
+  //     </Stack>
+  //   )
+  // }
 
   return (
     <Grid
       container
       spacing={1}
       columns={12}
-      sx={{ my: 4 }}>
+      sx={{
+        my: 2,
+      }}>
+      {!loading && !list?.length && emptyPlaceholder &&
+        <Typography>
+          {emptyPlaceholder}
+        </Typography>
+      }
       {list?.map((item) => (
         <Grid
           key={item.id}
@@ -65,7 +97,8 @@ export default function SummaryList({
             <StyledTypography
               variant="body2"
               color="text.secondary"
-              gutterBottom>
+              gutterBottom
+            >
               {item.summary}
             </StyledTypography>
             {/*<Author authors={article.authors} />*/}

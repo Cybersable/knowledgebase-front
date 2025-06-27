@@ -26,7 +26,7 @@ export default function MainLayout({
         <Box
           display="flex"
           flexDirection="column"
-          gap={4}>
+          gap={2}>
           {children}
         </Box>
       </Grid>
