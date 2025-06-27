@@ -69,15 +69,25 @@ export default function DocsList() {
 
   return (
     <Stack>
-      <SummaryList list={summaryList} />
-      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 4, justifyContent: 'center' }}>
-        <Pagination
-          disabled={articlesListLoading}
-          count={articlesListTotal}
-          page={Number(page)}
-          onChange={onPageChange}
-        />
-      </Box>
+      <SummaryList
+        list={summaryList}
+        emptyPlaceholder="Articles list is empty."
+      />
+      {articlesListTotal !== undefined && articlesListTotal > 1 && (
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          pt: 4,
+          justifyContent: 'center',
+        }}>
+          <Pagination
+            disabled={articlesListLoading}
+            count={articlesListTotal}
+            page={Number(page)}
+            onChange={onPageChange}
+          />
+        </Box>
+      )}
     </Stack>
   )
 }

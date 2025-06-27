@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import {
   dehydrate,
@@ -28,7 +28,9 @@ export default async function DocsArticlesPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Box id="docs-articles-page">
+      <Stack
+        id="docs-articles-page"
+        gap={2}>
         <Typography
           variant="h4"
           gutterBottom>
@@ -40,7 +42,7 @@ export default async function DocsArticlesPage({
         <Typography>
           {article.content}
         </Typography>
-      </Box>
+      </Stack>
     </HydrationBoundary>
   )
 }

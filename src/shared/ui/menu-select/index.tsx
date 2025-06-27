@@ -26,6 +26,7 @@ interface MenuSelectOption {
 export default function MenuSelect({
   id,
   value,
+  disabled,
   onChangeAction,
   options,
   emptyValue,
@@ -33,6 +34,7 @@ export default function MenuSelect({
 }: {
   id: string,
   value?: string
+  disabled?: boolean
   onChangeAction: (value: string) => void
   options?: Array<MenuSelectOption>
   emptyValue?: {
@@ -62,6 +64,7 @@ export default function MenuSelect({
         value={value}
         onChange={(event) => handleChange(event)}
         displayEmpty
+        disabled={disabled}
         fullWidth
         label={'test'}
         MenuProps={StyledSelectMenuProps}

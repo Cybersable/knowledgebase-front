@@ -45,7 +45,10 @@ export default function ManagingDocsWorkspacesPage() {
           Create workspace
         </Button>
       </Stack>
-      <SummaryList list={summaryList} />
+      <SummaryList
+        list={summaryList}
+        emptyPlaceholder="Workspaces list is empty."
+      />
     </Box>
   )
 }

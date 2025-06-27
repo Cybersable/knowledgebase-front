@@ -79,7 +79,8 @@ export default function ArticlesPage() {
         justifyContent="space-between">
         <Typography
           variant="h4"
-          gutterBottom>
+          gutterBottom
+        >
           Managing Articles
         </Typography>
         <Button
@@ -94,20 +95,25 @@ export default function ArticlesPage() {
         </Button>
       </Stack>
       <Stack>
-        <SummaryList list={summaryList} />
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          pt: 4,
-          justifyContent: 'center',
-        }}>
-          <Pagination
-            disabled={articlesListLoading}
-            count={articlesListTotal}
-            page={Number(page)}
-            onChange={onPageChange}
-          />
-        </Box>
+        <SummaryList
+          list={summaryList}
+          emptyPlaceholder="Articles list is empty."
+        />
+        {articlesListTotal !== undefined && articlesListTotal > 0 && (
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            pt: 4,
+            justifyContent: 'center',
+          }}>
+            <Pagination
+              disabled={articlesListLoading}
+              count={articlesListTotal}
+              page={Number(page)}
+              onChange={onPageChange}
+            />
+          </Box>
+        )}
       </Stack>
     </Box>
   )

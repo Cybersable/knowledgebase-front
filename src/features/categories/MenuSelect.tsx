@@ -26,6 +26,7 @@ export default function CategoriesMenuSelect({
       onChangeAction={onCategoryChangeAction}
       value={categoryId}
       clearable
+      disabled={!workspaceId}
       emptyValue={{
         label: 'All Categories',
         subLabel: 'Select category',

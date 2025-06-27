@@ -1,6 +1,7 @@
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
 import {
   StyledTitle,
@@ -8,8 +9,10 @@ import {
 } from './styled'
 
 export default function SummaryList({
+  emptyPlaceholder,
   list,
 }: {
+  emptyPlaceholder?: string
   list?: Array<{
     id: string
     title: string
@@ -17,6 +20,14 @@ export default function SummaryList({
     href: string
   }>
 }) {
+  if (!list?.length && emptyPlaceholder) {
+    return (
+      <Typography sx={{ my: 4 }}>
+        {emptyPlaceholder}
+      </Typography>
+    )
+  }
+
   return (
     <Grid
       container

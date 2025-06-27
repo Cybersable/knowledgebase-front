@@ -27,7 +27,7 @@ export const useCategoriesGetManyQuery = (params: {
       categoriesRestApiService.getMany({
         limit: params.limit,
         page: pageParam as string,
-        workspaceId: params.workspaceId,
+        ...(params.workspaceId ? { workspaceId: params.workspaceId } : {}),
       }),
     [params]
   )
@@ -35,7 +35,6 @@ export const useCategoriesGetManyQuery = (params: {
   const { data } = useInfiniteQuery({
     queryKey,
     queryFn,
-    enabled: !!params.workspaceId,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const page = allPages.reduce((acc, item) => acc + item.data.length, 0)

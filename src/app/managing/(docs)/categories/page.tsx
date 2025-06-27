@@ -56,7 +56,10 @@ export default function CategoriesPage() {
           Create category
         </Button>
       </Stack>
-      <SummaryList list={summaryList} />
+      <SummaryList
+        list={summaryList}
+        emptyPlaceholder="Categories list is empty."
+      />
     </Box>
   )
 }
