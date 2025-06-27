@@ -1,12 +1,15 @@
 'use client'
 
+import { faker } from '@faker-js/faker/locale/en'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormLabel from '@mui/material/FormLabel'
 import Grid from '@mui/material/Grid'
 import OutlinedInput from '@mui/material/OutlinedInput'
+import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import { useForm } from '@tanstack/react-form'
+import { useCallback } from 'react'
 
 import {
   WorkspacesModelInput
@@ -60,6 +63,11 @@ export default function WorkspacesForm({
       await createWorkspaceAsync(value)
     },
   })
+
+  const autoFill = useCallback(() => {
+    form.setFieldValue('title', faker.commerce.department())
+    form.setFieldValue('summary', faker.lorem.paragraph(1))
+  }, [form])
 
   return (
     <form
@@ -119,37 +127,48 @@ export default function WorkspacesForm({
           )}
         />
         <FormGrid size={12}>
-          <Box
-            display="flex"
-            justifyContent="end"
-            gap={1}>
+          <Stack gap={2}>
             <Button
-              variant="text"
+              variant="outlined"
               size="small"
               type="button"
-              onClick={onCancelAction}
-              sx={{ minWidth: 'fit-content' }}
+              onClick={autoFill}
               disabled={form.state.isSubmitting}
             >
-              {cancelBtnText}
+              Autofill
             </Button>
-            <form.Subscribe
-              selector={(state) => [state.canSubmit, state.isSubmitting]}
-              children={([canSubmit, isSubmitting]) => (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  size="small"
-                  loading={isSubmitting}
-                  type="submit"
-                  disabled={!canSubmit}
-                  sx={{ minWidth: 'fit-content' }}
-                >
-                  {submitBtnText}
-                </Button>
-              )}
-            />
-          </Box>
+            <Box
+              display="flex"
+              justifyContent="end"
+              gap={1}>
+              <Button
+                variant="text"
+                size="small"
+                type="button"
+                onClick={onCancelAction}
+                sx={{ minWidth: 'fit-content' }}
+                disabled={form.state.isSubmitting}
+              >
+                {cancelBtnText}
+              </Button>
+              <form.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]}
+                children={([canSubmit, isSubmitting]) => (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    loading={isSubmitting}
+                    type="submit"
+                    disabled={!canSubmit}
+                    sx={{ minWidth: 'fit-content' }}
+                  >
+                    {submitBtnText}
+                  </Button>
+                )}
+              />
+            </Box>
+          </Stack>
         </FormGrid>
       </Grid>
     </form>

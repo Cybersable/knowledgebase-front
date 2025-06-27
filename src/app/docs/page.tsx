@@ -10,7 +10,8 @@ export default async function DocsPage() {
       <Suspense>
         <Typography
           variant="h4"
-          gutterBottom>
+          gutterBottom
+        >
           Docs
         </Typography>
         <DocsList />

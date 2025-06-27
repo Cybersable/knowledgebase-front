@@ -1,5 +1,6 @@
 'use client'
 
+import { faker } from '@faker-js/faker/locale/en'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import FormLabel from '@mui/material/FormLabel'
@@ -7,9 +8,11 @@ import Grid from '@mui/material/Grid'
 import MenuItem from '@mui/material/MenuItem'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Select from '@mui/material/Select'
+import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import { useForm } from '@tanstack/react-form'
 import {
+  useCallback,
   useEffect,
   useState
 } from 'react'
@@ -86,6 +89,20 @@ export default function ArticlesForm({
     },
   })
 
+  const autoFill = useCallback(() => {
+    if (!form.state.values.workspaceId && !!workspacesOptions?.length) {
+      form.setFieldValue('workspaceId', workspacesOptions[0].value)
+    }
+
+    if (!form.state.values.categoryId && !!categoriesOptions?.length) {
+      form.setFieldValue('categoryId', categoriesOptions[0].value)
+    }
+
+    form.setFieldValue('title', faker.commerce.productName())
+    form.setFieldValue('summary', faker.lorem.paragraph(1))
+    form.setFieldValue('content', faker.lorem.paragraph(5))
+  }, [form, workspacesOptions, categoriesOptions])
+
   return (
     <form
       onSubmit={(e) => {
@@ -96,7 +113,8 @@ export default function ArticlesForm({
     >
       <Grid
         container
-        spacing={2}>
+        spacing={2}
+      >
         <form.Field
           name="title"
           children={(field) => (
@@ -231,40 +249,51 @@ export default function ArticlesForm({
             </FormGrid>
           )}
         />
-      </Grid>
-      <FormGrid size={12}>
-        <Box
-          display="flex"
-          justifyContent="end"
-          gap={1}>
-          <Button
-            variant="text"
-            size="small"
-            type="button"
-            onClick={onCancelAction}
-            sx={{ minWidth: 'fit-content' }}
-            disabled={form.state.isSubmitting}
-          >
-            {cancelBtnText}
-          </Button>
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
+        <FormGrid size={12}>
+          <Stack gap={2}>
+            <Button
+              variant="outlined"
+              size="small"
+              type="button"
+              onClick={autoFill}
+              disabled={form.state.isSubmitting}
+            >
+            Autofill
+            </Button>
+            <Box
+              display="flex"
+              justifyContent="end"
+              gap={1}>
               <Button
-                variant="contained"
-                color="secondary"
+                variant="text"
                 size="small"
-                loading={isSubmitting}
-                type="submit"
-                disabled={!canSubmit}
+                type="button"
+                onClick={onCancelAction}
                 sx={{ minWidth: 'fit-content' }}
+                disabled={form.state.isSubmitting}
               >
-                {submitBtnText}
+                {cancelBtnText}
               </Button>
-            )}
-          />
-        </Box>
-      </FormGrid>
+              <form.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]}
+                children={([canSubmit, isSubmitting]) => (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    size="small"
+                    loading={isSubmitting}
+                    type="submit"
+                    disabled={!canSubmit}
+                    sx={{ minWidth: 'fit-content' }}
+                  >
+                    {submitBtnText}
+                  </Button>
+                )}
+              />
+            </Box>
+          </Stack>
+        </FormGrid>
+      </Grid>
     </form>
   )
 }
