@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 
 import { articlesQueryClientKeys } from '@/shared/queries'
@@ -16,41 +16,31 @@ export const useArticlesGetManyQuery = (params: {
 }) => {
   const queryKey = useMemo(
     () => {
-      const queryParams = filterQueryParams(params)
-
-      return articlesQueryClientKeys.getMany(queryParams)
+      return articlesQueryClientKeys.getMany(filterQueryParams(params))
     },
     [params]
   )
 
-  const queryFn = useCallback(
-    ({ pageParam }: { pageParam: unknown }) =>
-      articlesRestApiService.getMany({
-        limit: params.limit,
-        page: pageParam as string,
-        categoryId: params.categoryId,
-      }),
-    [params]
-  )
+  const queryFn = useCallback(() =>
+    articlesRestApiService.getMany({
+      limit: params.limit,
+      page: params.page,
+      ...(params.categoryId ? { categoryId: params.categoryId } : {}),
+      ...(params.workspaceId ? { workspaceId: params.workspaceId } : {}),
+    }),
+  [params])
 
-  const { data } = useInfiniteQuery({
+  const {
+    data,
+    isLoading,
+  } = useQuery({
     queryKey,
     queryFn,
-    enabled: !!params.categoryId,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const page = allPages.reduce((acc, item) => acc + item.data.length, 0)
-
-      return lastPage.total > page ? page : undefined
-    },
   })
 
-  const rawData = useMemo(
-    () => data?.pages.flatMap((page) => page.data),
-    [data?.pages]
-  )
-
   return {
-    articlesList: rawData,
+    articlesList: data?.data,
+    articlesListTotal: data?.total,
+    articlesListLoading: isLoading,
   }
 }

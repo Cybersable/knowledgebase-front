@@ -25,6 +25,10 @@ export default class BaseQueryClientKeysService {
     return [...this.getManyBase(), queryString.stringify(query)]
   }
 
+  getInfinityMany(query: QueryParams) {
+    return [...this.getManyBase(), 'infinity', queryString.stringify(query)]
+  }
+
   create() {
     return [this._resource, 'create']
   }

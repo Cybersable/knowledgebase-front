@@ -1,11 +1,6 @@
 'use client'
 
 import Box from '@mui/material/Box'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import Link from 'next/link'
 import {
   useRouter,
   useSearchParams
@@ -17,12 +12,10 @@ import {
 } from 'react'
 
 import {
-  useArticlesGetManyQuery,
   useArticlesGetQuery
 } from '@/entities/articles/queries'
 import CategoriesMenuSelect from '@/features/categories/MenuSelect'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
-import routes from '@/services/routes-provider'
 
 export default function DocsSideNav({
   articleId = '',
@@ -44,13 +37,6 @@ export default function DocsSideNav({
       setCategoryId(article.categoryId)
     }
   }, [article])
-
-  const { articlesList } = useArticlesGetManyQuery({
-    workspaceId,
-    categoryId,
-    limit: '10',
-    page: '1',
-  })
 
   const searchParams = useSearchParams()
   useEffect(() => {
@@ -101,25 +87,25 @@ export default function DocsSideNav({
         categoryId={categoryId}
         onCategoryChangeAction={setCategoryId}
       />
-      <List>
-        {articlesList?.map((item) => (
-          <ListItem
-            key={item.id}
-            disablePadding
-            sx={{ display: 'block' }}
-          >
-            <ListItemButton
-              LinkComponent={Link}
-              href={routes.docsArticles({
-                articleId: item.id,
-                articleSlug: item.slug,
-              }).path}
-            >
-              <ListItemText primary={item.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {/*<List>*/}
+      {/*  {articlesList?.map((item) => (*/}
+      {/*    <ListItem*/}
+      {/*      key={item.id}*/}
+      {/*      disablePadding*/}
+      {/*      sx={{ display: 'block' }}*/}
+      {/*    >*/}
+      {/*      <ListItemButton*/}
+      {/*        LinkComponent={Link}*/}
+      {/*        href={routes.docsArticles({*/}
+      {/*          articleId: item.id,*/}
+      {/*          articleSlug: item.slug,*/}
+      {/*        }).path}*/}
+      {/*      >*/}
+      {/*        <ListItemText primary={item.title} />*/}
+      {/*      </ListItemButton>*/}
+      {/*    </ListItem>*/}
+      {/*  ))}*/}
+      {/*</List>*/}
     </Box>
   )
 }

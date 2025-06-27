@@ -41,7 +41,6 @@ export default function SummaryList({
             {/*  {article.tag}*/}
             {/*</Typography>*/}
             <StyledTitle
-              gutterBottom
               variant="h6"
               tabIndex={0}
               href={item.href}
