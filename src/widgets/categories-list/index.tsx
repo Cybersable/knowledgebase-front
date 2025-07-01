@@ -8,13 +8,16 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { ChangeEvent, useCallback, useMemo } from 'react'
 
+import { CategoryModel } from '@/entities/categories/model'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import TextCard from '@/shared/ui/text-card'
 
 export default function CategoriesList({
+  makePath,
   workspaceSlug,
 }: {
+  makePath: (category: CategoryModel) => string
   workspaceSlug?: string
 }) {
   const searchParams = useSearchParams()
@@ -35,6 +38,8 @@ export default function CategoriesList({
     categoriesListLoading,
     categoriesListTotal,
   } = useCategoriesGetManyQuery({
+    limit,
+    page,
     workspaceId: workspaceSlug,
   })
 
@@ -66,7 +71,7 @@ export default function CategoriesList({
                 <TextCard
                   title={category.title}
                   description={category.summary}
-                  href={`/docs/${category.workspaceId}/${category.id}`}
+                  href={makePath(category)}
                 />
               </Box>
             </Grid>

@@ -42,19 +42,19 @@ const navigationList = [
         id: 'managing-articles',
         icon: <ArticleIcon />,
         title: 'Articles',
-        href: routes.managingArticles().path,
+        href: '/managing/docs/articles',
       },
       {
         id: 'managing-categories',
         title: 'Categories',
         icon: <CategoryIcon />,
-        href: routes.managingCategories().path,
+        href: '/managing/docs/categories',
       },
       {
         id: 'managing-workspaces',
         title: 'Workspaces',
         icon: <WorkspacesOutlineIcon />,
-        href: routes.managingWorkspaces.path,
+        href: '/managing/docs/workspaces',
       }
     ],
   }

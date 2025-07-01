@@ -18,9 +18,11 @@ import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 
 export default function DocsSideNav({
+  pathPrefix,
   workspaceSlug,
   categorySlug,
 }: {
+  pathPrefix: string
   workspaceSlug?: string
   categorySlug?: string
 }) {
@@ -34,8 +36,8 @@ export default function DocsSideNav({
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
     setWorkspaceId(workspaceId)
-    push(`/docs/${workspaceId}`)
-  }, [push])
+    push(`${pathPrefix}/${workspaceId}`)
+  }, [pathPrefix, push])
 
   const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
 
@@ -59,7 +61,7 @@ export default function DocsSideNav({
           >
             <ListItemButton
               LinkComponent={Link}
-              href={`/docs/${item.workspaceId}/${item.id}`}
+              href={`${pathPrefix}/${item.workspaceId}/${item.id}`}
             >
               <ListItemText primary={item.title} />
             </ListItemButton>

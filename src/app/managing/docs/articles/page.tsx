@@ -17,7 +17,20 @@ import { ChangeEvent, useCallback, useMemo } from 'react'
 import { useArticlesGetManyQuery } from '@/entities/articles/queries'
 import routes from '@/services/routes-provider'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
+import Breadcrumbs from '@/shared/ui/breadcrumbs'
 import SummaryList from '@/shared/ui/summary-list'
+
+const staticBreadcrumbs = [
+  {
+    key: routes.managingWorkspaces.key,
+    title: 'Docs',
+    href: routes.managingWorkspaces.path,
+  },
+  {
+    key: 'articles',
+    title: 'Articles',
+  }
+]
 
 export default function ArticlesPage() {
   const searchParams = useSearchParams()
@@ -69,11 +82,15 @@ export default function ArticlesPage() {
   }, [articlesList])
 
   const articlesCreatePath = useMemo(() => {
-    return routes.articlesCreate({ workspaceId, categoryId }).path
+    return routes.articlesCreate({
+      workspaceId: !!workspaceId ? workspaceId : undefined,
+      categoryId: !!categoryId ? categoryId : undefined,
+    }).path
   }, [workspaceId, categoryId])
 
   return (
-    <Box id="managing-articles-page">
+    <Box id="managing-docs-articles-page">
+      <Breadcrumbs breadcrumbs={staticBreadcrumbs} />
       <Stack
         direction="row"
         justifyContent="space-between">

@@ -9,6 +9,7 @@ export interface CategoriesApiModel {
   slug: string
   summary?: string
   workspaceId: string
+  workspaceTitle: string
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date | null

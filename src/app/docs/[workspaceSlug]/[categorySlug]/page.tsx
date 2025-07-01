@@ -48,9 +48,7 @@ export default async function DocsCategoriesPage({
   ]
 
   return (
-    <Stack
-      id="docs-categories-page"
-    >
+    <Stack id="docs-categories-page">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Breadcrumbs breadcrumbs={breadcrumbs} />
         <Typography

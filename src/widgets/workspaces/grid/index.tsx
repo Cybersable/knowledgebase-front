@@ -6,7 +6,11 @@ import Grid from '@mui/material/Grid'
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 import TextCard from '@/shared/ui/text-card'
 
-export default function WorkspacesList() {
+export default function Workspaces({
+  pathPrefix,
+}: {
+  pathPrefix: string
+}) {
   const {
     workspacesList,
   } = useWorkspacesGetManyQuery({
@@ -14,7 +18,7 @@ export default function WorkspacesList() {
   })
 
   return (
-    <Box id="workspaces-list">
+    <Box id="workspaces">
       <Grid
         container
         spacing={2}
@@ -31,7 +35,7 @@ export default function WorkspacesList() {
               <TextCard
                 title={workspace.title}
                 description={workspace.summary}
-                href={`/docs/${workspace.id}`}
+                href={`${pathPrefix}/${workspace.id}`}
               />
             </Box>
           </Grid>

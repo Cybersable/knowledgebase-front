@@ -1,3 +1,4 @@
+import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -42,20 +43,17 @@ export default async function DocsWorkspacesPage({
   ]
 
   return (
-    <Stack
-      id="docs-workspaces-page"
-    >
+    <Stack id="docs-workspaces-page">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <Typography
-          variant="h4"
-          mt={2}
-        >
-          {workspace.title}
-        </Typography>
-        <Typography mb={2}>
-          {workspace.summary}
-        </Typography>
+        <Box my={2}>
+          <Typography variant="h4">
+            {workspace.title}
+          </Typography>
+          <Typography>
+            {workspace.summary}
+          </Typography>
+        </Box>
       </HydrationBoundary>
       <CategoriesList workspaceSlug={workspaceSlug} />
     </Stack>

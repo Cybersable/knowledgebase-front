@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import WorkspacesList from '@/widgets/workspaces-list'
+import Workspaces from '@/widgets/workspaces/grid'
 
 const breadcrumbs = [
   {
@@ -24,7 +24,7 @@ export default async function DocsPage() {
         >
           Workspaces
         </Typography>
-        <WorkspacesList />
+        <Workspaces pathPrefix={'/docs'} />
       </Suspense>
     </Stack>
   )

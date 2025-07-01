@@ -59,7 +59,7 @@ const cardData = [
     tag: 'Engineering',
     title: 'Pioneering sustainable engineering solutions',
     description:
-      "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to create a greener future. Discover the impact of our eco-friendly initiatives.",
+      "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to workspaces-create a greener future. Discover the impact of our eco-friendly initiatives.",
     authors: [
       { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
       { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' }

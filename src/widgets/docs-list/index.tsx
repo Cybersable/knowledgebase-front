@@ -15,9 +15,11 @@ import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import SummaryList from '@/shared/ui/summary-list'
 
 export default function DocsList({
+  pathPrefix,
   workspaceSlug,
   categorySlug,
 }: {
+  pathPrefix: string
   workspaceSlug: string
   categorySlug: string
 }) {
@@ -61,9 +63,9 @@ export default function DocsList({
       id: article.id,
       title: article.title,
       summary: article.summary,
-      href: `/docs/${workspaceSlug}/${categorySlug}/${article.id}/${article.slug}`,
+      href: `${pathPrefix}/${article.id}`,
     }))
-  }, [articlesList, categorySlug, workspaceSlug])
+  }, [articlesList, pathPrefix])
 
   return (
     <Stack>
