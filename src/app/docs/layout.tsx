@@ -3,7 +3,7 @@
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { ReactNode, Suspense } from 'react'
 
-import DocsSideNav from '@/widgets/docs-side-nav'
+import DocsSideNav from '@/app/docs/DocsSideNav'
 import MainLayout from '@/widgets/layouts/main-layout'
 
 export default function DocsLayout({

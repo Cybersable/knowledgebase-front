@@ -21,6 +21,7 @@ const routes = {
     key: 'HOME_ROUTE',
     path: '/',
   },
+
   docs: {
     key: 'DOCS_ROUTE',
     path: '/docs',
@@ -31,6 +32,14 @@ const routes = {
     key: 'DOCS_WORKSPACES_ROUTE',
     params,
     path: `/docs/${params?.workspaceSlug}`,
+  }),
+  docsCategories: (params: {
+    workspaceSlug: string
+    categorySlug: string
+  }) => ({
+    key: 'DOCS_CATEGORIES_ROUTE',
+    params,
+    path: `/docs/${params.workspaceSlug}/${params.categorySlug}`,
   }),
   docsArticles: (params: {
     articleId: string
@@ -44,24 +53,26 @@ const routes = {
     key: 'MANAGING_DOCS_WORKSPACES_ROUTE',
     path: '/managing/docs/workspaces',
   },
+  managingWorkspacesUpdate: (params: {
+    workspaceSlug: string
+  }) => ({
+    key: 'MANAGING_DOCS_WORKSPACES_UPDATE_ROUTE',
+    params,
+    path: `/managing/docs/workspaces/${params.workspaceSlug}`,
+  }),
   workspacesCreate: {
     key: 'MANAGING_DOCS_WORKSPACES_CREATE_ROUTE',
     path: '/managing/docs/workspaces/create',
   },
-  workspacesUpdate: (params: { workspaceId: string }) => ({
-    key: 'MANAGING_DOCS_WORKSPACES_UPDATE_ROUTE',
-    params,
-    path: `/docs/workspaces/${params.workspaceId}`,
-  }),
   managingCategories: (params?: { workspaceId?: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_ROUTE',
     params,
     path: makePath(`/managing/docs/categories`, params),
   }),
-  managingCategoriesUpdate: (params: { id: string }) => ({
+  managingCategoriesUpdate: (params: { categoryId: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_UPDATE_ROUTE',
     params,
-    path: `/managing/docs/categories/${params.id}`,
+    path: `/managing/docs/categories/${params.categoryId}`,
   }),
   categoriesCreate: (params?: { workspaceId?: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_CREATE_ROUTE',

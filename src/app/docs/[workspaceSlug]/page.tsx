@@ -3,12 +3,12 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
+import CategoriesDocsList from '@/app/docs/[workspaceSlug]/CategoriesDocsList'
 import routes from '@/services/routes-provider'
 import { workspacesQueryClientKeys } from '@/shared/queries'
 import { getQueryClient } from '@/shared/queries/getQueryClient'
 import { workspacesRestApiService } from '@/shared/rest-api/workspaces'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import CategoriesList from '@/widgets/categories-list'
 
 const staticBreadcrumbs = [
   {
@@ -55,7 +55,7 @@ export default async function DocsWorkspacesPage({
           </Typography>
         </Box>
       </HydrationBoundary>
-      <CategoriesList workspaceSlug={workspaceSlug} />
+      <CategoriesDocsList workspaceSlug={workspaceSlug}/>
     </Stack>
   )
 }

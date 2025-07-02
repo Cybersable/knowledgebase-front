@@ -63,9 +63,9 @@ export default function DocsList({
       id: article.id,
       title: article.title,
       summary: article.summary,
-      href: `${pathPrefix}/${article.id}`,
+      href: `${pathPrefix}/${workspaceSlug}/${categorySlug}/${article.id}/${article.slug}`,
     }))
-  }, [articlesList, pathPrefix])
+  }, [articlesList, categorySlug, pathPrefix, workspaceSlug])
 
   return (
     <Stack>

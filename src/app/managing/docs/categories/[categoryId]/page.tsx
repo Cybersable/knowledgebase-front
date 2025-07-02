@@ -1,16 +1,24 @@
 'use client'
 
+import AddIcon from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { use, useMemo } from 'react'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import queryString from 'query-string'
+import { ChangeEvent, use, useCallback, useMemo } from 'react'
 
 import DeleteCategoriesDialog from '@/app/managing/docs/categories/[categoryId]/DeleteCategoriesDialog'
 import EditCategoriesModalForm from '@/app/managing/docs/categories/[categoryId]/EditCategoriesModalForm'
+import { useArticlesGetManyQuery } from '@/entities/articles/queries'
 import { useCategoriesGetQuery } from '@/entities/categories/queries'
 import routes from '@/services/routes-provider'
+import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import DocsList from '@/widgets/docs-list'
+import SummaryList from '@/shared/ui/summary-list'
 
 
 const staticBreadcrumbs = [
@@ -28,8 +36,10 @@ export default function DocsManagingCategoryPage({
     categoryId: string
   }>
 }) {
+  const { push } = useRouter()
   const { categoryId } = use(params)
   const { category } = useCategoriesGetQuery({ categoryId })
+  const searchParams = useSearchParams()
 
   const breadcrumbs = useMemo(() => {
     if (!category) return staticBreadcrumbs
@@ -46,6 +56,52 @@ export default function DocsManagingCategoryPage({
         title: category.title,
       }
     ]
+  }, [category])
+
+  const {
+    limit,
+    page,
+  } = useMemo(() => {
+    return {
+      limit: searchParams.get('limit') ?? '10',
+      page: searchParams.get('page') ?? '1',
+    }
+  }, [searchParams])
+
+  const {
+    articlesList,
+    articlesListTotal,
+    articlesListLoading,
+  } = useArticlesGetManyQuery({
+    workspaceId: category?.workspaceId,
+    categoryId: category?.id,
+    limit,
+    page,
+  })
+
+  const onPageChange = useCallback((event: ChangeEvent<unknown>, page: number) => {
+    const queryParams = filterQueryParams({
+      limit,
+      page: page.toString(),
+    })
+
+    push(`?${queryString.stringify(queryParams)}`)
+  }, [limit, push])
+
+  const summaryList = useMemo(() => {
+    return articlesList?.map((article) => ({
+      id: article.id,
+      title: article.title,
+      summary: article.summary,
+      href: routes.articlesUpdate({ articleId: article.id }).path,
+    }))
+  }, [articlesList])
+
+  const articlesCreatePath = useMemo(() => {
+    return routes.articlesCreate({
+      workspaceId: category?.workspaceId,
+      categoryId: category?.id,
+    }).path
   }, [category])
 
   if (!category) return
@@ -83,12 +139,38 @@ export default function DocsManagingCategoryPage({
         <Typography variant="h6">
             Articles
         </Typography>
+        <Button
+          variant="contained"
+          size="small"
+          color="primary"
+          endIcon={<AddIcon />}
+          LinkComponent={Link}
+          href={articlesCreatePath}
+        >
+          Create article
+        </Button>
       </Stack>
-      <DocsList
-        pathPrefix={'/managing/docs/articles/'}
-        workspaceSlug={category.workspaceId}
-        categorySlug={category.id}
-      />
+      <Stack>
+        <SummaryList
+          list={summaryList}
+          emptyPlaceholder="Articles list is empty."
+        />
+        {articlesListTotal !== undefined && articlesListTotal > 0 && (
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            pt: 4,
+            justifyContent: 'center',
+          }}>
+            <Pagination
+              disabled={articlesListLoading}
+              count={articlesListTotal}
+              page={Number(page)}
+              onChange={onPageChange}
+            />
+          </Box>
+        )}
+      </Stack>
     </Stack>
   )
 }

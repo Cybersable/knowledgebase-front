@@ -38,8 +38,8 @@ export default async function DocsCategoriesPage({
     ...staticBreadcrumbs,
     {
       key: category.workspaceId,
-      title: 'Workspace',
-      href: `/docs/${category.workspaceId}`,
+      title: category.workspaceTitle,
+      href: routes.docsWorkspaces({ workspaceSlug: category.workspaceId }).path,
     },
     {
       key: category.id,
@@ -62,6 +62,7 @@ export default async function DocsCategoriesPage({
         </Typography>
       </HydrationBoundary>
       <DocsList
+        pathPrefix={routes.docs.path}
         workspaceSlug={category.workspaceId}
         categorySlug={categorySlug}
       />

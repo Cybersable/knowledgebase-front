@@ -24,7 +24,7 @@ export default async function DocsPage() {
         >
           Workspaces
         </Typography>
-        <Workspaces pathPrefix={'/docs'} />
+        <Workspaces pathPrefix={routes.docs.path} />
       </Suspense>
     </Stack>
   )

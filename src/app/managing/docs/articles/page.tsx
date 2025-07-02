@@ -89,15 +89,14 @@ export default function ArticlesPage() {
   }, [workspaceId, categoryId])
 
   return (
-    <Box id="managing-docs-articles-page">
+    <Stack id="managing-docs-articles-page">
       <Breadcrumbs breadcrumbs={staticBreadcrumbs} />
       <Stack
         direction="row"
-        justifyContent="space-between">
-        <Typography
-          variant="h4"
-          gutterBottom
-        >
+        justifyContent="space-between"
+        my={2}
+      >
+        <Typography variant="h4">
           Managing Articles
         </Typography>
         <Button
@@ -132,6 +131,6 @@ export default function ArticlesPage() {
           </Box>
         )}
       </Stack>
-    </Box>
+    </Stack>
   )
 }

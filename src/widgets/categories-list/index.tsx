@@ -1,7 +1,6 @@
 'use client'
 
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,7 +10,7 @@ import { ChangeEvent, useCallback, useMemo } from 'react'
 import { CategoryModel } from '@/entities/categories/model'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
-import TextCard from '@/shared/ui/text-card'
+import TextCardGrid from '@/shared/ui/text-card-grid'
 
 export default function CategoriesList({
   makePath,
@@ -52,31 +51,24 @@ export default function CategoriesList({
     push(`?${queryString.stringify(queryParams)}`)
   }, [limit, push])
 
+  const list = useMemo(() => {
+    return categoriesList?.map((category) => ({
+      key: category.id,
+      title: category.title,
+      summary: category.summary,
+      href: makePath(category),
+    }))
+  }, [categoriesList, makePath])
+
   return (
     <Stack id="categories-list">
       <Box minHeight={650}>
-        <Grid
-          container
-          spacing={2}
-          columns={12}
-        >
-          {categoriesList?.map((category) => (
-            <Grid
-              key={category.id}
-              size={6}
-            >
-              <Box
-                height={110}
-              >
-                <TextCard
-                  title={category.title}
-                  description={category.summary}
-                  href={makePath(category)}
-                />
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+        {list &&
+          <TextCardGrid
+            id="categories-managing-grid"
+            list={list}
+          />
+        }
       </Box>
       {categoriesListTotal !== undefined
         && categoriesListTotal > 1

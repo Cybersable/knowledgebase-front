@@ -23,7 +23,7 @@ const staticBreadcrumbs = [
 
 export default function DocsManagingCategoriesPage() {
   const makePath = (category: CategoryModel) => {
-    return routes.managingCategoriesUpdate({ id: category.id }).path
+    return routes.managingCategoriesUpdate({ categoryId: category.id }).path
   }
 
   return (
@@ -35,7 +35,7 @@ export default function DocsManagingCategoriesPage() {
         my={2}
       >
         <Typography variant="h4">
-          Categories
+          Managing Categories
         </Typography>
         <CreateCategoryModalForm />
       </Stack>

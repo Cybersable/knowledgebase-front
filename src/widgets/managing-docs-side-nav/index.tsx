@@ -6,64 +6,65 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
-import {
-  useRouter
-} from 'next/navigation'
-import {
-  useCallback, useEffect,
-  useState
-} from 'react'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
+import routes from '@/services/routes-provider'
 
-export default function DocsSideNav({
-  pathPrefix,
-  workspaceSlug,
-  categorySlug,
+export default function ManagingDocsSideNav({
+  segmentWorkspaceId,
+  segmentCategoryId,
 }: {
-  pathPrefix: string
-  workspaceSlug?: string
-  categorySlug?: string
+  segmentWorkspaceId?: string
+  segmentCategoryId?: string
 }) {
   const { push } = useRouter()
-
+  
   const [workspaceId, setWorkspaceId] = useState('')
 
-  useEffect(() => {
-    setWorkspaceId(workspaceSlug ?? '')
-  }, [workspaceSlug])
-
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    setWorkspaceId(workspaceId)
-    push(`${pathPrefix}/${workspaceId}`)
-  }, [pathPrefix, push])
+    if (workspaceId) {
+      setWorkspaceId(workspaceId)
+      push(routes.managingWorkspacesUpdate({ workspaceSlug: workspaceId }).path)
+    } else {
+      setWorkspaceId('')
+      push(routes.managingWorkspaces.path)
+    }
+  }, [push])
+
+  useEffect(() => {
+    if (segmentWorkspaceId) setWorkspaceId(segmentWorkspaceId)
+  }, [segmentWorkspaceId])
 
   const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
 
   return (
     <Box
-      id="docs-side-nav"
       display="flex"
       gap={2}
-      flexDirection="column">
+      flexDirection="column"
+    >
       <WorkspacesMenuSelect
-        id="docs-side-nav-workspaces"
+        id="managing-docs-workspaces"
         workspaceId={workspaceId}
         onWorkspaceChangeAction={handleWorkspaceChange}
       />
       <List>
-        {categoriesList?.map((item) => (
+        {categoriesList?.map((category) => (
           <ListItem
-            key={item.id}
+            key={category.id}
             disablePadding
             sx={{ display: 'block' }}
           >
             <ListItemButton
               LinkComponent={Link}
-              href={`${pathPrefix}/${item.workspaceId}/${item.id}`}
+              href={routes.managingCategoriesUpdate({
+                categoryId: category.id,
+              }).path}
             >
-              <ListItemText primary={item.title} />
+              <ListItemText primary={category.title} />
             </ListItemButton>
           </ListItem>
         ))}

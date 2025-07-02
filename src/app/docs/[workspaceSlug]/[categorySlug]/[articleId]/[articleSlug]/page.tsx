@@ -40,13 +40,16 @@ export default async function DocsArticlesPage({
     ...staticBreadcrumbs,
     {
       key: article.workspaceId,
-      title: 'Workspace',
-      href: `/docs/${article.workspaceId}`,
+      title: article.workspaceTitle,
+      href: routes.docsWorkspaces({ workspaceSlug: article.workspaceId }).path,
     },
     {
       key: article.categoryId,
-      title: 'Category',
-      href: `/docs/${article.workspaceId}/${article.categoryId}`,
+      title: article.categoryTitle,
+      href: routes.docsCategories({
+        workspaceSlug: article.workspaceId,
+        categorySlug: article.categoryId,
+      }).path,
     },
     {
       key: article.id,

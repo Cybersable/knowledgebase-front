@@ -10,7 +10,9 @@ export interface ArticlesApiModel {
   summary?: string
   content?: string | null
   categoryId: string
+  categoryTitle: string
   workspaceId: string
+  workspaceTitle: string
   updatedAt: Date
 }
 

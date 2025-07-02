@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { use, useCallback, useMemo } from 'react'
+import { use, useMemo } from 'react'
 
 import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
 import DeleteWorkspacesDialog from '@/app/managing/docs/workspaces/[workspaceId]/DeleteWorkspacesDialog'
@@ -45,7 +45,7 @@ export default function ManagingDocsWorkspacesPage({
   }, [workspace])
 
   const makePath = (category: CategoryModel) => {
-    return routes.managingCategoriesUpdate({ id: category.id }).path
+    return routes.managingCategoriesUpdate({ categoryId: category.id }).path
   }
 
   if (!workspace) return
