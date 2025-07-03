@@ -15,7 +15,11 @@ export const useArticlesCreateMutation = ({
   
   const { mutateAsync } = useMutation({
     mutationKey: articlesQueryClientKeys.create(),
-    mutationFn: (data: ArticlesApiModelInput) => articlesRestApiService.create(data),
+    mutationFn: (data: ArticlesApiModelInput) => {
+      const { title, summary, content, categoryId } = data
+
+      return articlesRestApiService.create({ title, summary, content, categoryId })
+    },
     onSuccess: (data) => {
       queryClient.setQueryData(articlesQueryClientKeys.get(data.id), data)
       queryClient.invalidateQueries({ queryKey: articlesQueryClientKeys.getManyBase() })

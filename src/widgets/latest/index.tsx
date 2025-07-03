@@ -30,14 +30,14 @@ const articleInfo = [
     tag: 'Product',
     title: 'Driving growth with user-centric product design',
     description:
-      'Our user-centric product design approach is driving significant growth. Learn about the strategies we employ to workspaces-create products that resonate with users.',
+      'Our user-centric product design approach is driving significant growth. Learn about the strategies we employ to workspaces-articles-create products that resonate with users.',
     authors: [{ name: 'Erica Johns', avatar: '/static/images/avatar/6.jpg' }],
   },
   {
     tag: 'Design',
     title: 'Embracing minimalism in modern design',
     description:
-      'Minimalism is a key trend in modern design. Discover how our design team incorporates minimalist principles to workspaces-create clean and impactful user experiences.',
+      'Minimalism is a key trend in modern design. Discover how our design team incorporates minimalist principles to workspaces-articles-create clean and impactful user experiences.',
     authors: [{ name: 'Kate Morrison', avatar: '/static/images/avatar/7.jpg' }],
   },
   {
@@ -68,7 +68,7 @@ const articleInfo = [
     tag: 'Engineering',
     title: 'Pioneering sustainable engineering solutions',
     description:
-      "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to workspaces-create a greener future. Discover the impact of our eco-friendly initiatives.",
+      "Learn about our commitment to sustainability and the innovative engineering solutions we're implementing to workspaces-articles-create a greener future. Discover the impact of our eco-friendly initiatives.",
     authors: [
       { name: 'Agnes Walker', avatar: '/static/images/avatar/4.jpg' },
       { name: 'Trevor Henderson', avatar: '/static/images/avatar/5.jpg' }

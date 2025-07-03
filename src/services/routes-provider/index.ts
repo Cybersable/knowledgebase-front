@@ -77,7 +77,7 @@ const routes = {
   categoriesCreate: (params?: { workspaceId?: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_CREATE_ROUTE',
     params,
-    path: makePath('/managing/categories/workspaces-create', params),
+    path: makePath('/managing/categories/workspaces-articles-create', params),
   }),
   categoriesUpdate: (params: { categoryId: string }) => ({
     key: 'MANAGING_DOCS_CATEGORIES_UPDATE_ROUTE',
@@ -95,7 +95,7 @@ const routes = {
   }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',
     params,
-    path: makePath('/managing/docs/articles/create', params),
+    path: makePath('/managing/docs/articles-create', params),
   }),
   articlesUpdate: (params: { articleId: string }) => ({
     key: 'MANAGING_DOCS_ARTICLES_UPDATE_ROUTE',

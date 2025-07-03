@@ -50,6 +50,7 @@ export default function EditWorkspacesModalForm({
             workspaceId={workspace.id}
             defaultValues={workspace}
             onCancelAction={handleClose}
+            onSuccessAction={handleClose}
           />
         </Box>
       </Modal>

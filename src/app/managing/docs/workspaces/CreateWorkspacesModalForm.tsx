@@ -4,11 +4,9 @@ import AddIcon from '@mui/icons-material/Add'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import WorkspacesForm from '@/features/workspaces/form'
-import routes from '@/services/routes-provider'
 
 const style = {
   position: 'absolute',
@@ -23,8 +21,6 @@ const style = {
 }
 
 export default function CreateWorkspacesModalForm() {
-  const { push } = useRouter()
-
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -48,7 +44,7 @@ export default function CreateWorkspacesModalForm() {
       >
         <Box sx={style}>
           <WorkspacesForm
-            onSuccessAction={() => push(routes.managingWorkspaces.path)}
+            onSuccessAction={handleClose}
             onCancelAction={handleClose}
           />
         </Box>
