@@ -24,8 +24,12 @@ export const useArticlesUpdateMutation =({
     }: {
       articleId: string
       data: Partial<ArticlesApiModelInput>
-    }) =>
-      articlesRestApiService.update(articleId, data),
+    }) => {
+      const { title, summary, content, categoryId } = data
+
+      return articlesRestApiService
+        .update(articleId, { title, summary, content, categoryId })
+    },
     onSuccess: (data, variables) => {
       queryClient.setQueryData(articlesQueryClientKeys.get(variables.articleId), data)
       queryClient.invalidateQueries({ queryKey: articlesQueryClientKeys.getManyBase() })

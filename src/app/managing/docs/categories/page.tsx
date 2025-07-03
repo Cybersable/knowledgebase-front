@@ -2,6 +2,7 @@
 
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { Suspense } from 'react'
 
 import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
 import { CategoryModel } from '@/entities/categories/model'
@@ -39,9 +40,9 @@ export default function DocsManagingCategoriesPage() {
         </Typography>
         <CreateCategoryModalForm />
       </Stack>
-      <CategoriesList
-        makePath={makePath}
-      />
+      <Suspense>
+        <CategoriesList makePath={makePath} />
+      </Suspense>
     </Stack>
   )
 }

@@ -12,7 +12,7 @@ import {
   useSearchParams
 } from 'next/navigation'
 import queryString from 'query-string'
-import { ChangeEvent, useCallback, useMemo } from 'react'
+import { ChangeEvent, Suspense, useCallback, useMemo } from 'react'
 
 import { useArticlesGetManyQuery } from '@/entities/articles/queries'
 import routes from '@/services/routes-provider'
@@ -32,7 +32,7 @@ const staticBreadcrumbs = [
   }
 ]
 
-export default function ArticlesPage() {
+function Articles() {
   const searchParams = useSearchParams()
   const { push } = useRouter()
 
@@ -115,7 +115,7 @@ export default function ArticlesPage() {
           list={summaryList}
           emptyPlaceholder="Articles list is empty."
         />
-        {articlesListTotal !== undefined && articlesListTotal > 0 && (
+        {articlesListTotal !== undefined && articlesListTotal > 1 && (
           <Box sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -132,5 +132,13 @@ export default function ArticlesPage() {
         )}
       </Stack>
     </Stack>
+  )
+}
+
+export default function ArticlesPage() {
+  return (
+    <Suspense>
+      <Articles />
+    </Suspense>
   )
 }

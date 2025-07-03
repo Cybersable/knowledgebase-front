@@ -6,25 +6,15 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
-import {
-  useRouter
-} from 'next/navigation'
-import {
-  useCallback, useEffect,
-  useState
-} from 'react'
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
-export default function DocsSideNav({
-  workspaceSlug,
-  categorySlug,
-}: {
-  workspaceSlug?: string
-  categorySlug?: string
-}) {
+export default function DocsSideNav() {
+  const [workspaceSlug, categorySlug, articleSlug] = useSelectedLayoutSegments()
   const { push } = useRouter()
 
   const [workspaceId, setWorkspaceId] = useState('')
@@ -34,11 +24,19 @@ export default function DocsSideNav({
   }, [workspaceSlug])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
-    setWorkspaceId(workspaceId)
-    push(routes.docsWorkspaces({ workspaceSlug: workspaceId }).path)
+    if (workspaceId) {
+      setWorkspaceId(workspaceId)
+      push(routes.docsWorkspaces({ workspaceSlug: workspaceId }).path)
+    } else {
+      setWorkspaceId('')
+      push(routes.docs.path)
+    }
   }, [push])
 
-  const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
+  const { categoriesList } = useCategoriesGetManyQuery({
+    workspaceId,
+    enabled: !!workspaceId,
+  })
 
   return (
     <Box

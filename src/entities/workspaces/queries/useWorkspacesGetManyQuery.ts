@@ -7,29 +7,29 @@ import { workspacesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { workspacesRestApiService } from '@/shared/rest-api/workspaces'
 
-export const useWorkspacesGetManyQuery = (params: {
+export const useWorkspacesGetManyQuery = ({
+  limit = '10',
+  page = '1',
+}: {
   limit?: string
   page?: string
-} = {
-  limit: '10',
-  page: '1',
 }) => {
   const queryKey = useMemo(
     () => {
-      const queryParams = filterQueryParams(params)
+      const queryParams = filterQueryParams({ limit, page })
 
       return workspacesQueryClientKeys.getMany(queryParams)
     },
-    [params]
+    [limit, page]
   )
 
   const queryFn = useCallback(
     () =>
       workspacesRestApiService.getMany({
-        limit: params.limit,
-        page: params.page,
+        limit,
+        page,
       }),
-    [params]
+    [limit, page]
   )
 
   const {

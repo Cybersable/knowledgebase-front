@@ -53,7 +53,7 @@ export default function ArticlesForm({
   defaultValues?: Partial<ArticlesModel>
 }) {
   const [workspaceId, setWorkspaceId] = useState('')
-  const { workspacesList } = useWorkspacesGetManyQuery()
+  const { workspacesList } = useWorkspacesGetManyQuery({})
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   const { categoriesList } = useCategoriesGetManyQuery({

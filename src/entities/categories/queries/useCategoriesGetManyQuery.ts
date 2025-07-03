@@ -5,31 +5,38 @@ import { categoriesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { categoriesRestApiService } from '@/shared/rest-api/categories'
 
-export const useCategoriesGetManyQuery = (params: {
+export const useCategoriesGetManyQuery = ({
+  limit = '10',
+  page = '1',
+  enabled = true,
+  workspaceId,
+}: {
   limit?: string
   page?: string
   workspaceId?: string
-} = {
-  limit: '10',
-  page: '1',
+  enabled?: boolean
 }) => {
   const queryKey = useMemo(
     () => {
-      const queryParams = filterQueryParams(params)
+      const queryParams = filterQueryParams({
+        limit,
+        page,
+        workspaceId,
+      })
 
       return categoriesQueryClientKeys.getMany(queryParams)
     },
-    [params]
+    [limit, page, workspaceId]
   )
 
   const queryFn = useCallback(
     () =>
       categoriesRestApiService.getMany({
-        limit: params.limit,
-        page: params.page,
-        ...(params.workspaceId ? { workspaceId: params.workspaceId } : {}),
+        limit,
+        page,
+        ...(workspaceId ? { workspaceId: workspaceId } : {}),
       }),
-    [params]
+    [limit, page, workspaceId]
   )
 
   const {
@@ -38,6 +45,7 @@ export const useCategoriesGetManyQuery = (params: {
   } = useQuery({
     queryKey,
     queryFn,
+    enabled,
   })
 
   return {

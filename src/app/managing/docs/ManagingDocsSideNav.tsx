@@ -9,20 +9,27 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
+import { useManagingDocsSideNav } from '@/app/managing/docs/useManagingDocsSideNav'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
-export default function ManagingDocsSideNav({
-  segmentWorkspaceId,
-  segmentCategoryId,
-}: {
-  segmentWorkspaceId?: string
-  segmentCategoryId?: string
-}) {
+export default function ManagingDocsSideNav() {
   const { push } = useRouter()
+  const { segmentWorkspaceId } = useManagingDocsSideNav()
   
   const [workspaceId, setWorkspaceId] = useState('')
+
+  const { categoriesList } = useCategoriesGetManyQuery({
+    workspaceId,
+    enabled: !!workspaceId,
+  })
+
+  useEffect(() => {
+    if (segmentWorkspaceId) {
+      setWorkspaceId(segmentWorkspaceId)
+    }
+  }, [segmentWorkspaceId])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
     if (workspaceId) {
@@ -33,12 +40,6 @@ export default function ManagingDocsSideNav({
       push(routes.managingWorkspaces.path)
     }
   }, [push])
-
-  useEffect(() => {
-    if (segmentWorkspaceId) setWorkspaceId(segmentWorkspaceId)
-  }, [segmentWorkspaceId])
-
-  const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
 
   return (
     <Box
@@ -52,7 +53,7 @@ export default function ManagingDocsSideNav({
         onWorkspaceChangeAction={handleWorkspaceChange}
       />
       <List>
-        {categoriesList?.map((category) => (
+        {workspaceId && categoriesList?.map((category) => (
           <ListItem
             key={category.id}
             disablePadding

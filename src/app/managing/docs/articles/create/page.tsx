@@ -3,13 +3,16 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
 import ArticlesForm from '@/features/articles/form'
 import routes from '@/services/routes-provider'
 
-export default function ArticlesCreatePage() {
+function ArticlesCreate() {
   const { back, push } = useRouter()
+  
   const searchParams = useSearchParams()
+
   const params = {
     workspaceId: searchParams.get('workspaceId') ?? '',
     categoryId: searchParams.get('categoryId') ?? '',
@@ -29,5 +32,13 @@ export default function ArticlesCreatePage() {
         defaultValues={params}
       />
     </Box>
+  )
+}
+
+export default function ArticlesCreatePage() {
+  return (
+    <Suspense>
+      <ArticlesCreate />
+    </Suspense>
   )
 }

@@ -73,8 +73,7 @@ export default function DocsManagingCategoryPage({
     articlesListTotal,
     articlesListLoading,
   } = useArticlesGetManyQuery({
-    workspaceId: category?.workspaceId,
-    categoryId: category?.id,
+    categoryId,
     limit,
     page,
   })
@@ -155,7 +154,7 @@ export default function DocsManagingCategoryPage({
           list={summaryList}
           emptyPlaceholder="Articles list is empty."
         />
-        {articlesListTotal !== undefined && articlesListTotal > 0 && (
+        {articlesListTotal !== undefined && articlesListTotal > 1 && (
           <Box sx={{
             display: 'flex',
             flexDirection: 'row',

@@ -21,8 +21,11 @@ export const useCategoriesUpdateMutation = ({
     }:{
       categoryId: string
       data: Partial<CategoriesApiModelInput>
-    }) =>
-      categoriesRestApiService.update(categoryId, data),
+    }) => {
+      const { title, summary, workspaceId } = data
+
+      return categoriesRestApiService.update(categoryId, { title, summary, workspaceId })
+    },
     onSuccess: (data, variables) => {
       queryClient.setQueryData(categoriesQueryClientKeys.get(variables.categoryId), data)
       queryClient.invalidateQueries({ queryKey: categoriesQueryClientKeys.getManyBase() })

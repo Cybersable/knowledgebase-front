@@ -11,11 +11,7 @@ export default function Workspaces({
 }: {
   pathPrefix: string
 }) {
-  const {
-    workspacesList,
-  } = useWorkspacesGetManyQuery({
-    limit: '50',
-  })
+  const { workspacesList } = useWorkspacesGetManyQuery({})
 
   return (
     <Box id="workspaces">

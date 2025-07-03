@@ -1,7 +1,4 @@
-'use client'
-
-import { useSelectedLayoutSegments } from 'next/navigation'
-import { ReactNode, Suspense } from 'react'
+import { ReactNode } from 'react'
 
 import DocsSideNav from '@/app/docs/DocsSideNav'
 import MainLayout from '@/widgets/layouts/main-layout'
@@ -11,18 +8,11 @@ export default function DocsLayout({
 }: {
   children: ReactNode
 }) {
-  const [workspaceSlug, categorySlug] = useSelectedLayoutSegments()
-  
   return (
     <MainLayout
       id="docs-layout"
       leftChildren={(
-        <Suspense>
-          <DocsSideNav
-            workspaceSlug={workspaceSlug}
-            categorySlug={categorySlug}
-          />
-        </Suspense>
+        <DocsSideNav />
       )}
     >
       {children}

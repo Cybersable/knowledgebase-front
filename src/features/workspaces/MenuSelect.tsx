@@ -13,7 +13,7 @@ export default function WorkspacesMenuSelect({
   workspaceId: string
   onWorkspaceChangeAction: (workspaceId: string) => void
 }) {
-  const { workspacesList } = useWorkspacesGetManyQuery()
+  const { workspacesList } = useWorkspacesGetManyQuery({})
 
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 

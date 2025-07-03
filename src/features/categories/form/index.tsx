@@ -44,7 +44,7 @@ export default function CategoriesForm({
   onSuccessAction?: () => void
   defaultValues?: Partial<CategoriesModelInput>
 }) {
-  const { workspacesList } = useWorkspacesGetManyQuery()
+  const { workspacesList } = useWorkspacesGetManyQuery({})
   const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
 
   const { createCategoryAsync } = useCategoriesCreateMutation({
@@ -60,7 +60,10 @@ export default function CategoriesForm({
       ...defaultValues,
     },
     onSubmit: async ({ value }) => {
-      if (categoryId) return await updateCategoryAsync({ categoryId, data: value })
+      if (categoryId) return await updateCategoryAsync({
+        categoryId,
+        data: value,
+      })
 
       await createCategoryAsync(value)
     },

@@ -5,30 +5,38 @@ import { articlesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 
-export const useArticlesGetManyQuery = (params: {
+export const useArticlesGetManyQuery = ({
+  limit = '10',
+  page = '1',
+  categoryId,
+  workspaceId,
+  enabled = true,
+}: {
+  enabled?: boolean
   limit?: string
   page?: string
   categoryId?: string
   workspaceId?: string
-} = {
-  limit: '10',
-  page: '1',
 }) => {
   const queryKey = useMemo(
     () => {
-      return articlesQueryClientKeys.getMany(filterQueryParams(params))
+      return articlesQueryClientKeys.getMany(
+        filterQueryParams({
+          limit, page, workspaceId, categoryId,
+        })
+      )
     },
-    [params]
+    [categoryId, limit, page, workspaceId]
   )
 
   const queryFn = useCallback(() =>
     articlesRestApiService.getMany({
-      limit: params.limit,
-      page: params.page,
-      ...(params.categoryId ? { categoryId: params.categoryId } : {}),
-      ...(params.workspaceId ? { workspaceId: params.workspaceId } : {}),
+      limit,
+      page,
+      ...(categoryId ? { categoryId } : {}),
+      ...(workspaceId ? { workspaceId } : {}),
     }),
-  [params])
+  [categoryId, limit, page, workspaceId])
 
   const {
     data,
@@ -36,6 +44,7 @@ export const useArticlesGetManyQuery = (params: {
   } = useQuery({
     queryKey,
     queryFn,
+    enabled,
   })
 
   return {
