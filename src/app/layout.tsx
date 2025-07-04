@@ -2,6 +2,7 @@ import Container from '@mui/material/Container'
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
 
+import NotifyProvider from '@/services/notify-provider'
 import QueryClientProvider from '@/services/query-provider'
 import ThemeProvider from '@/services/theme-provider'
 import Footer from '@/widgets/footer'
@@ -22,16 +23,18 @@ export default function RootLayout({
       <body>
         <QueryClientProvider>
           <ThemeProvider>
-            <MainNavBar />
+            <NotifyProvider>
+              <MainNavBar />
 
-            <Container
-              maxWidth="lg"
-              component="main"
-              sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
-            >
-              {children}
-            </Container>
-            <Footer />
+              <Container
+                maxWidth="lg"
+                component="main"
+                sx={{ display: 'flex', flexDirection: 'column', my: 16, gap: 4 }}
+              >
+                {children}
+              </Container>
+              <Footer />
+            </NotifyProvider>
           </ThemeProvider>
         </QueryClientProvider>
       </body>
