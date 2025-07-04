@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSnackbar } from 'notistack'
 
 import { categoriesQueryClientKeys } from '@/shared/queries'
 import {
@@ -12,6 +13,7 @@ export const useCategoriesUpdateMutation = ({
   onSuccess?: () => void
 }) => {
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const { mutateAsync } = useMutation({
     mutationKey: categoriesQueryClientKeys.update(),
@@ -29,6 +31,8 @@ export const useCategoriesUpdateMutation = ({
     onSuccess: (data, variables) => {
       queryClient.setQueryData(categoriesQueryClientKeys.get(variables.categoryId), data)
       queryClient.invalidateQueries({ queryKey: categoriesQueryClientKeys.getManyBase() })
+
+      enqueueSnackbar('Category was successfully updated!', { variant: 'success' })
 
       onSuccess?.()
     },

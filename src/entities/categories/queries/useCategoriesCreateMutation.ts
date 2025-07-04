@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useSnackbar } from 'notistack'
 
 import { categoriesQueryClientKeys } from '@/shared/queries'
 import {
@@ -12,6 +13,7 @@ export const useCategoriesCreateMutation = ({
   onSuccess?: () => void
 }) => {
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const { mutateAsync } = useMutation({
     mutationKey: categoriesQueryClientKeys.create(),
@@ -19,6 +21,8 @@ export const useCategoriesCreateMutation = ({
     onSuccess: (data) => {
       queryClient.setQueryData(categoriesQueryClientKeys.get(data.id), data)
       queryClient.invalidateQueries({ queryKey: categoriesQueryClientKeys.getManyBase() })
+
+      enqueueSnackbar('Category was successfully created!', { variant: 'success' })
 
       onSuccess?.()
     },

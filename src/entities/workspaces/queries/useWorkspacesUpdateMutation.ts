@@ -2,6 +2,7 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query'
+import { useSnackbar } from 'notistack'
 
 import {
   workspacesQueryClientKeys
@@ -17,6 +18,7 @@ export const useWorkspacesUpdateMutation = ({
   onSuccess?: () => void
 }) => {
   const queryClient = useQueryClient()
+  const { enqueueSnackbar } = useSnackbar()
 
   const { mutateAsync } = useMutation({
     mutationKey: workspacesQueryClientKeys.update(),
@@ -30,6 +32,8 @@ export const useWorkspacesUpdateMutation = ({
     onSuccess: (data, variables) => {
       queryClient.setQueryData(workspacesQueryClientKeys.get(variables.workspaceId), data)
       queryClient.invalidateQueries({ queryKey: workspacesQueryClientKeys.getManyBase() })
+
+      enqueueSnackbar('Workspace was successfully updated!', { variant: 'success' })
 
       onSuccess?.()
     },
