@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
 import { useForm } from '@tanstack/react-form'
 import { useCallback } from 'react'
 
@@ -57,7 +58,20 @@ export default function WorkspacesForm({
 
   const form = useForm({
     defaultValues,
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
+      if (value.title.trim().length === 0) {
+        formApi.fieldInfo.title.instance?.setErrorMap({ onSubmit: 'Title is required.' })
+      } else if (value.title.trim().length < 3) {
+        formApi.fieldInfo.title.instance?.setErrorMap({ onSubmit: 'Length must be more or equal 3 chars.' })
+      }
+
+      if (value.summary && value.summary.trim().length < 3) {
+        formApi.fieldInfo.summary.instance?.setErrorMap({ onSubmit: 'Length must be more or equal 3 chars.' })
+      }
+
+      const formErrors = formApi.getAllErrors()
+      if (Object.keys(formErrors.fields).length > 0) return
+
       if (workspaceId) return await updateWorkspaceAsync({ workspaceId, data: value })
 
       await createWorkspaceAsync(value)
@@ -79,14 +93,20 @@ export default function WorkspacesForm({
     >
       <Grid
         container
-        spacing={2}>
+        spacing={2}
+      >
         <form.Field
           name="title"
-          children={(field) => (
+          validators={{
+            onChange: ({ value }) => value.trim().length > 25 ? 'Length must be in 25 chars.' : undefined,
+          }}
+        >
+          {(field) => (
             <FormGrid size={12}>
               <FormLabel
                 htmlFor={field.name}
-                required>
+                required
+              >
                 Title
               </FormLabel>
               <OutlinedInput
@@ -94,38 +114,54 @@ export default function WorkspacesForm({
                 name={field.name}
                 placeholder="Main workspace"
                 disabled={form.state.isSubmitting}
-                required
                 size="small"
                 value={field.state.value}
                 onChange={(e) => {
                   field.handleChange(e.target.value)
                 }}
               />
+              {!field.state.meta.isValid && (
+                <Typography
+                  color="red"
+                >
+                  {field.state.meta.errors.join(', ')}
+                </Typography>
+              )}
             </FormGrid>
           )}
-        />
+        </form.Field>
         <form.Field
           name="summary"
-          children={(field) => (
+          validators={{
+            onChange: ({ value }) => value && value.trim().length > 50 ? 'Length must be in 50 chars.' : undefined,
+          }}
+        >
+          {(field) => (
             <FormGrid size={12}>
               <FormLabel
                 htmlFor={field.name}
-                required>
+              >
                 Summary
               </FormLabel>
               <OutlinedInput
                 id={field.name}
                 name={field.name}
                 placeholder="Main workspace is need for describe all company features."
-                required
                 disabled={form.state.isSubmitting}
                 size="small"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
               />
+              {!field.state.meta.isValid && (
+                <Typography
+                  color="red"
+                >
+                  {field.state.meta.errors.join(', ')}
+                </Typography>
+              )}
             </FormGrid>
           )}
-        />
+        </form.Field>
         <FormGrid size={12}>
           <Stack gap={2}>
             <Button
