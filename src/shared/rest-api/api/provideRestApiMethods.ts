@@ -6,6 +6,7 @@ import {
   CancelToken,
   Method
 } from 'axios'
+import { enqueueSnackbar } from 'notistack'
 import queryString from 'query-string'
 
 type AxiosOptions = Omit<AxiosRequestConfig, 'url' | 'method'>;
@@ -38,10 +39,16 @@ export const provideRestApiMethods = (axiosInstance: AxiosInstance) => {
   }
 
   const requestErrorMessage = (error: AxiosError) => {
-    const errorMessage: string =
-      error.response?.status || error.request || error.message || 'Something went wrong'
+    if (error.response) {
+      const { data } = error.response
+      if (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string') {
+        return enqueueSnackbar(`KnowledgeBase: ${data.message}`, { variant: 'error' })
+      }
+    }
 
-    return console.error(`Knowledgebase app, catch an error: ${errorMessage}`)
+    const errorMessage: string = error.message || 'Something went wrong'
+
+    return enqueueSnackbar(`KnowledgeBase: ${errorMessage}`, { variant: 'error' })
   }
 
   const get = <T, P = GenericParams>(
