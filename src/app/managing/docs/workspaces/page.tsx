@@ -8,7 +8,7 @@ import { Suspense } from 'react'
 
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import { useModal } from '@/shared/ui/hooks'
+import { useAppModal } from '@/shared/ui/hooks'
 import WorkspacesCreateModal from '@/widgets/workspaces/create-modal'
 import Workspaces from '@/widgets/workspaces/grid'
 
@@ -20,7 +20,7 @@ const breadcrumbs = [
 ]
 
 export default function ManagingDocsWorkspacesPage() {
-  const { open, handleOpen, handleClose } = useModal()
+  const { open, handleOpen, handleClose } = useAppModal()
 
   return (
     <Stack id="managing-workspaces-page">
