@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Pagination from '@mui/material/Pagination'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { ChangeEvent, useCallback, useMemo } from 'react'
 
@@ -17,7 +17,6 @@ export default function Workspaces({
   pathPrefix: string
 }) {
   const searchParams = useSearchParams()
-  const { push } = useRouter()
 
   const {
     limit,
@@ -44,8 +43,8 @@ export default function Workspaces({
       page: page.toString(),
     })
 
-    push(`?${queryString.stringify(queryParams)}`)
-  }, [limit, push])
+    window.history.replaceState({ page: 'workspaces' }, 'Workspaces', `?${queryString.stringify(queryParams)}`)
+  }, [limit])
 
   return (
     <Box id="workspaces">

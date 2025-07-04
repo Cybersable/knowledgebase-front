@@ -1,18 +1,21 @@
 'use client'
 
+import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { use, useMemo } from 'react'
 
 import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
 import DeleteWorkspacesDialog from '@/app/managing/docs/workspaces/[workspaceId]/DeleteWorkspacesDialog'
-import EditWorkspacesModalForm from '@/app/managing/docs/workspaces/[workspaceId]/EditWorkspacesModalForm'
 import { CategoryModel } from '@/entities/categories/model'
 import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
+import { useAppModal } from '@/shared/ui/hooks/useAppModal'
 import CategoriesList from '@/widgets/categories-list'
+import WorkspacesEditModal from '@/widgets/workspaces/edit-modal'
 
 const staticBreadcrumbs = [
   {
@@ -48,6 +51,12 @@ export default function ManagingDocsWorkspacesPage({
     return routes.managingCategoriesUpdate({ categoryId: category.id }).path
   }
 
+  const {
+    open: openWorkspacesEditModal,
+    handleOpen: onOpenWorkspacesEditModal,
+    handleClose: onCloseWorkspacesEditModal,
+  } = useAppModal()
+
   if (!workspace) return
 
   return (
@@ -71,7 +80,18 @@ export default function ManagingDocsWorkspacesPage({
           justifyContent="space-between"
           gap={1}
         >
-          <EditWorkspacesModalForm workspace={workspace} />
+          <IconButton
+            onClick={onOpenWorkspacesEditModal}
+            size="small"
+            color="primary"
+          >
+            <EditIcon />
+          </IconButton>
+          <WorkspacesEditModal
+            workspace={workspace}
+            open={openWorkspacesEditModal}
+            handleClose={onCloseWorkspacesEditModal}
+          />
           <DeleteWorkspacesDialog workspace={workspace} />
         </Stack>
       </Stack>

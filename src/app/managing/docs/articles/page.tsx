@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import {
-  useRouter,
   useSearchParams
 } from 'next/navigation'
 import queryString from 'query-string'
@@ -34,7 +33,6 @@ const staticBreadcrumbs = [
 
 function Articles() {
   const searchParams = useSearchParams()
-  const { push } = useRouter()
 
   const {
     workspaceId,
@@ -69,8 +67,8 @@ function Articles() {
       page: page.toString(),
     })
 
-    push(`?${queryString.stringify(queryParams)}`)
-  }, [categoryId, limit, push, workspaceId])
+    window.history.replaceState({ page: 'articles' }, 'Articles', `?${queryString.stringify(queryParams)}`)
+  }, [categoryId, limit, workspaceId])
 
   const summaryList = useMemo(() => {
     return articlesList?.map((article) => ({

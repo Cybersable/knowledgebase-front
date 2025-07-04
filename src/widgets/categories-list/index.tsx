@@ -3,7 +3,7 @@
 import Box from '@mui/material/Box'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { ChangeEvent, useCallback, useMemo } from 'react'
 
@@ -20,7 +20,6 @@ export default function CategoriesList({
   workspaceSlug?: string
 }) {
   const searchParams = useSearchParams()
-  const { push } = useRouter()
   
   const {
     limit,
@@ -48,8 +47,8 @@ export default function CategoriesList({
       page: page.toString(),
     })
 
-    push(`?${queryString.stringify(queryParams)}`)
-  }, [limit, push])
+    window.history.replaceState({ page: 'categories' }, 'Categories', `?${queryString.stringify(queryParams)}`)
+  }, [limit])
 
   const list = useMemo(() => {
     return categoriesList?.map((category) => ({
