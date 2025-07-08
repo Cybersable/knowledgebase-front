@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 import CategoriesDocsList from '@/app/docs/[workspaceSlug]/CategoriesDocsList'
 import routes from '@/services/routes-provider'
@@ -31,7 +32,11 @@ export default async function DocsWorkspacesPage({
 
   const workspace = await queryClient.fetchQuery({
     queryKey: workspacesQueryClientKeys.get(workspaceSlug),
-    queryFn: () => workspacesRestApiService.get(workspaceSlug),
+    queryFn: () => workspacesRestApiService
+      .get(workspaceSlug)
+      .catch(() => {
+        redirect(routes.docs.path)
+      }),
   })
 
   const breadcrumbs = [

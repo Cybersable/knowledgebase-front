@@ -5,6 +5,7 @@ import {
   HydrationBoundary,
   QueryClient
 } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 import routes from '@/services/routes-provider'
 import { articlesQueryClientKeys } from '@/shared/queries'
@@ -33,7 +34,11 @@ export default async function DocsArticlesPage({
 
   const article = await queryClient.fetchQuery({
     queryKey: articlesQueryClientKeys.get(articleId),
-    queryFn: () => articlesRestApiService.get(articleId),
+    queryFn: () => articlesRestApiService
+      .get(articleId)
+      .catch(() => {
+        redirect(routes.docs.path)
+      }),
   })
 
   const breadcrumbs = [

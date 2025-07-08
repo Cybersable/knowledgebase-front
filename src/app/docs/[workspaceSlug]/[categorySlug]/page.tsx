@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 import routes from '@/services/routes-provider'
 import { categoriesQueryClientKeys } from '@/shared/queries'
@@ -31,7 +32,10 @@ export default async function DocsCategoriesPage({
 
   const category = await queryClient.fetchQuery({
     queryKey: categoriesQueryClientKeys.get(categorySlug),
-    queryFn: () => categoriesRestApiService.get(categorySlug),
+    queryFn: () =>
+      categoriesRestApiService
+        .get(categorySlug)
+        .catch(() => redirect(routes.docs.path)),
   })
 
   const breadcrumbs = [
