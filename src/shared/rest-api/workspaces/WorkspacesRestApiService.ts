@@ -31,8 +31,8 @@ export class WorkspacesRestApiService
 
   getMany(
     query?: Partial<GetManyParams>,
-    abort?: AbortController
+    abortSignal?: AbortController['signal']
   ): Promise<Pagination<WorkspacesApiModel>> {
-    return super.getMany(query, abort)
+    return super.getMany(query, abortSignal)
   }
 }

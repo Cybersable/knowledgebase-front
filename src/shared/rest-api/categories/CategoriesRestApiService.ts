@@ -34,8 +34,9 @@ export class CategoriesRestApiService
   }
 
   getMany(
-    query?: Partial<GetManyParams>, abort?: AbortController
+    query?: Partial<GetManyParams>,
+    abortSignal?: AbortController['signal']
   ): Promise<Pagination<CategoriesApiModel>> {
-    return super.getMany(query, abort)
+    return super.getMany(query, abortSignal)
   }
 }

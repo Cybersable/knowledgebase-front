@@ -35,7 +35,10 @@ export class ArticlesRestApiService
     super(params)
   }
 
-  getMany(query?: Partial<GetManyParams>, abort?: AbortController): Promise<Pagination<Omit<ArticlesApiModel, 'content'>>> {
-    return super.getMany(query, abort)
+  getMany(
+    query?: Partial<GetManyParams>,
+    abortSignal?: AbortController['signal']
+  ): Promise<Pagination<Omit<ArticlesApiModel, 'content'>>> {
+    return super.getMany(query, abortSignal)
   }
 }

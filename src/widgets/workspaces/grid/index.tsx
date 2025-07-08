@@ -70,23 +70,23 @@ export default function Workspaces({
           </Grid>
         ))}
       </Grid>
-      {workspacesListTotal !== undefined
-        && workspacesListTotal > 1
-        && (
-          <Box sx={{
+      {workspacesListTotal > 1 && (
+        <Box
+          sx={{
             display: 'flex',
             flexDirection: 'row',
             pt: 4,
             justifyContent: 'center',
-          }}>
-            <Pagination
-              disabled={workspacesListLoading}
-              count={workspacesListTotal}
-              page={Number(page)}
-              onChange={onPageChange}
-            />
-          </Box>
-        )}
+          }}
+        >
+          <Pagination
+            disabled={workspacesListLoading}
+            count={workspacesListTotal}
+            page={Number(page)}
+            onChange={onPageChange}
+          />
+        </Box>
+      )}
     </Box>
   )
 }

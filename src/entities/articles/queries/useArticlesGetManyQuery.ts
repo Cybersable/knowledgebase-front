@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { articlesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
@@ -29,14 +29,16 @@ export const useArticlesGetManyQuery = ({
     [categoryId, limit, page, workspaceId]
   )
 
-  const queryFn = useCallback(() =>
-    articlesRestApiService.getMany({
-      limit,
-      page,
-      ...(categoryId ? { categoryId } : {}),
-      ...(workspaceId ? { workspaceId } : {}),
-    }),
-  [categoryId, limit, page, workspaceId])
+  const queryFn = useCallback(
+    ({ signal }: { signal: AbortController['signal'] }) =>
+      articlesRestApiService.getMany({
+        limit,
+        page,
+        ...(categoryId ? { categoryId } : {}),
+        ...(workspaceId ? { workspaceId } : {}),
+      }, signal),
+    [categoryId, limit, page, workspaceId]
+  )
 
   const {
     data,
@@ -47,9 +49,15 @@ export const useArticlesGetManyQuery = ({
     enabled,
   })
 
+  const [articlesListTotal, setArticlesListTotal] = useState<number>(0)
+
+  useEffect(() => {
+    if (data?.total) setArticlesListTotal(data.total)
+  }, [data?.total])
+
   return {
     articlesList: data?.data,
-    articlesListTotal: data?.total,
+    articlesListTotal,
     articlesListLoading: isLoading,
   }
 }

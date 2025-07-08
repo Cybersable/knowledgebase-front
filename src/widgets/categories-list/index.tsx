@@ -69,23 +69,23 @@ export default function CategoriesList({
           />
         }
       </Box>
-      {categoriesListTotal !== undefined
-        && categoriesListTotal > 1
-        && (
-          <Box sx={{
+      {categoriesListTotal > 1 && (
+        <Box
+          sx={{
             display: 'flex',
             flexDirection: 'row',
             pt: 4,
             justifyContent: 'center',
-          }}>
-            <Pagination
-              disabled={categoriesListLoading}
-              count={categoriesListTotal}
-              page={Number(page)}
-              onChange={onPageChange}
-            />
-          </Box>
-        )}
+          }}
+        >
+          <Pagination
+            disabled={categoriesListLoading}
+            count={categoriesListTotal}
+            page={Number(page)}
+            onChange={onPageChange}
+          />
+        </Box>
+      )}
     </Stack>
   )
 }

@@ -1,7 +1,7 @@
 import {
   useQuery
 } from '@tanstack/react-query'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { workspacesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
@@ -24,11 +24,12 @@ export const useWorkspacesGetManyQuery = ({
   )
 
   const queryFn = useCallback(
-    () =>
-      workspacesRestApiService.getMany({
+    ({ signal }: { signal: AbortController['signal'] }) => {
+      return workspacesRestApiService.getMany({
         limit,
         page,
-      }),
+      }, signal)
+    },
     [limit, page]
   )
 
@@ -40,9 +41,15 @@ export const useWorkspacesGetManyQuery = ({
     queryFn,
   })
 
+  const [workspacesListTotal, setWorkspacesListTotal] = useState(0)
+
+  useEffect(() => {
+    if (data?.total) setWorkspacesListTotal(data.total)
+  }, [data?.total])
+
   return {
     workspacesList: data?.data,
-    workspacesListTotal: data?.total,
+    workspacesListTotal,
     workspacesListLoading: isLoading,
   }
 }
