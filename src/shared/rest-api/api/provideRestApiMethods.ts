@@ -6,8 +6,9 @@ import {
   CancelToken,
   Method
 } from 'axios'
-import { enqueueSnackbar } from 'notistack'
 import queryString from 'query-string'
+
+import { getRequestErrorMessage } from '@/shared/rest-api/api/getRequestErrorMessage'
 
 type AxiosOptions = Omit<AxiosRequestConfig, 'url' | 'method'>;
 type GenericParams = Record<string, unknown>;
@@ -30,25 +31,14 @@ export const provideRestApiMethods = (axiosInstance: AxiosInstance) => {
       return response.data
     } catch (error) {
       const err = error as AxiosError
+      const message = getRequestErrorMessage(err)
 
-      if (!hideMessage) requestErrorMessage(err)
-      console.error(err.response)
-
-      throw err
-    }
-  }
-
-  const requestErrorMessage = (error: AxiosError) => {
-    if (error.response) {
-      const { data } = error.response
-      if (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string') {
-        return enqueueSnackbar(`KnowledgeBase: ${data.message}`, { variant: 'error' })
+      if (typeof window !== 'undefined' && !hideMessage) {
+        console.error(message)
       }
+
+      throw new Error(message)
     }
-
-    const errorMessage: string = error.message || 'Something went wrong'
-
-    return enqueueSnackbar(`KnowledgeBase: ${errorMessage}`, { variant: 'error' })
   }
 
   const get = <T, P = GenericParams>(
