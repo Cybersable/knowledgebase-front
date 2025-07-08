@@ -5,10 +5,13 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { use, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+import { enqueueSnackbar } from 'notistack'
+import { use, useEffect, useMemo } from 'react'
 
 import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
 import DeleteWorkspacesDialog from '@/app/managing/docs/workspaces/[workspaceId]/DeleteWorkspacesDialog'
+import WorkspacePageLoading from '@/app/managing/docs/workspaces/[workspaceId]/loading'
 import { CategoryModel } from '@/entities/categories/model'
 import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
 import routes from '@/services/routes-provider'
@@ -32,8 +35,19 @@ export default function ManagingDocsWorkspacesPage({
     workspaceId: string
   }>
 }) {
+  const { push } = useRouter()
+  
   const { workspaceId } = use(params)
-  const { workspace } = useWorkspacesGetQuery({ workspaceId })
+  const { workspace, workspaceError, workspaceLoading } = useWorkspacesGetQuery({
+    workspaceId,
+  })
+
+  useEffect(() => {
+    if (workspaceError) {
+      push(routes.managingWorkspaces.path)
+      enqueueSnackbar(workspaceError.message, { variant: 'error' })
+    }
+  }, [push, workspaceError])
 
   const breadcrumbs = useMemo(() => {
     if (!workspace) return staticBreadcrumbs
@@ -57,7 +71,9 @@ export default function ManagingDocsWorkspacesPage({
     handleClose: onCloseWorkspacesEditModal,
   } = useAppModal()
 
-  if (!workspace) return
+  if (workspaceLoading) return <WorkspacePageLoading />
+
+  if (!workspace) return null
 
   return (
     <Stack id="docs-workspaces-page">

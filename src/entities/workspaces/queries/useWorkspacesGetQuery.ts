@@ -18,16 +18,21 @@ export const useWorkspacesGetQuery = ({
   const queryFn = useCallback(() => {
     if (!workspaceId) return
 
-    return workspacesRestApiService.get(workspaceId)
+    return workspacesRestApiService
+      .get(workspaceId)
   }, [workspaceId])
 
-  const { data } = useQuery({
+  const { data, isError, error, isLoading } = useQuery({
     enabled: !!workspaceId,
     queryKey,
     queryFn,
+    retry: false,
   })
 
   return {
     workspace: data,
+    workspaceLoading: isLoading,
+    workspaceIsError: isError,
+    workspaceError: error,
   }
 }
