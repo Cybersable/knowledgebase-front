@@ -19,7 +19,7 @@ export interface BaseRestApiServiceInterface<Model, ModelInput> {
   get: (id: string) => Promise<Model>
   getMany: (
     params?: QueryParams,
-    abort?: AbortController
+    abortSignal?: AbortController['signal']
   ) => Promise<Pagination<Model>>
   create: (data: ModelInput) => Promise<Model>
   update: (id: string, data: Partial<ModelInput>) => Promise<Model>
@@ -50,22 +50,17 @@ implements BaseRestApiServiceInterface<Model, ModelInput>
     return provideRestApiMethods(this._client).get<Model>(`/${this._resource}/${id}`)
   }
 
-  public getMany(query?: QueryParams, abort?: AbortController) {
-    // if (!abort?.signal) {
-    //   abort = new AbortController()
-    // }
-
+  public getMany(query?: QueryParams, abortSignal?: AbortController['signal']) {
     let url = `/${this._resource}`
 
     if (query) {
       url += `?${this._stringify(query)}`
     }
 
-    return provideRestApiMethods(this._client).get<Pagination<Model>>(url)
-    // {
-    //   signal: abort.signal
-    // }
-    // )
+    return provideRestApiMethods(this._client).get<Pagination<Model>>(
+      url,
+      ...(abortSignal ? [{ signal: abortSignal }] : [])
+    )
   }
 
   public create(data: ModelInput) {
