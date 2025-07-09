@@ -234,7 +234,7 @@ export default function ArticlesForm({
               <FormLabel
                 htmlFor={field.name}
                 required>
-                Summary
+                Content
               </FormLabel>
               <OutlinedInput
                 id={field.name}
