@@ -11,9 +11,11 @@ import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import { useForm } from '@tanstack/react-form'
+import dynamic from 'next/dynamic'
 import {
   useCallback,
   useEffect,
+  useRef,
   useState
 } from 'react'
 
@@ -23,6 +25,8 @@ import { useCategoriesMenuSelectOptions } from '@/entities/categories/api'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
+
+const Editor = dynamic(() => import('@/shared/lib/editor'), { ssr: false })
 
 const FormGrid = styled(Grid)(() => ({
   display: 'flex',
@@ -81,7 +85,11 @@ export default function ArticlesForm({
     },
     onSubmit: async ({ value }) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { workspaceId, ...data } = value
+      const { workspaceId, ...args } = value
+
+      const content = await submitHandler.current?.preSubmit()
+
+      const data = { ...args, content }
 
       if (articleId) return await updateArticleAsync({ articleId, data })
 
@@ -100,8 +108,9 @@ export default function ArticlesForm({
 
     form.setFieldValue('title', faker.commerce.productName())
     form.setFieldValue('summary', faker.lorem.paragraph(1))
-    form.setFieldValue('content', faker.lorem.paragraph(5))
   }, [form, workspacesOptions, categoriesOptions])
+
+  const submitHandler = useRef<{ preSubmit: () => Promise<string | undefined> }>(null)
 
   return (
     <form
@@ -229,26 +238,23 @@ export default function ArticlesForm({
         />
         <form.Field
           name="content"
-          children={(field) => (
+        >
+          {(field) => (
             <FormGrid size={12}>
               <FormLabel
                 htmlFor={field.name}
-                required>
+                required
+              >
                 Content
               </FormLabel>
-              <OutlinedInput
+              <Editor
                 id={field.name}
-                name={field.name}
-                placeholder="Main content is need for describe all company features."
-                required
-                size="small"
-                disabled={form.state.isSubmitting}
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
+                content={field.state.value}
+                submitHandler={submitHandler}
               />
             </FormGrid>
           )}
-        />
+        </form.Field>
         <FormGrid size={12}>
           <Stack gap={2}>
             <Button
