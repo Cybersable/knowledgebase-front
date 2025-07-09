@@ -12,7 +12,7 @@ export const useArticlesDeleteMutation = ({
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutate, mutateAsync, isPending } = useMutation({
     mutationFn: (articleId: string) => articlesRestApiService.delete(articleId),
     onSuccess: (_, variables) => {
       queryClient.removeQueries({ queryKey: articlesQueryClientKeys.get(variables) })
@@ -25,6 +25,7 @@ export const useArticlesDeleteMutation = ({
   })
 
   return {
+    deleteArticle: mutate,
     deleteArticleAsync: mutateAsync,
     deleteArticlePending: isPending,
   }

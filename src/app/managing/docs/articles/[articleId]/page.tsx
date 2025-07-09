@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { use } from 'react'
 
 import { useArticlesGetQuery } from '@/entities/articles/queries'
-import ArticlesForm from '@/features/articles/Form'
+import ArticlesForm from '@/features/articles/form'
 import ArticlesDeleteWidget from '@/widgets/articles/delete'
 
 export default function ArticlesUpdatePage({

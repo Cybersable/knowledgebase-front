@@ -1,9 +1,10 @@
 import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 
 import { CategoryModel } from '@/entities/categories/model'
-import CategoriesForm from '@/features/categories/Form'
+import CategoriesForm from '@/features/categories/form'
 import AppModal from '@/shared/ui/app-modal'
 
 export default function CategoriesEditWidget({
@@ -28,10 +29,14 @@ export default function CategoriesEditWidget({
         open={open}
         onClose={handleClose}
       >
+        <Typography variant="h4">
+          Editing category
+        </Typography>
         <CategoriesForm
           categoryId={category.id}
           defaultValues={category}
           onCancelAction={handleClose}
+          onSuccessAction={handleClose}
         />
       </AppModal>
     </>

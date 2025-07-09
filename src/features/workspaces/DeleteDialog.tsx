@@ -14,7 +14,6 @@ export default function WorkspacesDeleteDialog({
   onSuccessAction: () => void
   onCloseAction: () => void
 }) {
-
   const { deleteWorkspace, deleteWorkspacePending } = useWorkspacesDeleteMutation({
     onSuccess: onSuccessAction,
   })

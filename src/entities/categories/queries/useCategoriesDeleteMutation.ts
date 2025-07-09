@@ -12,7 +12,7 @@ export const useCategoriesDeleteMutation = ({
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutate, mutateAsync, isPending } = useMutation({
     mutationFn: (categoryId: string) => categoriesRestApiService.delete(categoryId),
     onSuccess: (_, variables) => {
       queryClient.removeQueries({ queryKey: categoriesQueryClientKeys.get(variables) })
@@ -25,6 +25,7 @@ export const useCategoriesDeleteMutation = ({
   })
 
   return {
+    deleteCategory: mutate,
     deleteCategoryAsync: mutateAsync,
     deleteCategoryPending: isPending,
   }

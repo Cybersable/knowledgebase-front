@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
 
 import { WorkspacesModel } from '@/entities/workspaces/model'
-import CategoriesForm from '@/features/categories/Form'
+import CategoriesForm from '@/features/categories/form'
 import AppModal from '@/shared/ui/app-modal'
 import { useAppModal } from '@/shared/ui/hooks'
 
