@@ -9,14 +9,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-import { useManagingDocsSideNav } from '@/app/managing/docs/useManagingDocsSideNav'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
+import { useManagingDocsSidebar } from '@/widgets/managing-docs/sidebar/useManagingDocsSidebar'
 
-export default function ManagingDocsSideNav() {
+export default function ManagingDocsSidebar() {
   const { push } = useRouter()
-  const { segmentWorkspaceId } = useManagingDocsSideNav()
+  const { segmentWorkspaceId } = useManagingDocsSidebar()
   
   const [workspaceId, setWorkspaceId] = useState('')
 

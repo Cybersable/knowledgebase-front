@@ -1,27 +1,30 @@
+'use client'
+
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 
-import { WorkspacesModel } from '@/entities/workspaces/model'
-import { useWorkspacesDeleteMutation } from '@/entities/workspaces/queries'
+import { CategoryModel } from '@/entities/categories/model'
+import { useCategoriesDeleteMutation } from '@/entities/categories/queries'
 import routes from '@/services/routes-provider'
 import Dialog from '@/shared/ui/dialog'
 
-export default function DeleteWorkspacesDialog({
-  workspace,
+export default function CategoriesDeleteWidget({
+  category,
 }: {
-  workspace: WorkspacesModel
+  category: CategoryModel
 }) {
   const { push } = useRouter()
+
   const [deletingDialogOpen, setDeletingDialogOpen] = useState(false)
-  const { deleteWorkspaceAsync, deleteWorkspacePending } = useWorkspacesDeleteMutation({
+  const { deleteCategoryAsync, deleteCategoryPending } = useCategoriesDeleteMutation({
     onSuccess: () => push(routes.managingWorkspaces.path),
   })
   const handleDeleteWorkspace = useCallback(async () => {
-    await deleteWorkspaceAsync(workspace.id)
+    await deleteCategoryAsync(category.id)
     setDeletingDialogOpen(false)
-  }, [deleteWorkspaceAsync, workspace.id])
+  }, [deleteCategoryAsync, category])
 
   return (
     <>
@@ -34,12 +37,12 @@ export default function DeleteWorkspacesDialog({
       </IconButton>
       <Dialog
         title="Deleting workspace"
-        content={`Delete "${workspace?.title}" workspace, with their categories and articles forever?`}
+        content={`Delete "${category.title}" workspace, with their categories and articles forever?`}
         open={deletingDialogOpen}
         onCloseAction={() => setDeletingDialogOpen(false)}
         onSubmitAction={handleDeleteWorkspace}
-        disabled={deleteWorkspacePending}
-        pending={deleteWorkspacePending}
+        disabled={deleteCategoryPending}
+        pending={deleteCategoryPending}
         submitBtnText={'Delete'}
       />
     </>

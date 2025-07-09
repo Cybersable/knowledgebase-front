@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
-import ManagingDocsSideNav from '@/app/managing/docs/ManagingDocsSideNav'
-import MainLayout from '@/widgets/layouts/main-layout'
-import ManagingDocsMenu from '@/widgets/managing-docs-menu'
+import MainLayout from '@/widgets/layouts/main'
+import NavigationList from '@/widgets/managing-docs/navigation-list'
+import ManagingDocsSidebar from '@/widgets/managing-docs/sidebar'
 
 export default function ManagingDocsLayout({
   children,
@@ -13,9 +13,9 @@ export default function ManagingDocsLayout({
     <MainLayout
       id="managing-docs-workspaces-layout"
       leftChildren={(
-        <ManagingDocsSideNav />
+        <ManagingDocsSidebar />
       )}
-      rightChildren={(<ManagingDocsMenu />)}
+      rightChildren={(<NavigationList />)}
     >
       {children}
     </MainLayout>

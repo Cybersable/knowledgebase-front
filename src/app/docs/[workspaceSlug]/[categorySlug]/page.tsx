@@ -3,12 +3,12 @@ import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 
+import DocsList from '@/features/articles/List'
 import routes from '@/services/routes-provider'
 import { categoriesQueryClientKeys } from '@/shared/queries'
 import { getQueryClient } from '@/shared/queries/getQueryClient'
 import { categoriesRestApiService } from '@/shared/rest-api/categories'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import DocsList from '@/widgets/docs-list'
 
 const staticBreadcrumbs = [
   {

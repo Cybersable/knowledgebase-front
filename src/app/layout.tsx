@@ -6,7 +6,7 @@ import NotifyProvider from '@/services/notify-provider'
 import QueryClientProvider from '@/services/query-provider'
 import ThemeProvider from '@/services/theme-provider'
 import Footer from '@/widgets/footer'
-import MainNavBar from '@/widgets/main-nav-bar'
+import MainNavBar from '@/widgets/navbar'
 
 export const metadata: Metadata = {
   title: 'Knowledgebase',

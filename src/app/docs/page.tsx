@@ -2,9 +2,9 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { Suspense } from 'react'
 
+import Workspaces from '@/features/workspaces/Grid'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import Workspaces from '@/widgets/workspaces/grid'
 
 const breadcrumbs = [
   {

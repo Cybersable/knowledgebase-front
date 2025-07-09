@@ -13,7 +13,7 @@ import { useArticlesGetManyQuery } from '@/entities/articles/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import SummaryList from '@/shared/ui/summary-list'
 
-export default function DocsList({
+export default function ArticlesList({
   pathPrefix,
   workspaceSlug,
   categorySlug,

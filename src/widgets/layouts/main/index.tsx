@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import { ReactNode } from 'react'
 
 export default function MainLayout({
-  id = 'main-layout',
+  id = 'main',
   leftChildren,
   children,
   rightChildren,

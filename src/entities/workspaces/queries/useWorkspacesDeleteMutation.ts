@@ -12,7 +12,7 @@ export const useWorkspacesDeleteMutation = ({
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutate, mutateAsync, isPending } = useMutation({
     mutationFn: (workspaceId: string) => workspacesRestApiService.delete(workspaceId),
     onSuccess: (_, variables) => {
       queryClient.removeQueries({ queryKey: workspacesQueryClientKeys.get(variables) })
@@ -25,6 +25,7 @@ export const useWorkspacesDeleteMutation = ({
   })
 
   return {
+    deleteWorkspace: mutate,
     deleteWorkspaceAsync: mutateAsync,
     deleteWorkspacePending: isPending,
   }

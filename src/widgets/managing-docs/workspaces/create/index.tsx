@@ -2,20 +2,14 @@
 
 import AddIcon from '@mui/icons-material/Add'
 import Button from '@mui/material/Button'
-import { useState } from 'react'
+import Typography from '@mui/material/Typography'
 
-import { WorkspacesModel } from '@/entities/workspaces/model'
-import CategoriesForm from '@/features/categories/form'
+import WorkspacesForm from '@/features/workspaces/form'
 import AppModal from '@/shared/ui/app-modal'
+import { useAppModal } from '@/shared/ui/hooks'
 
-export default function CreateCategoryModalForm({
-  workspaceId,
-}: {
-  workspaceId?: WorkspacesModel['id']
-}) {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+export default function WorkspacesCreateWidget() {
+  const { open, handleOpen, handleClose } = useAppModal()
 
   return (
     <>
@@ -26,16 +20,16 @@ export default function CreateCategoryModalForm({
         endIcon={<AddIcon />}
         onClick={handleOpen}
       >
-        Create Category
+        Create workspace
       </Button>
       <AppModal
         open={open}
         onClose={handleClose}
       >
-        <CategoriesForm
-          defaultValues={{
-            workspaceId,
-          }}
+        <Typography variant="h4">
+          Creating workspace
+        </Typography>
+        <WorkspacesForm
           onSuccessAction={handleClose}
           onCancelAction={handleClose}
         />

@@ -31,7 +31,7 @@ const mainListItems = [
   }
 ]
 
-export default function ManagingDocsMenu() {
+export default function ManagingDocsNavigationList() {
   return (
     <List>
       {mainListItems.map((item, index) => (

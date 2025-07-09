@@ -1,24 +1,21 @@
 'use client'
 
-import EditIcon from '@mui/icons-material/Edit'
 import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
 import { enqueueSnackbar } from 'notistack'
 import { use, useEffect, useMemo } from 'react'
 
-import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
-import DeleteWorkspacesDialog from '@/app/managing/docs/workspaces/[workspaceId]/DeleteWorkspacesDialog'
 import WorkspacePageLoading from '@/app/managing/docs/workspaces/[workspaceId]/loading'
 import { CategoryModel } from '@/entities/categories/model'
 import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
+import CategoriesList from '@/features/categories/Grid'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import { useAppModal } from '@/shared/ui/hooks/useAppModal'
-import CategoriesList from '@/widgets/categories-list'
-import WorkspacesEditModal from '@/widgets/workspaces/edit-modal'
+import CategoriesCreeate from '@/widgets/managing-docs/categories/create'
+import WorkspacesDeleteWidget from '@/widgets/managing-docs/workspaces/delete'
+import WorkspacesEditWidget from '@/widgets/managing-docs/workspaces/edit'
 
 const staticBreadcrumbs = [
   {
@@ -65,12 +62,6 @@ export default function ManagingDocsWorkspacesPage({
     return routes.managingCategoriesUpdate({ categoryId: category.id }).path
   }
 
-  const {
-    open: openWorkspacesEditModal,
-    handleOpen: onOpenWorkspacesEditModal,
-    handleClose: onCloseWorkspacesEditModal,
-  } = useAppModal()
-
   if (workspaceLoading) return <WorkspacePageLoading />
 
   if (!workspace) return null
@@ -96,19 +87,8 @@ export default function ManagingDocsWorkspacesPage({
           justifyContent="space-between"
           gap={1}
         >
-          <IconButton
-            onClick={onOpenWorkspacesEditModal}
-            size="small"
-            color="primary"
-          >
-            <EditIcon />
-          </IconButton>
-          <WorkspacesEditModal
-            workspace={workspace}
-            open={openWorkspacesEditModal}
-            handleClose={onCloseWorkspacesEditModal}
-          />
-          <DeleteWorkspacesDialog workspace={workspace} />
+          <WorkspacesEditWidget workspace={workspace} />
+          <WorkspacesDeleteWidget workspace={workspace} />
         </Stack>
       </Stack>
       <Stack
@@ -119,9 +99,7 @@ export default function ManagingDocsWorkspacesPage({
         <Typography variant="h6">
           Categories
         </Typography>
-        <CreateCategoryModalForm
-          workspaceId={workspace.id}
-        />
+        <CategoriesCreeate workspaceId={workspace.id} />
       </Stack>
       <CategoriesList
         makePath={makePath}

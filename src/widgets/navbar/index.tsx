@@ -17,7 +17,7 @@ import { useState } from 'react'
 
 import routes from '@/services/routes-provider'
 import SitemarkIcon from '@/shared/ui/icons/SitemarkIcon'
-import MenuDropdown from '@/widgets/main-nav-bar/ui/MenuDropdown'
+import MenuDropdown from '@/widgets/navbar/ui/MenuDropdown'
 
 import { StyledToolbar } from './styled'
 import ColorModeIconDropdown from './ui/ColorModeIconDropdown'

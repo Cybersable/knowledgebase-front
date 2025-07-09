@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
 
-import ArticlesForm from '@/features/articles/form'
+import ArticlesForm from '@/features/articles/Form'
 import routes from '@/services/routes-provider'
 
 function ArticlesCreate() {

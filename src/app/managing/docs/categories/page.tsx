@@ -4,11 +4,11 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { Suspense } from 'react'
 
-import CreateCategoryModalForm from '@/app/managing/docs/workspaces/[workspaceId]/CreateCategoryModalForm'
 import { CategoryModel } from '@/entities/categories/model'
+import CategoriesList from '@/features/categories/Grid'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import CategoriesList from '@/widgets/categories-list'
+import CategoriesCreeate from '@/widgets/managing-docs/categories/create'
 
 const staticBreadcrumbs = [
   {
@@ -38,7 +38,7 @@ export default function DocsManagingCategoriesPage() {
         <Typography variant="h4">
           Managing Categories
         </Typography>
-        <CreateCategoryModalForm />
+        <CategoriesCreeate />
       </Stack>
       <Suspense>
         <CategoriesList makePath={makePath} />

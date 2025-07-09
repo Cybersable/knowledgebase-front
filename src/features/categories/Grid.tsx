@@ -12,7 +12,7 @@ import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import TextCardGrid from '@/shared/ui/text-card-grid'
 
-export default function CategoriesList({
+export default function CategoriesGrid({
   makePath,
   workspaceSlug,
 }: {
@@ -60,7 +60,7 @@ export default function CategoriesList({
   }, [categoriesList, makePath])
 
   return (
-    <Stack id="categories-list">
+    <Stack id="categories-grid">
       <Box minHeight={650}>
         {list &&
           <TextCardGrid

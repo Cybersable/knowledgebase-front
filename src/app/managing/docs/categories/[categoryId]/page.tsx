@@ -11,14 +11,14 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { ChangeEvent, use, useCallback, useMemo } from 'react'
 
-import DeleteCategoriesDialog from '@/app/managing/docs/categories/[categoryId]/DeleteCategoriesDialog'
-import EditCategoriesModalForm from '@/app/managing/docs/categories/[categoryId]/EditCategoriesModalForm'
 import { useArticlesGetManyQuery } from '@/entities/articles/queries'
 import { useCategoriesGetQuery } from '@/entities/categories/queries'
 import routes from '@/services/routes-provider'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
 import SummaryList from '@/shared/ui/summary-list'
+import CategoriesDeleteWidget from '@/widgets/managing-docs/categories/delete'
+import CategoriesEditWidget from '@/widgets/managing-docs/categories/edit'
 
 
 const staticBreadcrumbs = [
@@ -126,8 +126,8 @@ export default function DocsManagingCategoryPage({
           justifyContent="space-between"
           gap={1}
         >
-          <EditCategoriesModalForm category={category} />
-          <DeleteCategoriesDialog category={category} />
+          <CategoriesEditWidget category={category} />
+          <CategoriesDeleteWidget category={category} />
         </Stack>
       </Stack>
       <Stack

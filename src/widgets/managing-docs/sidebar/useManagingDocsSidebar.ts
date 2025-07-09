@@ -13,7 +13,7 @@ const segments = {
 
 type Segment = keyof typeof segments
 
-export const useManagingDocsSideNav = () => {
+export const useManagingDocsSidebar = () => {
   const [segment, segmentId] = useSelectedLayoutSegments()
 
   const selectedSegmentId = useMemo(() => {

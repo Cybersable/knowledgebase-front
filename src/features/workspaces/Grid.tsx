@@ -11,7 +11,7 @@ import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import TextCard from '@/shared/ui/text-card'
 
-export default function Workspaces({
+export default function WorkspacesGrid({
   pathPrefix,
 }: {
   pathPrefix: string

@@ -3,10 +3,10 @@ import IconButton from '@mui/material/IconButton'
 import { useState } from 'react'
 
 import { CategoryModel } from '@/entities/categories/model'
-import CategoriesForm from '@/features/categories/form'
+import CategoriesForm from '@/features/categories/Form'
 import AppModal from '@/shared/ui/app-modal'
 
-export default function EditCategoriesModalForm({
+export default function CategoriesEditWidget({
   category,
 }: {
   category: CategoryModel
