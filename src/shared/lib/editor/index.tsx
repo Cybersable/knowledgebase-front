@@ -11,14 +11,12 @@ export default function Editor({
   id,
   content,
   submitHandler,
-  isEditing,
 }: {
   id: string
   content?: string | null
   submitHandler?: MutableRefObject<
     { preSubmit: () => Promise<string | undefined> } | null
   >
-  isEditing?: boolean
 }) {
   const ReactEditorJS = createReactEditorJS()
   const { defaultValue, onInitialize, handleSave } = useEditorJs({ content })
@@ -37,7 +35,6 @@ export default function Editor({
         holder={id}
         defaultValue={defaultValue}
         onInitialize={onInitialize}
-        readOnly={!isEditing}
         tools={EDITOR_CONFIG}
         minHeight={0}
       />
