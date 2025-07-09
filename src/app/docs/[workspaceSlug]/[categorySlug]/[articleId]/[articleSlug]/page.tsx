@@ -8,6 +8,7 @@ import {
 import { redirect } from 'next/navigation'
 
 import routes from '@/services/routes-provider'
+import EditorContent from '@/shared/lib/editor/EditorContent'
 import { articlesQueryClientKeys } from '@/shared/queries'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
@@ -67,7 +68,7 @@ export default async function DocsArticlesPage({
       id="docs-articles-page"
     >
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Breadcrumbs breadcrumbs={breadcrumbs} />
+        <Breadcrumbs breadcrumbs={breadcrumbs}/>
         <Typography
           variant="h4"
           mt={2}
@@ -75,14 +76,11 @@ export default async function DocsArticlesPage({
           {article.title}
         </Typography>
         <Typography
+          mb={2}
         >
           {article.summary}
         </Typography>
-        <Typography
-          mt={2}
-        >
-          {article.content}
-        </Typography>
+        <EditorContent content={article.content} />
       </HydrationBoundary>
     </Stack>
   )
