@@ -42,12 +42,14 @@ const routes = {
     path: `/docs/${params.workspaceSlug}/${params.categorySlug}`,
   }),
   docsArticles: (params: {
+    workspaceSlug: string
+    categorySlug: string
     articleId: string
     articleSlug: string
   }) => ({
     key: 'DOCS_ARTICLES_ROUTE',
     params,
-    path: `/docs/${params.articleId}/${params.articleSlug}`,
+    path: `/docs/${params.workspaceSlug}/${params.categorySlug}/${params.articleId}/${params.articleSlug}`,
   }),
   managingWorkspaces: {
     key: 'MANAGING_DOCS_WORKSPACES_ROUTE',
