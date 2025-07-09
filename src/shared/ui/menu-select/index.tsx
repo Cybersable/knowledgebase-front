@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import { SelectChangeEvent } from '@mui/material/Select'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import {
   StyledAvatar,
@@ -31,12 +31,14 @@ export default function MenuSelect({
   options,
   emptyValue,
   clearable,
+  defaultOption,
 }: {
   id: string,
   value?: string
   disabled?: boolean
   onChangeAction: (value: string) => void
   options?: Array<MenuSelectOption>
+  defaultOption?: MenuSelectOption
   emptyValue?: {
     label: string
     subLabel?: string
@@ -55,6 +57,18 @@ export default function MenuSelect({
   //
   //   onChange(options[0].value.toString());
   // }, [value, options]);
+
+  const listOfOptions = useMemo(() => {
+    if (!defaultOption) return options
+
+    const optionKeys = options?.map(option => option.value)
+    if (optionKeys?.includes(defaultOption.value)) return options
+
+    return [
+      defaultOption,
+      ...(options ?? [])
+    ]
+  }, [options, defaultOption])
 
   return (
     <Box sx={{ position: 'relative', width: 276 }}>
@@ -79,7 +93,7 @@ export default function MenuSelect({
               secondary={emptyValue.subLabel} />
           </MenuItem>
         )}
-        {options?.map((option) => (
+        {listOfOptions?.map((option) => (
           <MenuItem
             value={option.value}
             key={option.value}

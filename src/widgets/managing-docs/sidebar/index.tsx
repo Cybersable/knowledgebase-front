@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
+import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 import { useManagingDocsSidebar } from '@/widgets/managing-docs/sidebar/useManagingDocsSidebar'
@@ -19,6 +20,7 @@ export default function ManagingDocsSidebar() {
   const { segmentWorkspaceId } = useManagingDocsSidebar()
   
   const [workspaceId, setWorkspaceId] = useState('')
+  const { workspace } = useWorkspacesGetQuery({ workspaceId: segmentWorkspaceId })
 
   const { categoriesList } = useCategoriesGetManyQuery({
     workspaceId,
@@ -26,9 +28,7 @@ export default function ManagingDocsSidebar() {
   })
 
   useEffect(() => {
-    if (segmentWorkspaceId) {
-      setWorkspaceId(segmentWorkspaceId)
-    }
+    setWorkspaceId(segmentWorkspaceId ?? '')
   }, [segmentWorkspaceId])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
@@ -49,6 +49,7 @@ export default function ManagingDocsSidebar() {
     >
       <WorkspacesMenuSelect
         id="managing-docs-workspaces"
+        workspace={workspace}
         workspaceId={workspaceId}
         onWorkspaceChangeAction={handleWorkspaceChange}
       />

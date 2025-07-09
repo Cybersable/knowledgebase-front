@@ -10,6 +10,7 @@ import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
+import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
@@ -18,9 +19,10 @@ export default function DocsSideNav() {
   const { push } = useRouter()
 
   const [workspaceId, setWorkspaceId] = useState('')
+  const { workspace } = useWorkspacesGetQuery({ workspaceId: workspaceSlug })
 
   useEffect(() => {
-    if (workspaceSlug) setWorkspaceId(workspaceSlug)
+    setWorkspaceId(workspaceSlug ?? '')
   }, [workspaceSlug])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {
@@ -47,6 +49,7 @@ export default function DocsSideNav() {
     >
       <WorkspacesMenuSelect
         id="docs-side-nav-workspaces"
+        workspace={workspace}
         workspaceId={workspaceId}
         onWorkspaceChangeAction={handleWorkspaceChange}
       />
