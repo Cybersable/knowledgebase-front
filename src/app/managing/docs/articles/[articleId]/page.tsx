@@ -21,6 +21,8 @@ export default function ArticlesUpdatePage({
 
   const { article } = useArticlesGetQuery({ articleId })
 
+  if (!article) return null
+
   return (
     <Box id="articles-update-page">
       <Stack
@@ -34,11 +36,17 @@ export default function ArticlesUpdatePage({
         >
           Update article
         </Typography>
-        {article && (
-          <ArticlesDeleteWidget article={article} />
-        )}
+        <ArticlesDeleteWidget article={article} />
       </Stack>
       <ArticlesForm
+        workspace={{
+          id: article.workspaceId,
+          title: article.workspaceTitle,
+        }}
+        category={{
+          id: article.categoryId,
+          title: article.categoryTitle,
+        }}
         articleId={articleId}
         defaultValues={article}
         onCancelAction={back}

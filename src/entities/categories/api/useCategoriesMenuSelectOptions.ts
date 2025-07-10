@@ -1,15 +1,24 @@
 import { useMemo } from 'react'
 
-import { CategoryModel } from '@/entities/categories/model'
+import { makeCategoriesOptions, TCategoryOption } from '@/entities/categories/model/makeCategoriesOptions'
+import { withSelectedOptions } from '@/shared/ui/api/withSelectedOption'
 
-export const useCategoriesMenuSelectOptions = (list?: Array<Pick<CategoryModel, 'id' | 'title' | 'summary'>>) => {
+export const useCategoriesMenuSelectOptions = (
+  list?: Array<TCategoryOption>,
+  category?: TCategoryOption
+) => {
   return useMemo(() => {
-    return list?.map((item) => {
-      return {
-        value: item.id,
-        label: item.title,
-        subLabel: item.summary,
-      }
-    })
-  }, [list])
+    if (!list) {
+      if (!category) return []
+
+      return makeCategoriesOptions([category])
+    }
+
+    if (!category) return makeCategoriesOptions(list)
+
+    return withSelectedOptions(
+      makeCategoriesOptions([category]),
+      makeCategoriesOptions(list)
+    )
+  }, [category, list])
 }

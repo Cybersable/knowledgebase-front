@@ -28,7 +28,9 @@ export default function ManagingDocsSidebar() {
   })
 
   useEffect(() => {
-    setWorkspaceId(segmentWorkspaceId ?? '')
+    if (segmentWorkspaceId !== undefined) {
+      setWorkspaceId(segmentWorkspaceId)
+    }
   }, [segmentWorkspaceId])
 
   const handleWorkspaceChange = useCallback((workspaceId: string) => {

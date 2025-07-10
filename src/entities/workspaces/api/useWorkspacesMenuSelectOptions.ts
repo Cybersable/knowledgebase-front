@@ -1,15 +1,24 @@
 import { useMemo } from 'react'
 
-import { WorkspacesModel } from '@/entities/workspaces/model'
+import { makeWorkspacesOptions, TWorkspaceOption } from '@/entities/workspaces/model/makeWorkspacesOptions'
+import { withSelectedOptions } from '@/shared/ui/api/withSelectedOption'
 
-export const useWorkspacesMenuSelectOptions = (list?: Array<Pick<WorkspacesModel, 'id' | 'title' | 'summary'>>) => {
+export const useWorkspacesMenuSelectOptions = (
+  list?: Array<TWorkspaceOption>,
+  workspace?: TWorkspaceOption
+) => {
   return useMemo(() => {
-    return list?.map((item) => {
-      return {
-        value: item.id,
-        label: item.title,
-        subLabel: item.summary,
-      }
-    })
-  }, [list])
+    if (!list) {
+      if (!workspace) return []
+
+      return makeWorkspacesOptions([workspace])
+    }
+
+    if (!workspace) return makeWorkspacesOptions(list)
+
+    return withSelectedOptions(
+      makeWorkspacesOptions([workspace]),
+      makeWorkspacesOptions(list)
+    )
+  }, [list, workspace])
 }

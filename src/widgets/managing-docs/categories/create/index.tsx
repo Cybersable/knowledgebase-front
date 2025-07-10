@@ -9,9 +9,9 @@ import AppModal from '@/shared/ui/app-modal'
 import { useAppModal } from '@/shared/ui/hooks'
 
 export default function CategoriesCreateWidget({
-  workspaceId,
+  workspace,
 }: {
-  workspaceId?: WorkspacesModel['id']
+  workspace?: WorkspacesModel
 }) {
   const { open, handleOpen, handleClose } = useAppModal()
 
@@ -31,7 +31,10 @@ export default function CategoriesCreateWidget({
         onClose={handleClose}
       >
         <CategoriesForm
-          defaultValues={{ workspaceId }}
+          workspace={workspace}
+          defaultValues={{
+            ...(workspace ? { workspaceId: workspace.id } : {}),
+          }}
           onSuccessAction={handleClose}
           onCancelAction={handleClose}
         />

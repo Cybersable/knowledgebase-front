@@ -8,7 +8,7 @@ import { CategoryModel } from '@/entities/categories/model'
 import CategoriesList from '@/features/categories/Grid'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import CategoriesCreeate from '@/widgets/managing-docs/categories/create'
+import CategoriesCreateWidget from '@/widgets/managing-docs/categories/create'
 
 const staticBreadcrumbs = [
   {
@@ -38,7 +38,7 @@ export default function DocsManagingCategoriesPage() {
         <Typography variant="h4">
           Managing Categories
         </Typography>
-        <CategoriesCreeate />
+        <CategoriesCreateWidget />
       </Stack>
       <Suspense>
         <CategoriesList makePath={makePath} />

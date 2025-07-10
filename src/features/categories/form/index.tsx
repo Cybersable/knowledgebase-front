@@ -16,6 +16,7 @@ import { useCallback } from 'react'
 import { CategoriesModelInput } from '@/entities/categories/model'
 import { useCategoriesCreateMutation, useCategoriesUpdateMutation } from '@/entities/categories/queries'
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
+import { WorkspacesModel } from '@/entities/workspaces/model'
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
 const FormGrid = styled(Grid)(() => ({
@@ -30,6 +31,7 @@ const defaultFormValues = {
 }
 
 export default function CategoriesForm({
+  workspace,
   categoryId,
   cancelBtnText = 'Cancel',
   submitBtnText = 'Submit',
@@ -37,6 +39,7 @@ export default function CategoriesForm({
   defaultValues,
   onSuccessAction,
 }: {
+  workspace?: Pick<WorkspacesModel, 'id' | 'title' | 'summary'>
   categoryId?: string
   cancelBtnText?: string
   onCancelAction?: () => void
@@ -45,7 +48,7 @@ export default function CategoriesForm({
   defaultValues?: Partial<CategoriesModelInput>
 }) {
   const { workspacesList } = useWorkspacesGetManyQuery({})
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList, workspace)
 
   const { createCategoryAsync } = useCategoriesCreateMutation({
     onSuccess: onSuccessAction,

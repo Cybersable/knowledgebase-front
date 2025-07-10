@@ -1,6 +1,5 @@
 'use client'
 
-import { useMemo } from 'react'
 
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
 import { WorkspacesModel } from '@/entities/workspaces/model'
@@ -20,17 +19,10 @@ export default function WorkspacesMenuSelect({
 }) {
   const { workspacesList } = useWorkspacesGetManyQuery({})
 
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
-
-  const defaultOption = useMemo(() => {
-    if (!workspace) return
-
-    return {
-      value: workspace.id,
-      label: workspace.title,
-      subLabel: workspace.summary,
-    }
-  }, [workspace])
+  const workspacesOptions = useWorkspacesMenuSelectOptions(
+    workspacesList,
+    workspace
+  )
 
   return (
     <MenuSelect
@@ -39,7 +31,6 @@ export default function WorkspacesMenuSelect({
       onChangeAction={onWorkspaceChangeAction}
       value={workspaceId}
       clearable
-      defaultOption={defaultOption}
       emptyValue={{
         label: 'All Workspaces',
         subLabel: 'Select workspace',

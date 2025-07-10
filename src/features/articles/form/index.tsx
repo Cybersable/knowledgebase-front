@@ -22,8 +22,10 @@ import {
 import { ArticlesModel } from '@/entities/articles/model'
 import { useArticlesCreateMutation, useArticlesUpdateMutation } from '@/entities/articles/queries'
 import { useCategoriesMenuSelectOptions } from '@/entities/categories/api'
+import { TCategoryOption } from '@/entities/categories/model/makeCategoriesOptions'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { useWorkspacesMenuSelectOptions } from '@/entities/workspaces/api'
+import { TWorkspaceOption } from '@/entities/workspaces/model/makeWorkspacesOptions'
 import { useWorkspacesGetManyQuery } from '@/entities/workspaces/queries'
 
 const Editor = dynamic(() => import('@/shared/lib/editor'), { ssr: false })
@@ -42,6 +44,8 @@ const defaultFormValues = {
 }
 
 export default function ArticlesForm({
+  category,
+  workspace,
   articleId,
   cancelBtnText = 'Cancel',
   onCancelAction,
@@ -49,21 +53,21 @@ export default function ArticlesForm({
   onSuccessAction,
   defaultValues,
 }: {
+  category?: TCategoryOption
+  workspace?: TWorkspaceOption
   articleId?: string
   cancelBtnText?: string
   onCancelAction?: () => void
   submitBtnText?: string
-  onSuccessAction?: () => void
+  onSuccessAction?: (article: ArticlesModel) => void
   defaultValues?: Partial<ArticlesModel>
 }) {
   const [workspaceId, setWorkspaceId] = useState('')
   const { workspacesList } = useWorkspacesGetManyQuery({})
-  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList)
+  const workspacesOptions = useWorkspacesMenuSelectOptions(workspacesList, workspace)
 
-  const { categoriesList } = useCategoriesGetManyQuery({
-    workspaceId,
-  })
-  const categoriesOptions = useCategoriesMenuSelectOptions(categoriesList)
+  const { categoriesList } = useCategoriesGetManyQuery({ workspaceId })
+  const categoriesOptions = useCategoriesMenuSelectOptions(categoriesList, category)
 
   useEffect(() => {
     if (defaultValues?.workspaceId) {

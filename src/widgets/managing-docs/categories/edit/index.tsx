@@ -33,6 +33,10 @@ export default function CategoriesEditWidget({
           Editing category
         </Typography>
         <CategoriesForm
+          workspace={{
+            id: category.workspaceId,
+            title: category.workspaceTitle,
+          }}
           categoryId={category.id}
           defaultValues={category}
           onCancelAction={handleClose}

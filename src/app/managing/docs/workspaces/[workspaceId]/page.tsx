@@ -13,7 +13,7 @@ import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
 import CategoriesList from '@/features/categories/Grid'
 import routes from '@/services/routes-provider'
 import Breadcrumbs from '@/shared/ui/breadcrumbs'
-import CategoriesCreeate from '@/widgets/managing-docs/categories/create'
+import CategoriesCreateWidget from '@/widgets/managing-docs/categories/create'
 import WorkspacesDeleteWidget from '@/widgets/managing-docs/workspaces/delete'
 import WorkspacesEditWidget from '@/widgets/managing-docs/workspaces/edit'
 
@@ -99,7 +99,7 @@ export default function ManagingDocsWorkspacesPage({
         <Typography variant="h6">
           Categories
         </Typography>
-        <CategoriesCreeate workspaceId={workspace.id} />
+        <CategoriesCreateWidget workspace={workspace} />
       </Stack>
       <CategoriesList
         makePath={makePath}

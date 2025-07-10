@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useSnackbar } from 'notistack'
 
+import { ArticlesModel } from '@/entities/articles/model'
 import { articlesQueryClientKeys } from '@/shared/queries'
 import {
   ArticlesApiModelInput,
@@ -10,7 +11,7 @@ import {
 export const useArticlesCreateMutation = ({
   onSuccess,
 }: {
-  onSuccess?: () => void
+  onSuccess?: (article: ArticlesModel) => void
 }) => {
   const queryClient = useQueryClient()
   const { enqueueSnackbar } = useSnackbar()
@@ -28,7 +29,7 @@ export const useArticlesCreateMutation = ({
 
       enqueueSnackbar('Article was successfully created!', { variant: 'success' })
 
-      onSuccess?.()
+      onSuccess?.(data)
     },
   })
 
