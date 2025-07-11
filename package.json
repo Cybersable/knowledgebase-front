@@ -8,8 +8,7 @@
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "next lint",
-    "fake": "tsx ./fake-data/index.ts"
+    "lint": "next lint"
   },
   "dependencies": {
     "@editorjs/checklist": "^1.6.0",
