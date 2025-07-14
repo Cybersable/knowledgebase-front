@@ -2,6 +2,22 @@
 
 ---
 
+### Docker
+
+Build container
+
+```bash
+    docker build -t knowledgebase-front .
+```
+
+Run container
+
+```bash
+    docker run -p 3000:3000 knowledgebase-front
+```
+
+---
+
 ### Commands
 
 Install dependencies
