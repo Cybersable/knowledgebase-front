@@ -1,15 +1,15 @@
-# syntax=docker/dockerfile:1
-
-FROM node:20.9.0-alpine AS base
+FROM node:20.11.1-alpine AS base
 
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 
+# Set the working directory inside the container
 WORKDIR /app
 
 # Install dependencies
-COPY package.json yarn.lock* package-lock.json* ./
+COPY --chown=node:node package.json package-lock.json yarn.lock ./
+# Install the application dependencies
 RUN yarn --frozen-lockfile
 
 # Rebuild the source code only when needed
