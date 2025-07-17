@@ -13,6 +13,7 @@ export interface CategoriesApiModel {
   createdAt: Date
   updatedAt: Date
   deletedAt?: Date | null
+  childrenCount: number
 }
 
 export interface CategoriesApiModelInput {
