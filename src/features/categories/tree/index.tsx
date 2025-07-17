@@ -11,6 +11,8 @@ import { articlesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 import TreeItem from '@/shared/ui/tree-item'
+import Button from '@mui/material/Button'
+import {NestedList, NestedListContainer} from '@/features/categories/tree/styled';
 
 export default function CategoriesTree({
   workspaceId,
@@ -24,6 +26,8 @@ export default function CategoriesTree({
   const { categoriesList } = useCategoriesGetManyQuery({
     workspaceId,
     enabled: !!workspaceId,
+    limit: '30',
+    page: '1',
   })
 
   const [articlesList, setArticlesList] = useState<Record<string, ArticlesModel[]>>({})
@@ -32,22 +36,33 @@ export default function CategoriesTree({
   const onCategoryClick = useCallback(async (categoryId: string) => {
     if (!categoryId) return
 
+    const limit = '10'
+    let page = '1'
+
+    if (articlesList[categoryId]) {
+      page = ((articlesList[categoryId].length / Number(limit)) + 1).toString()
+    }
+
     const articlesQueryKey = articlesQueryClientKeys.getMany(filterQueryParams({
       categoryId,
+      limit,
+      page,
     }))
 
     const articles = await queryClient.fetchQuery({
       queryKey: articlesQueryKey,
       queryFn: () => articlesRestApiService.getMany({
         categoryId,
+        limit,
+        page,
       }),
     })
 
     setArticlesList((prevList) => ({
       ...prevList,
-      [categoryId]: articles.data,
+      [categoryId]: prevList[categoryId] ? [...prevList[categoryId], ...articles.data] : articles.data
     }))
-  }, [queryClient])
+  }, [articlesList, queryClient])
 
   const [defaultOpenCategoryId, setDefaultOpenCategoryId] = useState('')
   const runOnMount = useCallback(() => {
@@ -78,22 +93,35 @@ export default function CategoriesTree({
           canExpand={category.childrenCount > 0}
         >
           {articlesList[category.id] && (
-            <List>
-              {articlesList[category.id].map((article) => (
-                <TreeItem
-                  href={routes.docsArticles({
-                    workspaceSlug: category.workspaceId,
-                    categorySlug: article.categoryId,
-                    articleSlug: article.id,
-                    articleId: article.id,
-                  }).path}
-                  key={article.id}
-                  id={article.id}
-                  label={article.title}
-                  selected={article.id === articleId}
-                />
-              ))}
-            </List>
+            <NestedListContainer>
+              <NestedList>
+                {articlesList[category.id].map((article) => (
+                  <TreeItem
+                    href={routes.docsArticles({
+                      workspaceSlug: category.workspaceId,
+                      categorySlug: article.categoryId,
+                      articleSlug: article.id,
+                      articleId: article.id,
+                    }).path}
+                    key={article.id}
+                    id={article.id}
+                    label={article.title}
+                    selected={article.id === articleId}
+                  />
+                ))}
+                {
+                  articlesList[category.id].length < category.childrenCount && (
+                    <Button
+                      variant="text"
+                      color="secondary"
+                      onClick={() => onCategoryClick(category.id)}
+                    >
+                      Load more
+                    </Button>
+                  )
+                }
+              </NestedList>
+            </NestedListContainer>
           )}
         </TreeItem>
       ))}
