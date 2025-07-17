@@ -1,16 +1,11 @@
 'use client'
 
 import Box from '@mui/material/Box'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import Link from 'next/link'
 import { useRouter, useSelectedLayoutSegments } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
-import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
 import { useWorkspacesGetQuery } from '@/entities/workspaces/queries'
+import CategoriesTree from '@/features/categories/tree'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
@@ -35,11 +30,6 @@ export default function DocsSideNav() {
     }
   }, [push])
 
-  const { categoriesList } = useCategoriesGetManyQuery({
-    workspaceId,
-    enabled: !!workspaceId,
-  })
-
   return (
     <Box
       id="docs-side-nav"
@@ -53,25 +43,11 @@ export default function DocsSideNav() {
         workspaceId={workspaceId}
         onWorkspaceChangeAction={handleWorkspaceChange}
       />
-      <List>
-        {categoriesList?.map((category) => (
-          <ListItem
-            key={category.id}
-            disablePadding
-            sx={{ display: 'block' }}
-          >
-            <ListItemButton
-              LinkComponent={Link}
-              href={routes.docsCategories({
-                workspaceSlug: category.workspaceId,
-                categorySlug: category.id,
-              }).path}
-            >
-              <ListItemText primary={category.title} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      <CategoriesTree
+        workspaceId={workspaceId}
+        categoryId={categorySlug}
+        articleId={articleSlug}
+      />
     </Box>
   )
 }
