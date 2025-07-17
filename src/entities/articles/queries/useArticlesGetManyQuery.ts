@@ -6,12 +6,14 @@ import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 
 export const useArticlesGetManyQuery = ({
+  search,
   limit = '10',
   page = '1',
   categoryId,
   workspaceId,
   enabled = true,
 }: {
+  search?: string
   enabled?: boolean
   limit?: string
   page?: string
@@ -22,11 +24,11 @@ export const useArticlesGetManyQuery = ({
     () => {
       return articlesQueryClientKeys.getMany(
         filterQueryParams({
-          limit, page, workspaceId, categoryId,
+          limit, page, workspaceId, categoryId, search,
         })
       )
     },
-    [categoryId, limit, page, workspaceId]
+    [categoryId, limit, page, workspaceId, search]
   )
 
   const queryFn = useCallback(
@@ -34,10 +36,11 @@ export const useArticlesGetManyQuery = ({
       articlesRestApiService.getMany({
         limit,
         page,
+        ...(search ? { search } : {}),
         ...(categoryId ? { categoryId } : {}),
         ...(workspaceId ? { workspaceId } : {}),
       }, signal),
-    [categoryId, limit, page, workspaceId]
+    [categoryId, limit, page, workspaceId, search]
   )
 
   const {

@@ -1,14 +1,13 @@
 'use client'
 
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import InputLabel from '@mui/material/InputLabel'
-import Link from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import visuallyHidden from '@mui/utils/visuallyHidden'
+
+import DocsSearching from '@/widgets/docs/searching'
 
 export default function Home() {
   return (
@@ -70,46 +69,12 @@ export default function Home() {
           >
             <InputLabel
               htmlFor="search-hero"
-              sx={visuallyHidden}>
+              sx={visuallyHidden}
+            >
               Search
             </InputLabel>
-            <TextField
-              id="search-hero"
-              hiddenLabel
-              size="small"
-              variant="outlined"
-              aria-label="Enter your question"
-              placeholder="How does it works?"
-              fullWidth
-              slotProps={{
-                htmlInput: {
-                  autoComplete: 'off',
-                  'aria-label': 'Enter your email address',
-                },
-              }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              sx={{ minWidth: 'fit-content' }}
-            >
-              Start now
-            </Button>
+            <DocsSearching />
           </Stack>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center' }}
-          >
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link
-              href="#"
-              color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography>
         </Stack>
       </Container>
     </Box>
