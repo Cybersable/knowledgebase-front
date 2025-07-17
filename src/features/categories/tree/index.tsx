@@ -1,18 +1,18 @@
 'use client'
 
+import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
 import { ArticlesModel } from '@/entities/articles/model'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
+import { NestedList, NestedListContainer } from '@/features/categories/tree/styled'
 import routes from '@/services/routes-provider'
 import { articlesQueryClientKeys } from '@/shared/queries'
 import { filterQueryParams } from '@/shared/queries/filterQueryParams'
 import { articlesRestApiService } from '@/shared/rest-api/articles'
 import TreeItem from '@/shared/ui/tree-item'
-import Button from '@mui/material/Button'
-import {NestedList, NestedListContainer} from '@/features/categories/tree/styled';
 
 export default function CategoriesTree({
   workspaceId,
@@ -61,9 +61,11 @@ export default function CategoriesTree({
 
     setArticlesList((prevList) => ({
       ...prevList,
-      [categoryId]: prevList[categoryId] ? [...prevList[categoryId], ...articles.data] : articles.data
+      [categoryId]: prevList[categoryId]
+        ? [...prevList[categoryId], ...articles.data]
+        : articles.data,
     }))
-  }, [articlesList, queryClient])
+  }, [articlesList, queryClient, workspaceId])
 
   const [defaultOpenCategoryId, setDefaultOpenCategoryId] = useState('')
   const runOnMount = useCallback(() => {
