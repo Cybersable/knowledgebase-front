@@ -44,6 +44,7 @@ export default function CategoriesTree({
     }
 
     const articlesQueryKey = articlesQueryClientKeys.getMany(filterQueryParams({
+      workspaceId,
       categoryId,
       limit,
       page,
@@ -51,11 +52,11 @@ export default function CategoriesTree({
 
     const articles = await queryClient.fetchQuery({
       queryKey: articlesQueryKey,
-      queryFn: () => articlesRestApiService.getMany({
+      queryFn: ({ signal }: { signal: AbortController['signal'] }) => articlesRestApiService.getMany({
         categoryId,
         limit,
         page,
-      }),
+      }, signal),
     })
 
     setArticlesList((prevList) => ({
