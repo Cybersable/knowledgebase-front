@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import DocsSideNav from '@/app/docs/DocsSideNav'
+import DocsSidebar from '@/widgets/docs/sidebar'
 import MainLayout from '@/widgets/layouts/main'
 
 export default function DocsLayout({
@@ -12,7 +12,7 @@ export default function DocsLayout({
     <MainLayout
       id="docs-layout"
       leftChildren={(
-        <DocsSideNav />
+        <DocsSidebar />
       )}
     >
       {children}

@@ -9,7 +9,7 @@ import CategoriesTree from '@/features/categories/tree'
 import WorkspacesMenuSelect from '@/features/workspaces/MenuSelect'
 import routes from '@/services/routes-provider'
 
-export default function DocsSideNav() {
+export default function DocsSidebar() {
   const [workspaceSlug, categorySlug, articleSlug] = useSelectedLayoutSegments()
   const { push } = useRouter()
 
