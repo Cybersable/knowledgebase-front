@@ -38,7 +38,7 @@ export default function TreeItem({
     }
 
     setOpen(!open)
-  }, [open, id])
+  }, [open, id, onClick])
 
   return (
     <ListItem

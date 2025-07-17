@@ -47,7 +47,7 @@ export default function CategoriesTree({
       ...prevList,
       [categoryId]: articles.data,
     }))
-  }, [])
+  }, [queryClient])
 
   return (
     <List>
