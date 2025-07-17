@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Link from 'next/link'
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useCallback, useEffect, useState } from 'react'
 
 const ListItemIcon = ({ open }: { open: boolean }) => {
   if (!open) return <ChevronRight />
@@ -21,7 +21,9 @@ export default function TreeItem({
   canExpand = false,
   onClick,
   selected,
+  defaultOpen,
 }: {
+  defaultOpen?: boolean
   href: string
   id: string
   selected?: boolean
@@ -39,6 +41,12 @@ export default function TreeItem({
 
     setOpen(!open)
   }, [open, id, onClick])
+
+  useEffect(() => {
+    if (defaultOpen !== undefined) {
+      setOpen(defaultOpen)
+    }
+  }, [defaultOpen])
 
   return (
     <ListItem

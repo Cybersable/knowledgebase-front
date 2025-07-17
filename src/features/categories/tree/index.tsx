@@ -2,7 +2,7 @@
 
 import List from '@mui/material/List'
 import { useQueryClient } from '@tanstack/react-query'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { ArticlesModel } from '@/entities/articles/model'
 import { useCategoriesGetManyQuery } from '@/entities/categories/queries'
@@ -49,6 +49,18 @@ export default function CategoriesTree({
     }))
   }, [queryClient])
 
+  const [defaultOpenCategoryId, setDefaultOpenCategoryId] = useState('')
+  const runOnMount = useCallback(() => {
+    if (!categoryId) return
+
+    onCategoryClick(categoryId)
+    setDefaultOpenCategoryId(categoryId)
+  }, [categoryId, onCategoryClick])
+
+  useEffect(() => {
+    runOnMount()
+  }, [])
+
   return (
     <List>
       {categoriesList?.map((category) => (
@@ -57,6 +69,7 @@ export default function CategoriesTree({
           id={category.id}
           label={category.title}
           selected={!articleId && categoryId === category.id}
+          defaultOpen={defaultOpenCategoryId === category.id}
           href={routes.docsCategories({
             workspaceSlug: category.workspaceId,
             categorySlug: category.id,
