@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import {
@@ -69,17 +71,22 @@ export default async function DocsArticlesPage({
     >
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Breadcrumbs breadcrumbs={breadcrumbs}/>
-        <Typography
-          variant="h4"
-          mt={2}
-        >
-          {article.title}
-        </Typography>
-        <Typography
-          mb={2}
-        >
-          {article.summary}
-        </Typography>
+        <Box my={2}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Typography variant="h4">
+              {article.title}
+            </Typography>
+            <Chip
+              label="Article"
+              color="info" />
+          </Stack>
+          <Typography>
+            {article.summary}
+          </Typography>
+        </Box>
         <EditorContent content={article.content} />
       </HydrationBoundary>
     </Stack>
