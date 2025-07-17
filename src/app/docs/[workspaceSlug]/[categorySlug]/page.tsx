@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
@@ -55,16 +57,30 @@ export default async function DocsCategoriesPage({
     <Stack id="docs-categories-page">
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Breadcrumbs breadcrumbs={breadcrumbs} />
-        <Typography
-          variant="h4"
-          mt={2}
-        >
-          {category.title}
-        </Typography>
-        <Typography mb={2}>
-          {category.summary}
-        </Typography>
+        <Box my={2}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Typography
+              variant="h4"
+            >
+              {category.title}
+            </Typography>
+            <Chip
+              label="Category"
+              color="secondary" />
+          </Stack>
+          <Typography>
+            {category.summary}
+          </Typography>
+        </Box>
       </HydrationBoundary>
+      <Typography
+        variant="h6"
+        mb={2}>
+        Articles
+      </Typography>
       <DocsList
         pathPrefix={routes.docs.path}
         workspaceSlug={category.workspaceId}
