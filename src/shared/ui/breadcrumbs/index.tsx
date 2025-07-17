@@ -43,6 +43,8 @@ export default function Breadcrumbs({
           <Typography
             key={item.key}
             variant="body1"
+            width={250}
+            noWrap={true}
           >
             {item.title}
           </Typography>
